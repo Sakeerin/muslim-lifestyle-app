@@ -7,6 +7,7 @@
 - Prisma schema in `prisma/schema.prisma`.
 - Initial SQL migration in `prisma/migrations/20260214120000_init/migration.sql`.
 - Prisma client helper in `src/lib/prisma.ts`.
+- PWA setup: `src/app/manifest.ts`, `public/sw.js`, and registration in `src/components/features/pwa-register.tsx`.
 
 ## Commands
 
@@ -19,6 +20,10 @@ npx prisma generate
 node -e "console.log(require('bcryptjs').hashSync('your-admin-password', 12))"
 ```
 
-## Important note
+## Current status
 
-In this environment, Docker CLI is installed but Docker Desktop daemon is not currently running, so the database container could not be started yet. Once Docker daemon is running, execute the commands above to apply the migration to PostgreSQL.
+Infrastructure commands were executed successfully:
+
+- PostgreSQL container is running (`muslim-pro-postgres`).
+- Prisma migration `20260214120000_init` is applied.
+- Prisma client generation completed.

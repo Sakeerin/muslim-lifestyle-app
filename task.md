@@ -14,11 +14,11 @@
   - [x] Initialize Next.js 14 Project (`npx create-next-app`)
   - [x] Configure TypeScript, ESLint, Prettier
   - [x] Setup Folder Structure (app, components, lib, styles, prisma)
-- [ ] **Infrastructure** <!-- id: 3 -->
-  - [/] Setup PostgreSQL Database (Local or Hosted)
-  - [/] Configure Prisma ORM & Run Initial Migration
+- [x] **Infrastructure** <!-- id: 3 -->
+  - [x] Setup PostgreSQL Database (Local or Hosted)
+  - [x] Configure Prisma ORM & Run Initial Migration
   - [x] Configure NextAuth.js (Admin Credentials Provider)
-  - [ ] Setup PWA (manifest, icons, service worker)
+  - [x] Setup PWA (manifest, icons, service worker)
 
 ## Phase 3: Core Features (Frontend PWA)
 
