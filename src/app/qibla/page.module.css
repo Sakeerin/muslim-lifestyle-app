@@ -1,0 +1,46 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.card {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  padding: 16px;
+}
+
+.compass {
+  position: relative;
+  margin: 0 auto;
+  height: min(72vw, 360px);
+  width: min(72vw, 360px);
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background:
+    radial-gradient(circle at center, var(--surface-card) 35%, transparent 37%),
+    repeating-conic-gradient(from 0deg, rgba(15, 99, 83, 0.36) 0deg 5deg, transparent 5deg 10deg);
+}
+
+.needle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 43%;
+  width: 4px;
+  transform-origin: bottom center;
+  border-radius: 8px;
+  background: linear-gradient(180deg, #dcbe5e, #a26a18);
+}
+
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 18px;
+  width: 18px;
+  transform: translate(-50%, -50%);
+  border-radius: 999px;
+  background: #dcbe5e;
+  box-shadow: 0 0 0 8px color-mix(in srgb, #dcbe5e 20%, transparent);
+}

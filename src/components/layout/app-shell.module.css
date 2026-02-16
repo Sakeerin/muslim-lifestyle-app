@@ -1,0 +1,128 @@
+.shell {
+  display: grid;
+  min-height: 100dvh;
+  grid-template-columns: 1fr;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(195, 226, 173, 0.2), transparent 42%),
+    radial-gradient(circle at 85% 18%, rgba(16, 97, 80, 0.15), transparent 45%), var(--surface-base);
+  color: var(--text-primary);
+}
+
+.sidebar {
+  display: none;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.brandMark {
+  display: grid;
+  height: 30px;
+  width: 30px;
+  place-items: center;
+  border-radius: 8px;
+  background: linear-gradient(130deg, #0e8d71, #d8c776);
+  color: #051512;
+  font-weight: 700;
+}
+
+.desktopNav {
+  display: grid;
+  gap: 8px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-radius: 12px;
+  padding: 12px;
+  color: var(--text-secondary);
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.navLink:hover {
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  transform: translateX(2px);
+}
+
+.active {
+  background: linear-gradient(90deg, rgba(13, 103, 78, 0.18), rgba(216, 199, 118, 0.2));
+  color: var(--text-primary);
+}
+
+.main {
+  padding: 20px 16px 90px;
+}
+
+.mobileNav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 15;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  border-top: 1px solid var(--border-soft);
+  background: color-mix(in srgb, var(--surface-card) 88%, transparent);
+  backdrop-filter: blur(8px);
+}
+
+.mobileLink {
+  display: grid;
+  place-items: center;
+  gap: 4px;
+  padding: 12px 6px 10px;
+  font-size: 0.68rem;
+  color: var(--text-secondary);
+}
+
+.mobileLink svg {
+  height: 18px;
+  width: 18px;
+}
+
+.mobileActive {
+  color: var(--text-primary);
+}
+
+@media (min-width: 900px) {
+  .shell {
+    grid-template-columns: 244px 1fr;
+  }
+
+  .sidebar {
+    position: sticky;
+    top: 0;
+    display: flex;
+    height: 100dvh;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid var(--border-soft);
+    background: color-mix(in srgb, var(--surface-card) 75%, transparent);
+    padding: 24px 18px;
+  }
+
+  .sidebarTop {
+    display: grid;
+    gap: 20px;
+  }
+
+  .main {
+    padding: 28px 28px 32px;
+  }
+
+  .mobileNav {
+    display: none;
+  }
+}

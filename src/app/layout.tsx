@@ -1,16 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { EB_Garamond, Noto_Naskh_Arabic } from "next/font/google";
+import { ThemeProvider } from "@/components/providers/theme-provider";
+import { AppShell } from "@/components/layout/app-shell";
 import { PwaRegister } from "@/components/features/pwa-register";
 import "@/styles/globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const garamond = EB_Garamond({
+  variable: "--font-garamond",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+const naskhArabic = Noto_Naskh_Arabic({
+  variable: "--font-arabic",
+  subsets: ["arabic"],
 });
 
 export const metadata: Metadata = {
@@ -26,7 +28,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#0f6a4b",
+  themeColor: "#0f5e4d",
 };
 
 export default function RootLayout({
@@ -35,10 +37,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        {children}
-        <PwaRegister />
+    <html lang="en" suppressHydrationWarning>
+      <body className={`${garamond.variable} ${naskhArabic.variable}`}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          <AppShell>{children}</AppShell>
+          <PwaRegister />
+        </ThemeProvider>
       </body>
     </html>
   );

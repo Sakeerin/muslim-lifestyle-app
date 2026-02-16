@@ -1,0 +1,40 @@
+.page {
+  display: grid;
+  gap: 14px;
+}
+
+.card {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  padding: 16px;
+}
+
+.search {
+  width: 100%;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  padding: 12px;
+}
+
+.arabic {
+  font-family: var(--font-arabic), serif;
+  font-size: 1.25rem;
+}

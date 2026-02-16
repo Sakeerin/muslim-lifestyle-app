@@ -22,25 +22,25 @@
 
 ## Phase 3: Core Features (Frontend PWA)
 
-- [ ] **Layout & Navigation** <!-- id: 4 -->
-  - [ ] Create Responsive Shell (Sidebar/Bottom Nav)
-  - [ ] Implement Dark/Light Mode Theme Provider
-- [ ] **Home Dashboard** <!-- id: 5 -->
-  - [ ] Build Hero Component (Prayer Timer)
-  - [ ] Create Daily Content Widgets (Dua/Ayah)
-- [ ] **Prayer Times System** <!-- id: 6 -->
-  - [ ] Implement `useGeolocation` Hook
-  - [ ] Integrate Aladhan API
-  - [ ] Build Monthly Schedule View
-  - [ ] Implement Azan Audio Player
-- [ ] **Quran Reader** <!-- id: 7 -->
-  - [ ] Build Surah Index Page
-  - [ ] Create Ayah List Component with Virtualization
-  - [ ] Implement Search & Filter
-  - [ ] Add Audio Playback Controls
-- [ ] **Qibla Compass** <!-- id: 8 -->
-  - [ ] Implement `DeviceOrientation` Logic
-  - [ ] innovative Compass UI Component
+- [x] **Layout & Navigation** <!-- id: 4 -->
+  - [x] Create Responsive Shell (Sidebar/Bottom Nav)
+  - [x] Implement Dark/Light Mode Theme Provider
+- [x] **Home Dashboard** <!-- id: 5 -->
+  - [x] Build Hero Component (Prayer Timer)
+  - [x] Create Daily Content Widgets (Dua/Ayah)
+- [x] **Prayer Times System** <!-- id: 6 -->
+  - [x] Implement `useGeolocation` Hook
+  - [x] Integrate Aladhan API
+  - [x] Build Monthly Schedule View
+  - [x] Implement Azan Audio Player
+- [x] **Quran Reader** <!-- id: 7 -->
+  - [x] Build Surah Index Page
+  - [x] Create Ayah List Component with Virtualization
+  - [x] Implement Search & Filter
+  - [x] Add Audio Playback Controls
+- [x] **Qibla Compass** <!-- id: 8 -->
+  - [x] Implement `DeviceOrientation` Logic
+  - [x] innovative Compass UI Component
 
 ## Phase 4: Dynamic Features (Backend & Data)
 
