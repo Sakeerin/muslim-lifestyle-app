@@ -1,0 +1,38 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.hero,
+.content {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  padding: 18px;
+}
+
+.hero {
+  background: linear-gradient(140deg, rgba(10, 86, 70, 0.14), rgba(191, 156, 79, 0.14));
+}
+
+.back {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: #0f6f59;
+  font-weight: 600;
+}
+
+.hero h1 {
+  margin: 10px 0;
+  font-size: clamp(1.5rem, 3vw, 2.1rem);
+}
+
+.content {
+  display: grid;
+  gap: 12px;
+}
+
+.content p {
+  line-height: 1.75;
+  color: var(--text-primary);
+}

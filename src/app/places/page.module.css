@@ -1,0 +1,67 @@
+.page {
+  display: grid;
+  gap: 16px;
+}
+
+.hero,
+.mapWrap,
+.card {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  padding: 16px;
+}
+
+.hero {
+  background: linear-gradient(130deg, rgba(10, 86, 70, 0.12), rgba(163, 119, 48, 0.11));
+}
+
+.controls {
+  margin-top: 12px;
+  display: grid;
+  gap: 10px;
+}
+
+.controls label {
+  display: grid;
+  gap: 6px;
+}
+
+.controls select {
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--surface-base);
+  color: var(--text-primary);
+  padding: 10px;
+}
+
+.mapWrap {
+  height: min(52vh, 480px);
+  overflow: hidden;
+  padding: 0;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card h2 {
+  font-size: 1.05rem;
+}
+
+@media (min-width: 760px) {
+  .controls {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}

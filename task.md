@@ -44,16 +44,16 @@
 
 ## Phase 4: Dynamic Features (Backend & Data)
 
-- [ ] **Islamic Lessons** <!-- id: 9 -->
-  - [ ] Create API: `GET /api/lessons` (Pagination, Filter)
-  - [ ] Build Lesson List & Detail Pages
-- [ ] **Duas (Hisn'ul Muslim)** <!-- id: 10 -->
-  - [ ] Create API: `GET /api/duas` (Categories)
-  - [ ] Build Dua List & Search UI
-- [ ] **Halal Places Finder** <!-- id: 11 -->
-  - [ ] Integrate Leaflet/React-Leaflet
-  - [ ] Create API: `GET /api/proximities` (Combine OSM + Local DB)
-  - [ ] Build Interactive Map Component
+- [x] **Islamic Lessons** <!-- id: 9 -->
+  - [x] Create API: `GET /api/lessons` (Pagination, Filter)
+  - [x] Build Lesson List & Detail Pages
+- [x] **Duas (Hisn'ul Muslim)** <!-- id: 10 -->
+  - [x] Create API: `GET /api/duas` (Categories)
+  - [x] Build Dua List & Search UI
+- [x] **Halal Places Finder** <!-- id: 11 -->
+  - [x] Integrate Leaflet/React-Leaflet
+  - [x] Create API: `GET /api/proximities` (Combine OSM + Local DB)
+  - [x] Build Interactive Map Component
 
 ## Phase 5: Admin Panel (CMS)
 

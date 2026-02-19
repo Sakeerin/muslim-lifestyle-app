@@ -74,6 +74,15 @@ export default function Home() {
             <Link className={styles.quickLink} href="/qibla">
               Qibla Compass
             </Link>
+            <Link className={styles.quickLink} href="/lessons">
+              Islamic Lessons
+            </Link>
+            <Link className={styles.quickLink} href="/duas">
+              Duas
+            </Link>
+            <Link className={styles.quickLink} href="/places">
+              Halal Places
+            </Link>
             <Link className={styles.quickLink} href="/settings">
               App Settings
             </Link>
