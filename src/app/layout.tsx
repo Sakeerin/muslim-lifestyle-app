@@ -16,14 +16,45 @@ const naskhArabic = Noto_Naskh_Arabic({
 });
 
 export const metadata: Metadata = {
-  title: "Muslim Lifestyle App",
-  description: "Prayer times, Quran, Qibla, duas, and halal places.",
-  manifest: "/manifest.webmanifest",
+  title: {
+    default: "Muslim Lifestyle App",
+    template: "%s | Muslim Lifestyle App",
+  },
+  description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
   applicationName: "MuslimPro",
+  authors: [{ name: "MuslimPro Team" }],
+  keywords: ["Muslim", "Islam", "Prayer Times", "Quran", "Qibla", "Dua", "Halal"],
+  creator: "MuslimPro Team",
+  publisher: "MuslimPro",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  metadataBase: process.env.NEXT_PUBLIC_APP_URL ? new URL(process.env.NEXT_PUBLIC_APP_URL) : undefined,
+  openGraph: {
+    title: "Muslim Lifestyle App",
+    description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+    url: "/",
+    siteName: "Muslim Lifestyle App",
+    locale: "en_US",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Muslim Lifestyle App",
+    description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+  },
+  manifest: "/manifest.webmanifest",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",
     apple: "/favicon.ico",
+  },
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: "default",
+    title: "MuslimPro",
   },
 };
 
