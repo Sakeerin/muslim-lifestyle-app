@@ -57,19 +57,19 @@
 
 ## Phase 5: Admin Panel (CMS)
 
-- [ ] **Admin Authentication** <!-- id: 12 -->
-  - [ ] Create Login Page (`/admin/login`)
-  - [ ] Protect Admin Routes (Middleware)
-- [ ] **Content Management UI** <!-- id: 13 -->
-  - [ ] **Lessons Manager**:
-    - [ ] List View (Data Table)
-    - [ ] Create/Edit Form (Rich Text)
-    - [ ] Delete Functionality
-  - [ ] **Places Manager**:
-    - [ ] List verified places
-    - [ ] Add new place (Map Picker)
-  - [ ] **Duas Manager**:
-    - [ ] Simple CRUD for Prayers
+- [x] **Admin Authentication** <!-- id: 12 -->
+  - [x] Create Login Page (`/admin/login`)
+  - [x] Protect Admin Routes (Middleware)
+- [x] **Content Management UI** <!-- id: 13 -->
+  - [x] **Lessons Manager**:
+    - [x] List View (Data Table)
+    - [x] Create/Edit Form (Rich Text)
+    - [x] Delete Functionality
+  - [x] **Places Manager**:
+    - [x] List verified places
+    - [x] Add new place (Map Picker)
+  - [x] **Duas Manager**:
+    - [x] Simple CRUD for Prayers
 
 ## Phase 6: Polish & Deployment
 

@@ -1,0 +1,34 @@
+.wrapper {
+  border: 1px solid color-mix(in oklab, var(--border-soft) 80%, transparent);
+  border-radius: 12px;
+  background: var(--surface-base);
+  overflow: hidden;
+}
+
+.toolbar {
+  display: flex;
+  gap: 0.45rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border-soft) 72%, transparent);
+  padding: 0.55rem;
+  background: color-mix(in oklab, var(--surface-card) 90%, transparent);
+  flex-wrap: wrap;
+}
+
+.toolbar button {
+  border: 1px solid color-mix(in oklab, var(--border-soft) 75%, transparent);
+  border-radius: 8px;
+  background: var(--surface-card);
+  padding: 0.3rem 0.55rem;
+  cursor: pointer;
+}
+
+.editor {
+  min-height: 260px;
+  padding: 0.8rem;
+  line-height: 1.55;
+}
+
+.editor:focus {
+  outline: 2px solid color-mix(in oklab, #0f5e4d 42%, transparent);
+  outline-offset: -2px;
+}

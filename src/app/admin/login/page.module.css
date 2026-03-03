@@ -1,0 +1,86 @@
+.page {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 2rem 1.25rem;
+}
+
+.card {
+  width: min(440px, 100%);
+  border-radius: 20px;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 80%, transparent);
+  background: color-mix(in oklab, var(--surface-card) 92%, white 8%);
+  padding: 2rem;
+  box-shadow: 0 18px 48px rgba(15, 94, 77, 0.14);
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.09em;
+  font-size: 0.78rem;
+  color: color-mix(in oklab, var(--text-secondary) 70%, #0f5e4d 30%);
+}
+
+.card h1 {
+  margin-top: 0.45rem;
+  font-size: clamp(1.6rem, 2.5vw, 2rem);
+  line-height: 1.15;
+}
+
+.subtitle {
+  margin-top: 0.55rem;
+  font-size: 0.98rem;
+  line-height: 1.45;
+}
+
+.error {
+  margin-top: 1rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, #d22f2f 14%, transparent);
+  color: color-mix(in oklab, #a20f0f 72%, var(--text-primary));
+  border: 1px solid color-mix(in oklab, #d22f2f 30%, transparent);
+  padding: 0.65rem 0.75rem;
+  font-size: 0.93rem;
+}
+
+.form {
+  margin-top: 1.15rem;
+  display: grid;
+  gap: 0.95rem;
+}
+
+.form label {
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.94rem;
+  color: var(--text-secondary);
+}
+
+.form input {
+  border-radius: 10px;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-base);
+  color: var(--text-primary);
+  padding: 0.65rem 0.75rem;
+}
+
+.form input:focus-visible {
+  outline: 2px solid color-mix(in oklab, #0f5e4d 48%, transparent);
+  outline-offset: 2px;
+}
+
+.form button {
+  margin-top: 0.25rem;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #0f5e4d, #0a8568);
+  color: #f8fff9;
+  font-weight: 600;
+  cursor: pointer;
+  padding: 0.72rem 1rem;
+}
+
+@media (max-width: 640px) {
+  .card {
+    padding: 1.35rem;
+  }
+}

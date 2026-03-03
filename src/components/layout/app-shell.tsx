@@ -36,6 +36,10 @@ type AppShellProps = {
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
 
+  if (pathname.startsWith("/admin")) {
+    return <>{children}</>;
+  }
+
   return (
     <div className={styles.shell}>
       <aside className={styles.sidebar}>

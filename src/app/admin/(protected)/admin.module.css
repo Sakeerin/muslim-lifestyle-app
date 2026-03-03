@@ -1,0 +1,231 @@
+.shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 250px minmax(0, 1fr);
+}
+
+.sidebar {
+  border-right: 1px solid color-mix(in oklab, var(--border-soft) 82%, transparent);
+  background: color-mix(in oklab, var(--surface-card) 90%, #f6f3e8 10%);
+  padding: 1.35rem 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.77rem;
+}
+
+.brand {
+  margin-top: 0.2rem;
+  font-size: 1.25rem;
+}
+
+.adminEmail {
+  margin-top: 0.35rem;
+  font-size: 0.88rem;
+}
+
+.nav {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.navLink {
+  padding: 0.6rem 0.72rem;
+  border-radius: 10px;
+  background: color-mix(in oklab, var(--surface-base) 84%, transparent);
+  border: 1px solid color-mix(in oklab, var(--border-soft) 55%, transparent);
+}
+
+.signOutButton {
+  margin-top: auto;
+  width: 100%;
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, #9f3129 28%, var(--border-soft));
+  background: color-mix(in oklab, #b03c2f 12%, var(--surface-card));
+  color: color-mix(in oklab, #6a1d18 64%, var(--text-primary));
+  padding: 0.6rem 0.8rem;
+  cursor: pointer;
+}
+
+.content {
+  padding: clamp(1rem, 3vw, 2rem);
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.title {
+  font-size: clamp(1.45rem, 2.8vw, 2rem);
+}
+
+.subtitle {
+  margin-top: 0.3rem;
+}
+
+.linkButton,
+.dangerButton {
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 78%, transparent);
+  padding: 0.45rem 0.65rem;
+  background: var(--surface-card);
+  cursor: pointer;
+}
+
+.dangerButton {
+  background: color-mix(in oklab, #b43a2a 8%, var(--surface-card));
+  border-color: color-mix(in oklab, #b43a2a 26%, var(--border-soft));
+  color: color-mix(in oklab, #7a2219 70%, var(--text-primary));
+}
+
+.cardGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  gap: 0.8rem;
+}
+
+.statCard {
+  border-radius: 14px;
+  padding: 1rem;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 74%, transparent);
+  background: color-mix(in oklab, var(--surface-card) 92%, transparent);
+}
+
+.statCard p {
+  font-size: 0.9rem;
+}
+
+.statCard strong {
+  margin-top: 0.2rem;
+  display: inline-block;
+  font-size: 1.7rem;
+}
+
+.tableWrap {
+  overflow-x: auto;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 74%, transparent);
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--surface-card) 95%, transparent);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 720px;
+}
+
+.table th,
+.table td {
+  text-align: left;
+  padding: 0.72rem;
+  border-bottom: 1px solid color-mix(in oklab, var(--border-soft) 64%, transparent);
+  vertical-align: top;
+}
+
+.status {
+  font-size: 0.83rem;
+  padding: 0.2rem 0.48rem;
+  border-radius: 999px;
+  display: inline-block;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 60%, transparent);
+}
+
+.statusPublished {
+  background: color-mix(in oklab, #0f815f 11%, transparent);
+  color: color-mix(in oklab, #0f6a4b 74%, var(--text-primary));
+}
+
+.statusDraft {
+  background: color-mix(in oklab, #8e6f2a 12%, transparent);
+}
+
+.actions {
+  display: flex;
+  gap: 0.45rem;
+  align-items: center;
+}
+
+.inlineForm {
+  display: inline;
+}
+
+.form {
+  display: grid;
+  gap: 0.95rem;
+  max-width: 860px;
+}
+
+.formGrid {
+  display: grid;
+  gap: 0.95rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+
+.field {
+  display: grid;
+  gap: 0.44rem;
+  font-size: 0.92rem;
+  color: var(--text-secondary);
+}
+
+.field input,
+.field textarea,
+.field select {
+  border-radius: 10px;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 80%, transparent);
+  background: var(--surface-base);
+  color: var(--text-primary);
+  padding: 0.58rem 0.7rem;
+}
+
+.field textarea {
+  min-height: 190px;
+  resize: vertical;
+}
+
+.checkboxRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.checkboxRow input {
+  width: 1rem;
+  height: 1rem;
+}
+
+.mapBox {
+  min-height: 320px;
+  border-radius: 12px;
+  border: 1px solid color-mix(in oklab, var(--border-soft) 75%, transparent);
+  overflow: hidden;
+}
+
+@media (max-width: 940px) {
+  .shell {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in oklab, var(--border-soft) 82%, transparent);
+  }
+
+  .signOutButton {
+    margin-top: 0.3rem;
+    width: fit-content;
+  }
+
+  .table {
+    min-width: 620px;
+  }
+}
