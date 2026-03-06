@@ -118,11 +118,54 @@
     gap: 20px;
   }
 
+  .sidebarBottom {
+    display: grid;
+    gap: 8px;
+  }
+
+  .langToggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: none;
+    border-radius: 12px;
+    background: transparent;
+    padding: 12px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .langToggle:hover {
+    background: var(--surface-muted);
+    color: var(--text-primary);
+  }
+
   .main {
     padding: 28px 28px 32px;
   }
 
   .mobileNav {
     display: none;
+  }
+}
+
+@media print {
+
+  .sidebar,
+  .mobileNav {
+    display: none !important;
+  }
+
+  .main {
+    padding: 0 !important;
+  }
+
+  .shell {
+    display: block !important;
+    background: white !important;
   }
 }

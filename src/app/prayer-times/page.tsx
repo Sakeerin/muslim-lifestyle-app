@@ -3,6 +3,8 @@
 import { useMemo, useRef, useState } from "react";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
 import { PRAYER_ORDER } from "@/lib/prayer-utils";
+import { useI18n } from "@/i18n/i18n-context";
+import { Printer } from "lucide-react";
 import styles from "./page.module.css";
 
 const ADHAN_URL = "https://download.quranicaudio.com/quran/adhan/azan1.mp3";
@@ -20,18 +22,19 @@ export default function PrayerTimesPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { countdown, date, error, loading, location, monthly, nextPrayer, timings } =
     usePrayerTimes(method);
+  const { t } = useI18n();
 
   const locationLabel = useMemo(() => {
     if (location.source === "gps") {
-      return "Using precise GPS";
+      return t("prayerTimes.gps");
     }
 
     if (location.source === "ip") {
-      return "Using IP fallback";
+      return t("prayerTimes.ip");
     }
 
-    return "Using default Makkah location";
-  }, [location.source]);
+    return t("prayerTimes.default");
+  }, [location.source, t]);
 
   const toggleAudio = () => {
     const audio = audioRef.current;
@@ -45,20 +48,28 @@ export default function PrayerTimesPage() {
       return;
     }
 
-    void audio.play();
-    setIsPlaying(true);
+    void audio
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        setIsPlaying(false);
+      });
   };
 
   return (
     <div className={styles.page}>
       <section className={styles.header}>
         <div>
-          <h1>Prayer Times</h1>
-          <p>{date ?? "Fetching schedule..."}</p>
+          <h1>{t("prayerTimes.title")}</h1>
+          <p>{date ?? t("prayerTimes.fetchingSchedule")}</p>
           <p>{locationLabel}</p>
         </div>
         <label>
-          Calculation
+          {t("prayerTimes.calculation")}
           <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
             {METHODS.map((item) => (
               <option key={item.value} value={item.value}>
@@ -70,13 +81,13 @@ export default function PrayerTimesPage() {
       </section>
 
       <section className={styles.card}>
-        <h2>Next: {nextPrayer ?? "-"}</h2>
+        <h2>{t("prayerTimes.next", { name: nextPrayer ?? "-" })}</h2>
         <p>{loading ? "--:--:--" : countdown}</p>
         {error ? <p>{error}</p> : null}
       </section>
 
       <section className={styles.card}>
-        <h2>Today&apos;s prayers</h2>
+        <h2>{t("prayerTimes.todayPrayers")}</h2>
         <div className={styles.timings}>
           {PRAYER_ORDER.map((prayer) => (
             <article
@@ -91,23 +102,29 @@ export default function PrayerTimesPage() {
       </section>
 
       <section className={styles.card}>
-        <h2>Azan player</h2>
+        <h2>{t("prayerTimes.azanPlayer")}</h2>
         <div className={styles.controls}>
           <button type="button" onClick={toggleAudio}>
-            {isPlaying ? "Pause Azan" : "Play Azan"}
+            {isPlaying ? t("prayerTimes.pauseAzan") : t("prayerTimes.playAzan")}
           </button>
         </div>
         <audio ref={audioRef} src={ADHAN_URL} onEnded={() => setIsPlaying(false)} preload="none" />
       </section>
 
       <section className={styles.card}>
-        <h2>Monthly schedule</h2>
+        <div className={styles.monthlyHeader}>
+          <h2>{t("prayerTimes.monthlySchedule")}</h2>
+          <button type="button" onClick={() => window.print()} className={styles.printButton}>
+            <Printer size={16} />
+            <span>{t("prayerTimes.printSchedule")}</span>
+          </button>
+        </div>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
             <thead>
               <tr>
-                <th>Date</th>
-                <th>Hijri</th>
+                <th>{t("prayerTimes.date")}</th>
+                <th>{t("prayerTimes.hijri")}</th>
                 <th>Fajr</th>
                 <th>Dhuhr</th>
                 <th>Asr</th>

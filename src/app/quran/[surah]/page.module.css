@@ -13,6 +13,7 @@
 .controls {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
 }
 
 .controls button {
@@ -22,4 +23,125 @@
   color: var(--text-primary);
   padding: 8px 12px;
   cursor: pointer;
+}
+
+.readingModeHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.modeToggle {
+  display: inline-flex;
+  gap: 8px;
+}
+
+.modeToggle button {
+  border: 1px solid var(--border-soft);
+  border-radius: 999px;
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  padding: 8px 12px;
+  cursor: pointer;
+}
+
+.activeModeButton {
+  background: var(--text-primary);
+  color: var(--surface-card);
+}
+
+.translationControls {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-soft);
+}
+
+.translationLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  color: var(--text-primary);
+  cursor: pointer;
+}
+
+.translationLabel input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: var(--text-primary);
+  cursor: pointer;
+}
+
+.languageSelect {
+  padding: 8px 12px;
+  border: 1px solid var(--border-soft);
+  border-radius: 8px;
+  background: var(--surface-muted);
+  color: var(--text-primary);
+  font-size: 0.95rem;
+  cursor: pointer;
+  outline: none;
+}
+
+.languageSelect:focus {
+  border-color: var(--text-primary);
+}
+
+.modeSavedHint {
+  margin: 0 0 12px;
+  padding: 8px 10px;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--surface-muted);
+  color: var(--text-secondary);
+  font-size: 0.92rem;
+  animation: modeSavedHintFade 2.2s ease both;
+}
+
+@keyframes modeSavedHintFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+
+  12% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  82% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-2px);
+  }
+}
+
+@media (max-width: 640px) {
+  .readingModeHeader {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .modeToggle {
+    width: 100%;
+  }
+
+  .modeToggle button {
+    flex: 1;
+  }
+
+  .controls button {
+    flex: 1 1 calc(50% - 8px);
+    min-width: 120px;
+  }
 }

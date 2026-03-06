@@ -1,31 +1,87 @@
 .container {
-  height: 540px;
+  max-height: 70vh;
   overflow-y: auto;
   border: 1px solid var(--border-soft);
   border-radius: 16px;
   background: var(--surface-card);
-}
-
-.spacer {
-  position: relative;
+  padding: 8px 0;
 }
 
 .row {
-  position: absolute;
-  left: 0;
-  right: 0;
   border-bottom: 1px solid var(--border-soft);
-  padding: 14px;
+  padding: 14px 16px;
+}
+
+.row:last-child {
+  border-bottom: 0;
 }
 
 .arabic {
   font-family: var(--font-arabic), serif;
-  font-size: 1.62rem;
-  line-height: 1.75;
+  font-size: clamp(1.35rem, 2vw + 0.8rem, 1.62rem);
+  line-height: 1.9;
   text-align: right;
+  direction: rtl;
+  unicode-bidi: plaintext;
+  margin-top: 8px;
 }
 
 .translation {
   margin-top: 8px;
   color: var(--text-secondary);
+  line-height: 1.7;
+}
+
+.compactContainer {
+  max-height: 62vh;
+}
+
+.readingContainer {
+  max-height: none;
+}
+
+.compactRow {
+  padding: 12px 14px;
+}
+
+.readingRow {
+  padding: 18px 20px;
+}
+
+.compactArabic {
+  font-size: clamp(1.2rem, 1.2vw + 0.95rem, 1.36rem);
+  line-height: 1.7;
+}
+
+.readingArabic {
+  font-size: clamp(1.45rem, 1.5vw + 1rem, 1.85rem);
+  line-height: 2;
+}
+
+.compactTranslation {
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.readingTranslation {
+  font-size: 1.03rem;
+  line-height: 1.85;
+}
+
+@media (max-width: 640px) {
+  .container {
+    max-height: none;
+  }
+
+  .row {
+    padding: 12px;
+  }
+
+  .readingRow {
+    padding: 14px;
+  }
+
+  .readingArabic {
+    font-size: clamp(1.35rem, 2.3vw + 0.95rem, 1.65rem);
+  }
 }

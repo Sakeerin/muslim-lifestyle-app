@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { EB_Garamond, Noto_Naskh_Arabic } from "next/font/google";
 import { ThemeProvider } from "@/components/providers/theme-provider";
+import { I18nProvider } from "@/i18n/i18n-context";
 import { AppShell } from "@/components/layout/app-shell";
 import { PwaRegister } from "@/components/features/pwa-register";
 import "@/styles/globals.css";
@@ -71,8 +72,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${garamond.variable} ${naskhArabic.variable}`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <AppShell>{children}</AppShell>
-          <PwaRegister />
+          <I18nProvider>
+            <AppShell>{children}</AppShell>
+            <PwaRegister />
+          </I18nProvider>
         </ThemeProvider>
       </body>
     </html>

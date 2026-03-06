@@ -3,22 +3,23 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { BookOpen, Compass, Home, Settings, Sunrise } from "lucide-react";
+import { BookOpen, Compass, Globe, Home, Settings, Sunrise } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./app-shell.module.css";
 
 type NavItem = {
   href: string;
-  label: string;
+  labelKey: string;
   icon: typeof Home;
 };
 
 const navItems: NavItem[] = [
-  { href: "/", label: "Home", icon: Home },
-  { href: "/prayer-times", label: "Prayers", icon: Sunrise },
-  { href: "/quran", label: "Quran", icon: BookOpen },
-  { href: "/qibla", label: "Qibla", icon: Compass },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/", labelKey: "nav.home", icon: Home },
+  { href: "/prayer-times", labelKey: "nav.prayers", icon: Sunrise },
+  { href: "/quran", labelKey: "nav.quran", icon: BookOpen },
+  { href: "/qibla", labelKey: "nav.qibla", icon: Compass },
+  { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 
 function isActive(pathname: string, href: string) {
@@ -35,6 +36,7 @@ type AppShellProps = {
 
 export function AppShell({ children }: AppShellProps) {
   const pathname = usePathname();
+  const { locale, setLocale, t } = useI18n();
 
   if (pathname.startsWith("/admin")) {
     return <>{children}</>;
@@ -46,10 +48,10 @@ export function AppShell({ children }: AppShellProps) {
         <div className={styles.sidebarTop}>
           <div className={styles.brand}>
             <span className={styles.brandMark}>M</span>
-            <span>Muslim Companion</span>
+            <span>{t("nav.brand")}</span>
           </div>
           <nav className={styles.desktopNav}>
-            {navItems.map(({ href, label, icon: Icon }) => {
+            {navItems.map(({ href, labelKey, icon: Icon }) => {
               const active = isActive(pathname, href);
 
               return (
@@ -59,19 +61,30 @@ export function AppShell({ children }: AppShellProps) {
                   className={`${styles.navLink} ${active ? styles.active : ""}`}
                 >
                   <Icon size={18} />
-                  <span>{label}</span>
+                  <span>{t(labelKey)}</span>
                 </Link>
               );
             })}
           </nav>
         </div>
-        <ThemeToggle />
+        <div className={styles.sidebarBottom}>
+          <button
+            type="button"
+            className={styles.langToggle}
+            onClick={() => setLocale(locale === "en" ? "th" : "en")}
+            aria-label="Toggle language"
+          >
+            <Globe size={16} />
+            <span>{t("lang.toggle")}</span>
+          </button>
+          <ThemeToggle />
+        </div>
       </aside>
 
       <main className={styles.main}>{children}</main>
 
       <nav className={styles.mobileNav}>
-        {navItems.map(({ href, label, icon: Icon }) => {
+        {navItems.map(({ href, labelKey, icon: Icon }) => {
           const active = isActive(pathname, href);
 
           return (
@@ -81,7 +94,7 @@ export function AppShell({ children }: AppShellProps) {
               className={`${styles.mobileLink} ${active ? styles.mobileActive : ""}`}
             >
               <Icon />
-              <span>{label}</span>
+              <span>{t(labelKey)}</span>
             </Link>
           );
         })}

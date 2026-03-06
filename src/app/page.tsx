@@ -1,8 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
 const CALCULATION_METHODS: Array<{ value: number; label: string }> = [
@@ -11,25 +13,36 @@ const CALCULATION_METHODS: Array<{ value: number; label: string }> = [
   { value: 5, label: "Egypt" },
 ];
 
-const DAILY_WIDGETS = [
-  {
-    title: "Daily Ayah",
-    arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
-    translation: "Surely with hardship comes ease. (Qur'an 94:6)",
-  },
-  {
-    title: "Daily Dua",
-    arabic: "رَبِّ زِدْنِي عِلْمًا",
-    translation: "My Lord, increase me in knowledge. (Qur'an 20:114)",
-  },
-];
-
 export default function Home() {
   const [method, setMethod] = useState(2);
+  const [mounted, setMounted] = useState(false);
   const { countdown, date, error, loading, nextPrayer } = usePrayerTimes(method);
+  const { t } = useI18n();
+  const { resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const dailyWidgets = useMemo(
+    () => [
+      {
+        title: t("home.dailyAyah"),
+        arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
+        translation: "Surely with hardship comes ease. (Qur'an 94:6)",
+      },
+      {
+        title: t("home.dailyDua"),
+        arabic: "رَبِّ زِدْنِي عِلْمًا",
+        translation: "My Lord, increase me in knowledge. (Qur'an 20:114)",
+      },
+    ],
+    [t],
+  );
+
   const dailyContent = useMemo(
-    () => DAILY_WIDGETS[new Date().getDate() % DAILY_WIDGETS.length],
-    [],
+    () => dailyWidgets[new Date().getDate() % dailyWidgets.length],
+    [dailyWidgets],
   );
 
   return (
@@ -37,12 +50,16 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
-            <p>{date ?? "Today's Schedule"}</p>
-            <h1>Next prayer: {nextPrayer ?? "Loading"}</h1>
-            <p className={styles.countdown}>{loading ? "--:--:--" : countdown}</p>
+            <p className={resolvedTheme === 'light' ? styles.textWhite : ''} suppressHydrationWarning>
+              {mounted ? (date ?? t("home.todaySchedule")) : "--"}
+            </p>
+            <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
+            <p className={`${styles.countdown} ${resolvedTheme === 'light' ? styles.textWhite : ''}`.trim()} suppressHydrationWarning>
+              {mounted ? (loading ? "--:--:--" : countdown) : "--:--:--"}
+            </p>
           </div>
           <label>
-            Method
+            {t("home.method")}
             <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
               {CALCULATION_METHODS.map((option) => (
                 <option key={option.value} value={option.value}>
@@ -63,39 +80,36 @@ export default function Home() {
         </article>
 
         <article className={styles.card}>
-          <h2>Quick Access</h2>
+          <h2>{t("home.quickAccess")}</h2>
           <div className={styles.quickGrid}>
             <Link className={styles.quickLink} href="/prayer-times">
-              Prayer Times
+              {t("home.prayerTimes")}
             </Link>
             <Link className={styles.quickLink} href="/quran">
-              Quran Reader
+              {t("home.quranReader")}
             </Link>
             <Link className={styles.quickLink} href="/qibla">
-              Qibla Compass
+              {t("home.qiblaCompass")}
             </Link>
             <Link className={styles.quickLink} href="/lessons">
-              Islamic Lessons
+              {t("home.islamicLessons")}
             </Link>
             <Link className={styles.quickLink} href="/duas">
-              Duas
+              {t("home.duas")}
             </Link>
             <Link className={styles.quickLink} href="/places">
-              Halal Places
+              {t("home.halalPlaces")}
             </Link>
             <Link className={styles.quickLink} href="/settings">
-              App Settings
+              {t("home.appSettings")}
             </Link>
           </div>
         </article>
       </section>
 
       <section className={styles.card}>
-        <h2>Today&apos;s intention</h2>
-        <p>
-          Begin with two minutes of reflection, then open Quran mode to continue your recitation
-          where you left off.
-        </p>
+        <h2>{t("home.todayIntention")}</h2>
+        <p>{t("home.intentionBody")}</p>
       </section>
     </div>
   );

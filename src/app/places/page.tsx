@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import { useEffect, useMemo, useState } from "react";
 import type { PlaceType } from "@prisma/client";
 import { useGeolocation } from "@/hooks/use-geolocation";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
 type ProximityItem = {
@@ -40,6 +41,7 @@ export default function PlacesPage() {
   const [items, setItems] = useState<ProximityItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const { t } = useI18n();
 
   useEffect(() => {
     let mounted = true;
@@ -78,7 +80,7 @@ export default function PlacesPage() {
           return;
         }
 
-        setError("Could not load nearby places.");
+        setError(t("places.couldNotLoad"));
         setItems([]);
       } finally {
         if (mounted) {
@@ -92,7 +94,7 @@ export default function PlacesPage() {
     return () => {
       mounted = false;
     };
-  }, [location.coordinates.latitude, location.coordinates.longitude, radius, type]);
+  }, [location.coordinates.latitude, location.coordinates.longitude, radius, type, t]);
 
   const mapCenter = useMemo<[number, number]>(
     () => [location.coordinates.latitude, location.coordinates.longitude],
@@ -102,28 +104,25 @@ export default function PlacesPage() {
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <h1>Halal Places Finder</h1>
-        <p>
-          Explore nearby mosques and halal food spots around your location. Verified places are
-          merged with OpenStreetMap data.
-        </p>
-        <p>{location.error ?? "Using current location."}</p>
+        <h1>{t("places.title")}</h1>
+        <p>{t("places.subtitle")}</p>
+        <p>{location.error ?? t("places.usingLocation")}</p>
 
         <div className={styles.controls}>
           <label>
-            Type
+            {t("places.type")}
             <select
               value={type}
               onChange={(event) => setType(event.target.value as "ALL" | PlaceType)}
             >
-              <option value="ALL">All</option>
-              <option value="MOSQUE">Mosques</option>
-              <option value="HALAL_FOOD">Halal Food</option>
+              <option value="ALL">{t("places.all")}</option>
+              <option value="MOSQUE">{t("places.mosques")}</option>
+              <option value="HALAL_FOOD">{t("places.halalFood")}</option>
             </select>
           </label>
 
           <label>
-            Radius
+            {t("places.radius")}
             <select value={radius} onChange={(event) => setRadius(Number(event.target.value))}>
               <option value={1000}>1 km</option>
               <option value={3000}>3 km</option>
@@ -136,12 +135,12 @@ export default function PlacesPage() {
       </section>
 
       <section className={styles.mapWrap}>
-        {loading ? <p>Loading map...</p> : <PlacesMap center={mapCenter} places={items} />}
+        {loading ? <p>{t("places.loadingMap")}</p> : <PlacesMap center={mapCenter} places={items} />}
       </section>
 
       <section className={styles.list}>
         {error ? <p>{error}</p> : null}
-        {!loading && items.length === 0 ? <p>No places found in this radius.</p> : null}
+        {!loading && items.length === 0 ? <p>{t("places.noPlaces")}</p> : null}
 
         {items.map((place) => (
           <article key={place.id} className={styles.card}>
@@ -149,9 +148,9 @@ export default function PlacesPage() {
               <h2>{place.name}</h2>
               <span>{Math.round(place.distanceMeters)} m</span>
             </div>
-            <p>{place.type === "MOSQUE" ? "Mosque" : "Halal food"}</p>
+            <p>{place.type === "MOSQUE" ? t("places.mosque") : t("places.halalFoodLabel")}</p>
             {place.address ? <p>{place.address}</p> : null}
-            <p>{place.source === "LOCAL" ? "Verified local place" : "OpenStreetMap listing"}</p>
+            <p>{place.source === "LOCAL" ? t("places.verified") : t("places.osm")}</p>
           </article>
         ))}
       </section>

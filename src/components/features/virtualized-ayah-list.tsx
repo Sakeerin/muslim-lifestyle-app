@@ -1,6 +1,5 @@
 "use client";
 
-import { useMemo, useState } from "react";
 import styles from "./virtualized-ayah-list.module.css";
 
 export type AyahView = {
@@ -11,47 +10,41 @@ export type AyahView = {
 
 type VirtualizedAyahListProps = {
   ayahs: AyahView[];
+  mode?: "compact" | "reading";
+  showTranslation?: boolean;
 };
 
-const ROW_HEIGHT = 180;
-const OVERSCAN = 3;
-
-export function VirtualizedAyahList({ ayahs }: VirtualizedAyahListProps) {
-  const [scrollTop, setScrollTop] = useState(0);
-  const viewportHeight = 540;
-
-  const { startIndex, endIndex, totalHeight } = useMemo(() => {
-    const start = Math.max(Math.floor(scrollTop / ROW_HEIGHT) - OVERSCAN, 0);
-    const visibleCount = Math.ceil(viewportHeight / ROW_HEIGHT) + OVERSCAN * 2;
-    const end = Math.min(start + visibleCount, ayahs.length);
-
-    return {
-      startIndex: start,
-      endIndex: end,
-      totalHeight: ayahs.length * ROW_HEIGHT,
-    };
-  }, [ayahs.length, scrollTop]);
-
-  const visibleRows = ayahs.slice(startIndex, endIndex);
+export function VirtualizedAyahList({
+  ayahs,
+  mode = "reading",
+  showTranslation = true,
+}: VirtualizedAyahListProps) {
+  const isCompact = mode === "compact";
 
   return (
     <div
-      className={styles.container}
-      onScroll={(event) => setScrollTop(event.currentTarget.scrollTop)}
+      className={`${styles.container} ${isCompact ? styles.compactContainer : styles.readingContainer}`}
     >
-      <div className={styles.spacer} style={{ height: totalHeight }}>
-        {visibleRows.map((ayah, index) => {
-          const offset = (startIndex + index) * ROW_HEIGHT;
-
-          return (
-            <article key={ayah.numberInSurah} className={styles.row} style={{ top: offset }}>
-              <strong>Ayah {ayah.numberInSurah}</strong>
-              <p className={styles.arabic}>{ayah.arabic}</p>
-              <p className={styles.translation}>{ayah.translation}</p>
-            </article>
-          );
-        })}
-      </div>
+      {ayahs.map((ayah) => (
+        <article
+          key={ayah.numberInSurah}
+          className={`${styles.row} ${isCompact ? styles.compactRow : styles.readingRow}`}
+        >
+          <strong>Ayah {ayah.numberInSurah}</strong>
+          <p
+            className={`${styles.arabic} ${isCompact ? styles.compactArabic : styles.readingArabic}`}
+          >
+            {ayah.arabic}
+          </p>
+          {showTranslation && (
+            <p
+              className={`${styles.translation} ${isCompact ? styles.compactTranslation : styles.readingTranslation}`}
+            >
+              {ayah.translation}
+            </p>
+          )}
+        </article>
+      ))}
     </div>
   );
 }

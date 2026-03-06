@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
 type Surah = {
@@ -16,6 +17,7 @@ export default function QuranPage() {
   const [surahs, setSurahs] = useState<Surah[]>([]);
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(true);
+  const { t } = useI18n();
 
   useEffect(() => {
     let mounted = true;
@@ -72,8 +74,8 @@ export default function QuranPage() {
   return (
     <div className={styles.page}>
       <section className={styles.card}>
-        <h1>Quran Reader</h1>
-        <p>Browse surahs with search and focused reading mode.</p>
+        <h1>{t("quran.title")}</h1>
+        <p>{t("quran.subtitle")}</p>
       </section>
 
       <section className={styles.card}>
@@ -81,13 +83,13 @@ export default function QuranPage() {
           value={query}
           onChange={(event) => setQuery(event.target.value)}
           className={styles.search}
-          placeholder="Search by surah name"
+          placeholder={t("quran.searchPlaceholder")}
         />
       </section>
 
       <section className={styles.list}>
-        {loading ? <p>Loading surah index...</p> : null}
-        {!loading && filtered.length === 0 ? <p>No surah found.</p> : null}
+        {loading ? <p>{t("quran.loadingIndex")}</p> : null}
+        {!loading && filtered.length === 0 ? <p>{t("quran.noSurah")}</p> : null}
 
         {filtered.map((surah) => (
           <Link key={surah.number} href={`/quran/${surah.number}`} className={styles.item}>
@@ -99,7 +101,7 @@ export default function QuranPage() {
             </div>
             <div>
               <p className={styles.arabic}>{surah.name}</p>
-              <p>{surah.numberOfAyahs} ayahs</p>
+              <p>{t("quran.ayahs", { count: surah.numberOfAyahs })}</p>
             </div>
           </Link>
         ))}

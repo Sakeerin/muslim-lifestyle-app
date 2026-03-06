@@ -3,6 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useGeolocation } from "@/hooks/use-geolocation";
 import { getQiblaBearing } from "@/lib/qibla";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
 type IOSOrientationPermission = typeof DeviceOrientationEvent & {
@@ -13,6 +14,7 @@ export default function QiblaPage() {
   const location = useGeolocation();
   const [heading, setHeading] = useState(0);
   const [orientationReady, setOrientationReady] = useState(false);
+  const { t } = useI18n();
 
   useEffect(() => {
     const onOrientation = (event: DeviceOrientationEvent) => {
@@ -50,11 +52,8 @@ export default function QiblaPage() {
   return (
     <div className={styles.page}>
       <section className={styles.card}>
-        <h1>Qibla Compass</h1>
-        <p>
-          Hold your phone flat, then rotate slowly until the needle points up. Heading:{" "}
-          {Math.round(heading)}deg
-        </p>
+        <h1>{t("qibla.title")}</h1>
+        <p>{t("qibla.instruction", { heading: Math.round(heading) })}</p>
       </section>
 
       <section className={styles.card}>
@@ -68,10 +67,10 @@ export default function QiblaPage() {
       </section>
 
       <section className={styles.card}>
-        <p>Qibla bearing from your location: {Math.round(qiblaBearing)}deg</p>
-        <p>{orientationReady ? "Compass is active." : "Orientation permission is required."}</p>
+        <p>{t("qibla.bearing", { bearing: Math.round(qiblaBearing) })}</p>
+        <p>{orientationReady ? t("qibla.compassActive") : t("qibla.permissionRequired")}</p>
         <button type="button" onClick={() => void requestIOSPermission()}>
-          Enable Orientation
+          {t("qibla.enableOrientation")}
         </button>
       </section>
     </div>

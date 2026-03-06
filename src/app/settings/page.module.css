@@ -21,3 +21,16 @@
   background: var(--surface-muted);
   padding: 12px;
 }
+
+.activeItem {
+  border-color: var(--accent, #0e8d71);
+  background: linear-gradient(90deg, rgba(13, 103, 78, 0.12), rgba(216, 199, 118, 0.1));
+  font-weight: 600;
+}
+
+button.item {
+  cursor: pointer;
+  font-size: inherit;
+  color: inherit;
+  text-align: left;
+}

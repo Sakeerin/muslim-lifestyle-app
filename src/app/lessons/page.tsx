@@ -1,65 +1,92 @@
+"use client";
+
 import Link from "next/link";
-import { listPublishedLessons } from "@/lib/dynamic-content";
+import { useEffect, useState } from "react";
+import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
-type LessonsPageProps = {
-  searchParams: Promise<{
-    page?: string;
-    limit?: string;
-    category?: string;
-    q?: string;
-  }>;
+type LessonItem = {
+  id: string;
+  title: string;
+  slug: string;
+  excerpt: string;
+  category: string;
+  createdAt: string;
 };
 
-function parseNumber(value: string | undefined, fallback: number, min: number, max: number) {
-  const parsed = Number(value);
+type LessonsResponse = {
+  data: LessonItem[];
+  meta: {
+    page: number;
+    limit: number;
+    total: number;
+    totalPages: number;
+    hasNextPage: boolean;
+    hasPrevPage: boolean;
+  };
+};
 
-  if (!Number.isFinite(parsed)) {
-    return fallback;
-  }
+export default function LessonsPage() {
+  const { t } = useI18n();
+  const [page, setPage] = useState(1);
+  const [category, setCategory] = useState("");
+  const [query, setQuery] = useState("");
+  const [items, setItems] = useState<LessonItem[]>([]);
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(true);
+  const limit = 9;
 
-  return Math.min(max, Math.max(min, Math.floor(parsed)));
-}
+  useEffect(() => {
+    let mounted = true;
 
-function pageHref(page: number, category?: string, q?: string) {
-  const params = new URLSearchParams();
-  params.set("page", String(page));
+    async function loadLessons() {
+      setLoading(true);
+      const params = new URLSearchParams({ page: String(page), limit: String(limit) });
+      if (category) params.set("category", category);
+      if (query) params.set("q", query);
 
-  if (category) {
-    params.set("category", category);
-  }
+      try {
+        const response = await fetch(`/api/lessons?${params.toString()}`);
+        if (!response.ok) throw new Error("Failed to load");
+        const result = (await response.json()) as LessonsResponse;
+        if (!mounted) return;
+        setItems(result.data);
+        setTotalPages(result.meta.totalPages);
+      } catch {
+        if (!mounted) return;
+        setItems([]);
+      } finally {
+        if (mounted) setLoading(false);
+      }
+    }
 
-  if (q) {
-    params.set("q", q);
-  }
+    void loadLessons();
+    return () => { mounted = false; };
+  }, [page, category, query]);
 
-  return `/lessons?${params.toString()}`;
-}
-
-export default async function LessonsPage({ searchParams }: LessonsPageProps) {
-  const filters = await searchParams;
-  const page = parseNumber(filters.page, 1, 1, 1000);
-  const limit = parseNumber(filters.limit, 9, 1, 24);
-  const category = filters.category?.trim() || undefined;
-  const q = filters.q?.trim() || undefined;
-  const { items, total } = await listPublishedLessons({ page, limit, category, q });
-  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    setQuery(formData.get("q")?.toString().trim() || "");
+    setCategory(formData.get("category")?.toString().trim() || "");
+    setPage(1);
+  };
 
   return (
     <div className={styles.page}>
       <section className={styles.hero}>
-        <h1>Islamic Lessons</h1>
-        <p>Read short, practical lessons on Quran, seerah, and character building.</p>
+        <h1>{t("lessons.title")}</h1>
+        <p>{t("lessons.subtitle")}</p>
 
-        <form className={styles.filters} method="get">
-          <input name="q" defaultValue={q} placeholder="Search lessons" />
-          <input name="category" defaultValue={category} placeholder="Category" />
-          <button type="submit">Apply</button>
+        <form className={styles.filters} onSubmit={handleSubmit}>
+          <input name="q" defaultValue={query} placeholder={t("lessons.searchPlaceholder")} />
+          <input name="category" defaultValue={category} placeholder={t("lessons.category")} />
+          <button type="submit">{t("lessons.apply")}</button>
         </form>
       </section>
 
       <section className={styles.list}>
-        {items.length === 0 ? <p>No lessons matched your search.</p> : null}
+        {!loading && items.length === 0 ? <p>{t("lessons.noResults")}</p> : null}
 
         {items.map((lesson) => (
           <article key={lesson.id} className={styles.card}>
@@ -69,29 +96,29 @@ export default async function LessonsPage({ searchParams }: LessonsPageProps) {
             </div>
             <h2>{lesson.title}</h2>
             <p>{lesson.excerpt}</p>
-            <Link href={`/lessons/${lesson.slug}`}>Read lesson</Link>
+            <Link href={`/lessons/${lesson.slug}`}>{t("lessons.readLesson")}</Link>
           </article>
         ))}
       </section>
 
       <section className={styles.pagination}>
-        <Link
-          href={pageHref(Math.max(1, page - 1), category, q)}
-          aria-disabled={page <= 1}
+        <button
+          type="button"
+          onClick={() => setPage((p) => Math.max(1, p - 1))}
+          disabled={page <= 1}
           className={page <= 1 ? styles.disabled : ""}
         >
-          Previous
-        </Link>
-        <p>
-          Page {Math.min(page, totalPages)} of {totalPages}
-        </p>
-        <Link
-          href={pageHref(Math.min(totalPages, page + 1), category, q)}
-          aria-disabled={page >= totalPages}
+          {t("lessons.previous")}
+        </button>
+        <p>{t("lessons.pageOf", { current: Math.min(page, totalPages), total: totalPages })}</p>
+        <button
+          type="button"
+          onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
+          disabled={page >= totalPages}
           className={page >= totalPages ? styles.disabled : ""}
         >
-          Next
-        </Link>
+          {t("lessons.next")}
+        </button>
       </section>
     </div>
   );
