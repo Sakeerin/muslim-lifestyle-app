@@ -60,6 +60,15 @@
   text-align: left;
 }
 
+.currentDayRow {
+  background-color: rgba(216, 199, 118, 0.15);
+}
+
+.currentDayRow td {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
 .tableWrap {
   overflow-x: auto;
 }

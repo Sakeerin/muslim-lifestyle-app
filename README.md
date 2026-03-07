@@ -1,36 +1,97 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Muslim Lifestyle App (Muslim Pro)
 
-## Getting Started
+โปรเจคแอปพลิเคชันสำหรับวิถีชีวิตชาวมุสลิม (Muslim Lifestyle) พัฒนาด้วย Next.js (App Router) โดยรวบรวมฟีเจอร์ต่างๆ ที่จำเป็นสำหรับมุสลิมในชีวิตประจำวัน เช่น อัลกุรอาน, เวลาละหมาด, ทิศกิบลัต, สถานที่สำคัญ (มัสยิด/ร้านอาหารฮาลาล), บทเรียน และดุอาอ์
 
-First, run the development server:
+## 🚀 ฟีเจอร์หลัก (Key Features)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **📖 อัลกุรอาน (Quran):** อ่านอัลกุรอานพร้อมคำแปล (รองรับภาษาอังกฤษและภาษาไทย)
+- **⏱️ เวลาละหมาด (Prayer Times):** แสดงเวลาละหมาดตามตำแหน่งที่ตั้ง พร้อมระบบนับถอยหลัง
+- **🧭 ทิศกิบลัต (Qibla Direction):** เข็มทิศชี้ทิศกิบลัตสำหรับปฏิบัติศาสนกิจ
+- **📍 สถานที่ (Places):** ค้นหามัสยิดและร้านอาหารฮาลาลใกล้เคียง (บูรณาการกับ Leaflet/React-Leaflet)
+- **📚 บทเรียน & ดุอาอ์ (Lessons & Duas):** แหล่งรวมความรู้และบทขอดุอาอ์ต่างๆ
+- **🌐 รองรับหลายภาษา (i18n):** รองรับภาษาไทย (TH) และภาษาอังกฤษ (EN)
+- **🌓 ธีม (Theme):** รองรับ Light Mode และ Dark Mode (ผ่าน `next-themes`)
+- **🔐 ระบบสมาชิก (Authentication):** จัดการผู้ใช้งานผ่านบัญชี (NextAuth.js)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ เทคโนโลยีที่ใช้ (Tech Stack)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Framework:** [Next.js](https://nextjs.org/) (App Router)
+- **Language:** TypeScript
+- **Styling:** CSS Modules / Vanilla CSS
+- **Database:** PostgreSQL (รันผ่าน Docker Compose)
+- **ORM:** [Prisma](https://www.prisma.io/)
+- **Authentication:** [NextAuth.js](https://next-auth.js.org/) (v5 beta)
+- **Maps:** Leaflet & React-Leaflet
+- **Icons:** Lucide React
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📋 สิ่งที่ต้องมีก่อนเริ่มพัฒนา (Prerequisites)
 
-## Learn More
+- [Node.js](https://nodejs.org/) (แนะนำเวอร์ชัน 20 ขึ้นไป)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (สำหรับรัน PostgreSQL Database)
+- Git
 
-To learn more about Next.js, take a look at the following resources:
+## 💻 วิธีการติดตั้งและรันโปรเจค (Getting Started)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **โคลนโปรเจค (Clone the repository)**
+   ```bash
+   git clone https://github.com/Sakeerin/muslim-lifestyle-app.git
+   cd muslim-pro
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **ติดตั้ง Dependencies**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **ตั้งค่า Environment Variables**
+   สร้างไฟล์ `.env` ที่ root ของโปรเจค โดยกำหนดค่าที่จำเป็น เช่น ข้อมูลการเชื่อมต่อฐานข้อมูล (Database) คู่มือการตั้งค่าแบบเต็มน่าจะมีอ้างอิงจาก `.env.example`
+   ```env
+   DATABASE_URL="postgresql://user:password@localhost:5432/muslim_pro?schema=public"
+   ```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+4. **รัน Database (ด้วย Docker)**
+   ```bash
+   npm run db:up
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+5. **ตั้งค่า Prisma (Database Migration)**
+   เพื่อสร้างตารางในฐานข้อมูลตาม Schema ที่ออกแบบไว้
+   ```bash
+   npm run prisma:generate
+   npm run prisma:migrate
+   ```
+
+6. **รัน Development Server**
+   ```bash
+   npm run dev
+   ```
+
+   เปิดเบราว์เซอร์ไปที่ [http://localhost:3000](http://localhost:3000) เพื่อดูผลลัพธ์ และการแก้ไขโค้ดจะอัปเดตบนหน้าเว็บอัตโนมัติ
+
+## 📂 โครงสร้างโปรเจคที่สำคัญ (Project Structure)
+
+- `src/app/` - หน้า Pages และ Layouts ต่างๆ (Next.js App Router)
+  - `quran/`, `prayer-times/`, `qibla/`, `places/`, `lessons/`, `duas/`, `settings/`
+- `src/components/` - React Components ที่ใช้งานร่วมกัน (เช่น app-shell, theme-toggle)
+- `src/i18n/` - ระบบจัดการภาษา (Translations - `en.json`, `th.json`)
+- `prisma/` - โครงสร้างฐานข้อมูล Prisma Schema (`schema.prisma`) และไฟล์ Migrations
+
+## 📜 คำสั่ง Scripts ที่ใช้บ่อย (Available Scripts)
+
+- `npm run dev`: รันเซิร์ฟเวอร์โหมด Development
+- `npm run build`: สร้าง Production Build สำหรับขึ้นระบบจริง
+- `npm run start`: รันเซิร์ฟเวอร์โหมด Production
+- `npm run db:up`: สตาร์ท PostgreSQL database ผ่าน Docker Compose แบบเบื้องหลัง (Detached)
+- `npm run db:down`: หยุดและลบ Database Container
+- `npm run prisma:generate`: สร้าง Prisma Client หลังจากที่มีการแก้ไฟล์ Schema
+- `npm run prisma:migrate`: รัน Migration เผื่อทำการเปลี่ยนแปลงโครงสร้าง Database
+- `npm run prisma:studio`: เปิด Web UI ของ Prisma เพื่อจัดการข้อมูลใน Database แบบมองเห็นภาพ
+- `npm run format`: จัดรูปแบบโค้ด (Format) ด้วย Prettier
+
+## 🤝 การมีส่วนร่วมในการพัฒนา (Contributing)
+
+สำหรับนักพัฒนาที่จะมาพัฒนาต่อหรือเข้ามาร่วมแจม:
+1. กรุณาแตก Branch ใหม่สำหรับแต่ละ Feature หรือ Bug Fix (`git checkout -b feature/your-feature-name` หรือ `bugfix/issue-name`)
+2. เขียนโค้ดโดยอิงจากโครงสร้างปัจจุบัน และพยายามใช้ TypeScript ในการ Define Type ให้ชัดเจน
+3. จัดรูปแบบโค้ดด้วยรูปแบบที่ตกลงกันไว้ (รัน `npm run format` หรือตั้งค่าแก้ไขผ่าน IDE)
+4. ก่อนการขอ Merge โค้ด กรุณาสร้าง Pull Request (PR) พร้อมอธิบายสิ่งที่คุณได้แก้ไขหรือเพิ่มเติมอย่างละเอียด

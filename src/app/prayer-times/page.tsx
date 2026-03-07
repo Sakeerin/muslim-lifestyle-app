@@ -133,19 +133,25 @@ export default function PrayerTimesPage() {
               </tr>
             </thead>
             <tbody>
-              {monthly.map((day) => (
-                <tr key={`${day.day}-${day.weekday}`}>
-                  <td>
-                    {day.day} {day.weekday}
-                  </td>
-                  <td>{day.hijri}</td>
-                  <td>{day.timings.Fajr}</td>
-                  <td>{day.timings.Dhuhr}</td>
-                  <td>{day.timings.Asr}</td>
-                  <td>{day.timings.Maghrib}</td>
-                  <td>{day.timings.Isha}</td>
-                </tr>
-              ))}
+              {monthly.map((day) => {
+                const isToday = Number(day.day) === new Date().getDate();
+                return (
+                  <tr
+                    key={`${day.day}-${day.weekday}`}
+                    className={isToday ? styles.currentDayRow : ""}
+                  >
+                    <td>
+                      {day.day} {day.weekday}
+                    </td>
+                    <td>{day.hijri}</td>
+                    <td>{day.timings.Fajr}</td>
+                    <td>{day.timings.Dhuhr}</td>
+                    <td>{day.timings.Asr}</td>
+                    <td>{day.timings.Maghrib}</td>
+                    <td>{day.timings.Isha}</td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </div>

@@ -28,6 +28,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         try {
             const stored = window.localStorage.getItem(STORAGE_KEY);
             if (stored === "th" || stored === "en") {
+                // eslint-disable-next-line react-hooks/set-state-in-effect
                 setLocaleState(stored);
             }
         } catch { }

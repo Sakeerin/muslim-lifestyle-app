@@ -21,6 +21,7 @@ export default function Home() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -50,11 +51,11 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
-            <p className={resolvedTheme === 'light' ? styles.textWhite : ''} suppressHydrationWarning>
+            <p className={mounted && resolvedTheme === 'light' ? styles.textWhite : ''}>
               {mounted ? (date ?? t("home.todaySchedule")) : "--"}
             </p>
             <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
-            <p className={`${styles.countdown} ${resolvedTheme === 'light' ? styles.textWhite : ''}`.trim()} suppressHydrationWarning>
+            <p className={`${styles.countdown} ${mounted && resolvedTheme === 'light' ? styles.textWhite : ''}`.trim()}>
               {mounted ? (loading ? "--:--:--" : countdown) : "--:--:--"}
             </p>
           </div>
