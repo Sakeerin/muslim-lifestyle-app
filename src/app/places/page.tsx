@@ -150,7 +150,32 @@ export default function PlacesPage() {
             </div>
             <p>{place.type === "MOSQUE" ? t("places.mosque") : t("places.halalFoodLabel")}</p>
             {place.address ? <p>{place.address}</p> : null}
-            <p>{place.source === "LOCAL" ? t("places.verified") : t("places.osm")}</p>
+            <div className={styles.footerRow}>
+              <p>{place.source === "LOCAL" ? t("places.verified") : t("places.osm")}</p>
+              <a
+                href={`https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}`}
+                target="_blank"
+                rel="noreferrer"
+                className={styles.mapLink}
+              >
+                {t("places.goToMap") || "Go to Map"}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                  <polyline points="15 3 21 3 21 9"></polyline>
+                  <line x1="10" y1="14" x2="21" y2="3"></line>
+                </svg>
+              </a>
+            </div>
           </article>
         ))}
       </section>

@@ -89,6 +89,7 @@
     "places.verified": "Verified local place",
     "places.osm": "OpenStreetMap listing",
     "places.couldNotLoad": "Could not load nearby places.",
+    "places.goToMap": "Go to Map",
     "lessons.title": "Islamic Lessons",
     "lessons.subtitle": "Read short, practical lessons on Quran, seerah, and character building.",
     "lessons.searchPlaceholder": "Search lessons",

@@ -89,6 +89,7 @@
     "places.verified": "สถานที่ตรวจสอบแล้ว",
     "places.osm": "ข้อมูลจาก OpenStreetMap",
     "places.couldNotLoad": "ไม่สามารถโหลดสถานที่ใกล้เคียงได้",
+    "places.goToMap": "นำทาง",
     "lessons.title": "บทเรียนอิสลาม",
     "lessons.subtitle": "อ่านบทเรียนสั้นเกี่ยวกับอัลกุรอาน ซีเราะห์ และการสร้างอุปนิสัย",
     "lessons.searchPlaceholder": "ค้นหาบทเรียน",
