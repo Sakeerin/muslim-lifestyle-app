@@ -15,7 +15,7 @@
   - [x] Configure TypeScript, ESLint, Prettier
   - [x] Setup Folder Structure (app, components, lib, styles, prisma)
 - [x] **Infrastructure** <!-- id: 3 -->
-  - [x] Setup PostgreSQL Database (Local or Hosted)
+  - [x] Setup MySQL Database (Local or Hosted)
   - [x] Configure Prisma ORM & Run Initial Migration
   - [x] Configure NextAuth.js (Admin Credentials Provider)
   - [x] Setup PWA (manifest, icons, service worker)

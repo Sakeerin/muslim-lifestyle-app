@@ -61,7 +61,9 @@ export default function LessonsPage() {
     }
 
     void loadLessons();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, [page, category, query]);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {

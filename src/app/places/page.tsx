@@ -135,7 +135,11 @@ export default function PlacesPage() {
       </section>
 
       <section className={styles.mapWrap}>
-        {loading ? <p>{t("places.loadingMap")}</p> : <PlacesMap center={mapCenter} places={items} />}
+        {loading ? (
+          <p>{t("places.loadingMap")}</p>
+        ) : (
+          <PlacesMap center={mapCenter} places={items} />
+        )}
       </section>
 
       <section className={styles.list}>

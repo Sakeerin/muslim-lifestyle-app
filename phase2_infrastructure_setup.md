@@ -2,7 +2,7 @@
 
 ## What is already prepared
 
-- PostgreSQL container definition in `docker-compose.yml`.
+- MySQL container definition in `docker-compose.yml`.
 - Environment template in `.env.example`.
 - Prisma schema in `prisma/schema.prisma`.
 - Initial SQL migration in `prisma/migrations/20260214120000_init/migration.sql`.
@@ -24,6 +24,6 @@ node -e "console.log(require('bcryptjs').hashSync('your-admin-password', 12))"
 
 Infrastructure commands were executed successfully:
 
-- PostgreSQL container is running (`muslim-pro-postgres`).
+- MySQL container is running (`muslim-pro-mysql`).
 - Prisma migration `20260214120000_init` is applied.
 - Prisma client generation completed.

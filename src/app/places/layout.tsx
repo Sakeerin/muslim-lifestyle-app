@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   description: "Find halal restaurants, mosques, and Islamic centers near your location.",
 };
 
-export default function PlacesLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function PlacesLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

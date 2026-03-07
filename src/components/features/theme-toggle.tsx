@@ -10,7 +10,7 @@ export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
   const { resolvedTheme, setTheme } = useTheme();
   const { t } = useI18n();
-  
+
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
@@ -18,11 +18,7 @@ export function ThemeToggle() {
 
   if (!mounted) {
     return (
-      <button
-        type="button"
-        className={styles.toggle}
-        aria-label={t("theme.toggleLabel")}
-      >
+      <button type="button" className={styles.toggle} aria-label={t("theme.toggleLabel")}>
         <MoonStar size={16} />
         <span>{t("theme.dark")}</span>
       </button>

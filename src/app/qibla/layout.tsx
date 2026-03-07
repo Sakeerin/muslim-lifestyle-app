@@ -5,10 +5,6 @@ export const metadata: Metadata = {
   description: "Find the precise Qibla direction from your current location anywhere in the world.",
 };
 
-export default function QiblaLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function QiblaLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

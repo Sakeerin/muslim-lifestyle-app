@@ -1,70 +1,60 @@
--- CreateEnum
-CREATE TYPE "UserRole" AS ENUM ('ADMIN', 'USER');
+-- CreateTable
+CREATE TABLE `User` (
+    `id` VARCHAR(191) NOT NULL,
+    `email` VARCHAR(191) NOT NULL,
+    `password` VARCHAR(191) NOT NULL,
+    `role` ENUM('ADMIN', 'USER') NOT NULL DEFAULT 'USER',
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
--- CreateEnum
-CREATE TYPE "PlaceType" AS ENUM ('MOSQUE', 'HALAL_FOOD');
+    UNIQUE INDEX `User_email_key`(`email`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "User" (
-    "id" TEXT NOT NULL,
-    "email" TEXT NOT NULL,
-    "password" TEXT NOT NULL,
-    "role" "UserRole" NOT NULL DEFAULT 'USER',
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+CREATE TABLE `Lesson` (
+    `id` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `slug` VARCHAR(191) NOT NULL,
+    `content` LONGTEXT NOT NULL,
+    `coverImage` VARCHAR(191) NULL,
+    `videoUrl` VARCHAR(191) NULL,
+    `category` VARCHAR(191) NOT NULL,
+    `isPublished` BOOLEAN NOT NULL DEFAULT false,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
-);
-
--- CreateTable
-CREATE TABLE "Lesson" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "slug" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
-    "coverImage" TEXT,
-    "videoUrl" TEXT,
-    "category" TEXT NOT NULL,
-    "isPublished" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
-
-    CONSTRAINT "Lesson_pkey" PRIMARY KEY ("id")
-);
+    UNIQUE INDEX `Lesson_slug_key`(`slug`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "Dua" (
-    "id" TEXT NOT NULL,
-    "title" TEXT NOT NULL,
-    "arabic" TEXT NOT NULL,
-    "audioUrl" TEXT,
-    "translation" TEXT NOT NULL,
-    "transliteration" TEXT,
-    "category" TEXT NOT NULL,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+CREATE TABLE `Dua` (
+    `id` VARCHAR(191) NOT NULL,
+    `title` VARCHAR(191) NOT NULL,
+    `arabic` TEXT NOT NULL,
+    `audioUrl` VARCHAR(191) NULL,
+    `translation` TEXT NOT NULL,
+    `transliteration` TEXT NULL,
+    `category` VARCHAR(191) NOT NULL,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    CONSTRAINT "Dua_pkey" PRIMARY KEY ("id")
-);
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE "Place" (
-    "id" TEXT NOT NULL,
-    "name" TEXT NOT NULL,
-    "type" "PlaceType" NOT NULL,
-    "lat" DOUBLE PRECISION NOT NULL,
-    "lng" DOUBLE PRECISION NOT NULL,
-    "address" TEXT,
-    "description" TEXT,
-    "isVerified" BOOLEAN NOT NULL DEFAULT false,
-    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    "updatedAt" TIMESTAMP(3) NOT NULL,
+CREATE TABLE `Place` (
+    `id` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `type` ENUM('MOSQUE', 'HALAL_FOOD') NOT NULL,
+    `lat` DOUBLE NOT NULL,
+    `lng` DOUBLE NOT NULL,
+    `address` VARCHAR(191) NULL,
+    `description` TEXT NULL,
+    `isVerified` BOOLEAN NOT NULL DEFAULT false,
+    `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
+    `updatedAt` DATETIME(3) NOT NULL,
 
-    CONSTRAINT "Place_pkey" PRIMARY KEY ("id")
-);
-
--- CreateIndex
-CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Lesson_slug_key" ON "Lesson"("slug");
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;

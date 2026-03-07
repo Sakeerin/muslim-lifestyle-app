@@ -109,7 +109,7 @@
   }
 
   /* Hide unnecessary items */
-  .page>section:not(:last-child) {
+  .page > section:not(:last-child) {
     display: none !important;
   }
 

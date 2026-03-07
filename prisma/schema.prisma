@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql" // Change to "postgresql" for PostgreSQL
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -30,7 +30,7 @@ model Lesson {
   id          String   @id @default(cuid())
   title       String
   slug        String   @unique
-  content     String
+  content     String   @db.LongText
   coverImage  String?
   videoUrl    String?
   category    String
@@ -42,10 +42,10 @@ model Lesson {
 model Dua {
   id              String   @id @default(cuid())
   title           String
-  arabic          String
+  arabic          String   @db.Text
   audioUrl        String?
-  translation     String
-  transliteration String?
+  translation     String   @db.Text
+  transliteration String?  @db.Text
   category        String
   createdAt       DateTime @default(now())
   updatedAt       DateTime @updatedAt
@@ -58,7 +58,7 @@ model Place {
   lat         Float
   lng         Float
   address     String?
-  description String?
+  description String?   @db.Text
   isVerified  Boolean   @default(false)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt

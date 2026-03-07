@@ -51,14 +51,18 @@ export default function LessonDetailPage({ params }: LessonDetailPageProps) {
     }
 
     void loadLesson();
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+    };
   }, [params]);
 
   if (notFound) {
     return (
       <div className={styles.page}>
         <section className={styles.hero}>
-          <Link href="/lessons" className={styles.back}>{t("lessons.backToLessons")}</Link>
+          <Link href="/lessons" className={styles.back}>
+            {t("lessons.backToLessons")}
+          </Link>
           <h1>{t("lessons.noResults")}</h1>
         </section>
       </div>

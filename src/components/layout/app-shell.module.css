@@ -154,7 +154,6 @@
 }
 
 @media print {
-
   .sidebar,
   .mobileNav {
     display: none !important;

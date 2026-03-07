@@ -18,7 +18,7 @@
 - **Framework:** [Next.js](https://nextjs.org/) (App Router)
 - **Language:** TypeScript
 - **Styling:** CSS Modules / Vanilla CSS
-- **Database:** PostgreSQL (รันผ่าน Docker Compose)
+- **Database:** MySQL (รันผ่าน Docker Compose)
 - **ORM:** [Prisma](https://www.prisma.io/)
 - **Authentication:** [NextAuth.js](https://next-auth.js.org/) (v5 beta)
 - **Maps:** Leaflet & React-Leaflet
@@ -27,41 +27,47 @@
 ## 📋 สิ่งที่ต้องมีก่อนเริ่มพัฒนา (Prerequisites)
 
 - [Node.js](https://nodejs.org/) (แนะนำเวอร์ชัน 20 ขึ้นไป)
-- [Docker Desktop](https://www.docker.com/products/docker-desktop) (สำหรับรัน PostgreSQL Database)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop) (สำหรับรัน MySQL Database)
 - Git
 
 ## 💻 วิธีการติดตั้งและรันโปรเจค (Getting Started)
 
 1. **โคลนโปรเจค (Clone the repository)**
+
    ```bash
    git clone https://github.com/Sakeerin/muslim-lifestyle-app.git
    cd muslim-pro
    ```
 
 2. **ติดตั้ง Dependencies**
+
    ```bash
    npm install
    ```
 
 3. **ตั้งค่า Environment Variables**
    สร้างไฟล์ `.env` ที่ root ของโปรเจค โดยกำหนดค่าที่จำเป็น เช่น ข้อมูลการเชื่อมต่อฐานข้อมูล (Database) คู่มือการตั้งค่าแบบเต็มน่าจะมีอ้างอิงจาก `.env.example`
+
    ```env
-   DATABASE_URL="postgresql://user:password@localhost:5432/muslim_pro?schema=public"
+   DATABASE_URL="mysql://user:password@localhost:3306/muslim_pro"
    ```
 
 4. **รัน Database (ด้วย Docker)**
+
    ```bash
    npm run db:up
    ```
 
 5. **ตั้งค่า Prisma (Database Migration)**
    เพื่อสร้างตารางในฐานข้อมูลตาม Schema ที่ออกแบบไว้
+
    ```bash
    npm run prisma:generate
    npm run prisma:migrate
    ```
 
 6. **รัน Development Server**
+
    ```bash
    npm run dev
    ```
@@ -81,16 +87,68 @@
 - `npm run dev`: รันเซิร์ฟเวอร์โหมด Development
 - `npm run build`: สร้าง Production Build สำหรับขึ้นระบบจริง
 - `npm run start`: รันเซิร์ฟเวอร์โหมด Production
-- `npm run db:up`: สตาร์ท PostgreSQL database ผ่าน Docker Compose แบบเบื้องหลัง (Detached)
+- `npm run db:up`: สตาร์ท MySQL database ผ่าน Docker Compose แบบเบื้องหลัง (Detached)
 - `npm run db:down`: หยุดและลบ Database Container
 - `npm run prisma:generate`: สร้าง Prisma Client หลังจากที่มีการแก้ไฟล์ Schema
 - `npm run prisma:migrate`: รัน Migration เผื่อทำการเปลี่ยนแปลงโครงสร้าง Database
+- `npm run prisma:migrate:deploy`: รัน Migration สำหรับ Production (ไม่สร้าง migration ใหม่)
 - `npm run prisma:studio`: เปิด Web UI ของ Prisma เพื่อจัดการข้อมูลใน Database แบบมองเห็นภาพ
 - `npm run format`: จัดรูปแบบโค้ด (Format) ด้วย Prettier
+
+## 🚀 Production Migration (MySQL / Hostinger)
+
+สำหรับการขึ้นระบบจริงบน MySQL (เช่น Hostinger Business Plan):
+
+1. ตั้งค่า `DATABASE_URL` ให้ชี้ไปยัง MySQL Production
+2. สร้าง Prisma Client
+   ```bash
+   npm run prisma:generate
+   ```
+3. รัน migration ที่ commit ไว้แล้ว
+   ```bash
+   npm run prisma:migrate:deploy
+   ```
+
+> แนะนำให้รัน `npm run prisma:migrate` บนเครื่อง dev ก่อน เพื่อสร้าง migration ใหม่ แล้ว commit โฟลเดอร์ `prisma/migrations` ทุกครั้งก่อน deploy
+
+## ✅ Hostinger Deployment Checklist (Business Plan)
+
+ลำดับที่แนะนำสำหรับ deploy ขึ้น Hostinger (MySQL):
+
+1. ตั้งค่า Environment Variables ใน Hostinger
+   - `DATABASE_URL` (MySQL production)
+   - `NEXTAUTH_URL` (โดเมนจริง เช่น `https://your-domain.com`)
+   - `NEXTAUTH_SECRET`
+   - `ADMIN_EMAIL`
+   - `ADMIN_PASSWORD_HASH`
+2. ติดตั้ง package
+   ```bash
+   npm ci
+   ```
+3. สร้าง Prisma Client
+   ```bash
+   npm run prisma:generate
+   ```
+4. รัน migration ที่อยู่ใน repo
+   ```bash
+   npm run prisma:migrate:deploy
+   ```
+5. Build และรันแอป
+   ```bash
+   npm run build
+   npm run start
+   ```
+
+Quick verify หลัง deploy:
+
+- เปิด `/api/lessons` และ `/api/duas` ต้องได้ `200`.
+- ล็อกอิน `/admin/login` ได้ และสร้างข้อมูลใหม่ได้จริง.
+- หน้า `/places` เรียกข้อมูลได้โดยไม่ error.
 
 ## 🤝 การมีส่วนร่วมในการพัฒนา (Contributing)
 
 สำหรับนักพัฒนาที่จะมาพัฒนาต่อหรือเข้ามาร่วมแจม:
+
 1. กรุณาแตก Branch ใหม่สำหรับแต่ละ Feature หรือ Bug Fix (`git checkout -b feature/your-feature-name` หรือ `bugfix/issue-name`)
 2. เขียนโค้ดโดยอิงจากโครงสร้างปัจจุบัน และพยายามใช้ TypeScript ในการ Define Type ให้ชัดเจน
 3. จัดรูปแบบโค้ดด้วยรูปแบบที่ตกลงกันไว้ (รัน `npm run format` หรือตั้งค่าแก้ไขผ่าน IDE)

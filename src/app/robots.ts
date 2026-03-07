@@ -7,8 +7,8 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/api/", "/admin/"],
     },
-    sitemap: process.env.NEXT_PUBLIC_APP_URL 
-        ? `${process.env.NEXT_PUBLIC_APP_URL}/sitemap.xml`
-        : "https://muslim-lifestyle-app.vercel.app/sitemap.xml",
+    sitemap: process.env.NEXT_PUBLIC_APP_URL
+      ? `${process.env.NEXT_PUBLIC_APP_URL}/sitemap.xml`
+      : "https://muslim-lifestyle-app.vercel.app/sitemap.xml",
   };
 }

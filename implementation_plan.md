@@ -7,10 +7,10 @@ Build a comprehensive, premium-quality Muslim Lifestyle App (PWA) with a robust 
 ## User Review Required
 
 > [!IMPORTANT]
-> **Database & Backend**: We will use **Prisma ORM** with **PostgreSQL** (or SQLite for dev) to manage dynamic content (Lessons, Duas, Places).
+> **Database & Backend**: We will use **Prisma ORM** with **MySQL** to manage dynamic content (Lessons, Duas, Places).
 > **Authentication**: **NextAuth.js** will secure the Admin Panel using credentials or OAuth providers.
 > **Maps**: **Leaflet** (OpenStreetMap) will be used for the Halal Places finder to avoid Google Maps costs.
-> **Deployment**: Recommended deployment on Vercel (Frontend/API) + Supabase/Neon (Postgres DB).
+> **Deployment**: Recommended deployment on Vercel (Frontend/API) + Hostinger MySQL (or any managed MySQL provider).
 
 ## Proposed Architecture
 
@@ -19,7 +19,7 @@ Build a comprehensive, premium-quality Muslim Lifestyle App (PWA) with a robust 
 - **Framework**: Next.js 14+ (App Router)
 - **Language**: TypeScript
 - **Styling**: Vanilla CSS Modules (for maximum performance & custom design) + CSS Variables for Theming.
-- **Database**: PostgreSQL (via Prisma ORM).
+- **Database**: MySQL (via Prisma ORM).
 - **Authentication**: NextAuth.js v5.
 - **State Management**: Zustand (for global app state like Location, User Settings).
 - **PWA**: `next-pwa` (Service Workers, Manifest).

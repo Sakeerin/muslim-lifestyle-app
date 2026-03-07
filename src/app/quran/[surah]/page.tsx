@@ -71,7 +71,7 @@ export default function SurahPage({ params }: SurahPageProps) {
       if (hintShown === "1") {
         setHasShownModeHint(true);
       }
-    } catch { }
+    } catch {}
 
     setHasMounted(true);
   }, [readingModeHintStorageKey, readingModeStorageKey]);
@@ -85,7 +85,7 @@ export default function SurahPage({ params }: SurahPageProps) {
       window.localStorage.setItem(readingModeStorageKey, readingMode ? "reading" : "compact");
       window.localStorage.setItem("quran-show-translation", String(showTranslation));
       window.localStorage.setItem("quran-translation-lang", translationLang);
-    } catch { }
+    } catch {}
   }, [hasMounted, readingMode, showTranslation, translationLang, readingModeStorageKey]);
 
   useEffect(() => {
@@ -108,7 +108,7 @@ export default function SurahPage({ params }: SurahPageProps) {
 
     try {
       window.localStorage.setItem(readingModeHintStorageKey, "1");
-    } catch { }
+    } catch {}
 
     if (hintTimeoutRef.current) {
       clearTimeout(hintTimeoutRef.current);
@@ -147,7 +147,9 @@ export default function SurahPage({ params }: SurahPageProps) {
       try {
         const [arabicResponse, translationResponse, audioResponse] = await Promise.all([
           fetch(`https://api.alquran.cloud/v1/surah/${surahId}`, { cache: "no-store" }),
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`, { cache: "no-store" }),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`, {
+            cache: "no-store",
+          }),
           fetch(`https://api.alquran.cloud/v1/surah/${surahId}/ar.alafasy`, { cache: "no-store" }),
         ]);
 
@@ -310,7 +312,11 @@ export default function SurahPage({ params }: SurahPageProps) {
         {showModeSavedHint ? (
           <p className={styles.modeSavedHint}>{t("surah.preferenceSaved")}</p>
         ) : null}
-        <VirtualizedAyahList ayahs={ayahs} mode={readingMode ? "reading" : "compact"} showTranslation={showTranslation} />
+        <VirtualizedAyahList
+          ayahs={ayahs}
+          mode={readingMode ? "reading" : "compact"}
+          showTranslation={showTranslation}
+        />
       </section>
     </div>
   );

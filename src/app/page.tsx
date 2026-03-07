@@ -49,17 +49,18 @@ export default function Home() {
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "name": "Muslim Lifestyle App",
-    "url": process.env.NEXT_PUBLIC_APP_URL || "https://muslim-lifestyle-app.vercel.app",
-    "description": "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
-    "potentialAction": {
+    name: "Muslim Lifestyle App",
+    url: process.env.NEXT_PUBLIC_APP_URL || "https://muslim-lifestyle-app.vercel.app",
+    description:
+      "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+    potentialAction: {
       "@type": "SearchAction",
-      "target": {
+      target: {
         "@type": "EntryPoint",
-        "urlTemplate": `${process.env.NEXT_PUBLIC_APP_URL || "https://muslim-lifestyle-app.vercel.app"}/quran?q={search_term_string}`
+        urlTemplate: `${process.env.NEXT_PUBLIC_APP_URL || "https://muslim-lifestyle-app.vercel.app"}/quran?q={search_term_string}`,
       },
-      "query-input": "required name=search_term_string"
-    }
+      "query-input": "required name=search_term_string",
+    },
   };
 
   return (
@@ -71,11 +72,13 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
-            <p className={mounted && resolvedTheme === 'light' ? styles.textWhite : ''}>
+            <p className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}>
               {mounted ? (date ?? t("home.todaySchedule")) : "--"}
             </p>
             <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
-            <p className={`${styles.countdown} ${mounted && resolvedTheme === 'light' ? styles.textWhite : ''}`.trim()}>
+            <p
+              className={`${styles.countdown} ${mounted && resolvedTheme === "light" ? styles.textWhite : ""}`.trim()}
+            >
               {mounted ? (loading ? "--:--:--" : countdown) : "--:--:--"}
             </p>
           </div>

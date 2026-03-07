@@ -21,7 +21,8 @@ export const metadata: Metadata = {
     default: "Muslim Lifestyle App",
     template: "%s | Muslim Lifestyle App",
   },
-  description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+  description:
+    "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
   applicationName: "MuslimPro",
   authors: [{ name: "MuslimPro Team" }],
   keywords: ["Muslim", "Islam", "Prayer Times", "Quran", "Qibla", "Dua", "Halal"],
@@ -32,10 +33,13 @@ export const metadata: Metadata = {
     address: false,
     telephone: false,
   },
-  metadataBase: process.env.NEXT_PUBLIC_APP_URL ? new URL(process.env.NEXT_PUBLIC_APP_URL) : undefined,
+  metadataBase: process.env.NEXT_PUBLIC_APP_URL
+    ? new URL(process.env.NEXT_PUBLIC_APP_URL)
+    : undefined,
   openGraph: {
     title: "Muslim Lifestyle App",
-    description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+    description:
+      "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
     url: "/",
     siteName: "Muslim Lifestyle App",
     locale: "en_US",
@@ -44,7 +48,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Muslim Lifestyle App",
-    description: "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
+    description:
+      "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
   },
   manifest: "/manifest.webmanifest",
   icons: {
