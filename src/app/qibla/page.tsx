@@ -76,6 +76,10 @@ export default function QiblaPage() {
   }, [location.coordinates.latitude, location.coordinates.longitude]);
 
   const requestIOSPermission = async () => {
+    if (typeof DeviceOrientationEvent === "undefined") {
+      return;
+    }
+
     const orientation = DeviceOrientationEvent as IOSOrientationPermission;
     if (!orientation.requestPermission) {
       return;

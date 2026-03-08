@@ -40,11 +40,22 @@ export type PrayerTimings = {
 
 const BASE_URL = "https://api.aladhan.com/v1";
 
-function cleanTime(value: string) {
+function cleanTime(value?: string) {
+  if (!value) return "00:00";
   return value.split(" ")[0] ?? value;
 }
 
-function normalizeTimings(timings: Record<string, string>): PrayerTimings {
+function normalizeTimings(timings?: Record<string, string>): PrayerTimings {
+  if (!timings) {
+    return {
+      Fajr: "05:00",
+      Dhuhr: "12:00",
+      Asr: "15:30",
+      Maghrib: "18:30",
+      Isha: "20:00",
+    };
+  }
+
   return {
     Fajr: cleanTime(timings.Fajr),
     Dhuhr: cleanTime(timings.Dhuhr),
@@ -77,8 +88,12 @@ export async function fetchTodayPrayerTimes(query: PrayerQuery) {
 
   const payload = (await response.json()) as TimingsResponse;
 
+  if (!payload || !payload.data || !payload.data.timings) {
+    throw new Error("Invalid API response structure");
+  }
+
   return {
-    date: payload.data.date.readable,
+    date: payload.data.date?.readable || new Date().toLocaleDateString(),
     timings: normalizeTimings(payload.data.timings),
   };
 }

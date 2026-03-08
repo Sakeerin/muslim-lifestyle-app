@@ -2,11 +2,15 @@ import type { PrayerTimings } from "@/lib/api-clients/aladhan";
 
 export const PRAYER_ORDER: Array<keyof PrayerTimings> = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"];
 
-function toDateFromTime(time: string) {
+function toDateFromTime(time?: string) {
+  if (!time || typeof time !== "string" || !time.includes(":")) {
+    return new Date();
+  }
+
   const [hourPart, minutePart] = time.split(":");
   const now = new Date();
-  const hours = Number(hourPart);
-  const minutes = Number(minutePart);
+  const hours = Number(hourPart) || 0;
+  const minutes = Number(minutePart) || 0;
 
   const date = new Date(now);
   date.setHours(hours, minutes, 0, 0);
