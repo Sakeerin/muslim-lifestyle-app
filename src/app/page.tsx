@@ -46,6 +46,8 @@ export default function Home() {
     [dailyWidgets],
   );
 
+  const fallbackContent = dailyWidgets[0];
+
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "WebSite",
@@ -65,28 +67,31 @@ export default function Home() {
 
   return (
     <div className={styles.dashboard}>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
-      />
+      {mounted && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      )}
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
-            <p className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}>
-              {mounted ? (date ?? t("home.todaySchedule")) : "--"}
+            <p suppressHydrationWarning className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}>
+              {date ?? t("home.todaySchedule")}
             </p>
             <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
             <p
+              suppressHydrationWarning
               className={`${styles.countdown} ${mounted && resolvedTheme === "light" ? styles.textWhite : ""}`.trim()}
             >
-              {mounted ? (loading ? "--:--:--" : countdown) : "--:--:--"}
+              {loading ? "--:--:--" : countdown}
             </p>
           </div>
           <label>
             {t("home.method")}
             <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
               {CALCULATION_METHODS.map((option) => (
-                <option key={option.value} value={option.value}>
+               <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
@@ -98,9 +103,11 @@ export default function Home() {
 
       <section className={styles.grid}>
         <article className={styles.card}>
-          <h2>{dailyContent.title}</h2>
-          <p className={styles.arabic}>{dailyContent.arabic}</p>
-          <p>{dailyContent.translation}</p>
+          <h2>{mounted ? dailyContent.title : fallbackContent.title}</h2>
+          <p className={styles.arabic}>
+            {mounted ? dailyContent.arabic : fallbackContent.arabic}
+          </p>
+          <p>{mounted ? dailyContent.translation : fallbackContent.translation}</p>
         </article>
 
         <article className={styles.card}>
