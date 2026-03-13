@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { BookOpen, Compass, Globe, Home, Settings, Sunrise } from "lucide-react";
+import { BookOpen, CalendarDays, Compass, Globe, Home, Settings, Sunrise } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./app-shell.module.css";
@@ -19,6 +19,7 @@ const navItems: NavItem[] = [
   { href: "/prayer-times", labelKey: "nav.prayers", icon: Sunrise },
   { href: "/quran", labelKey: "nav.quran", icon: BookOpen },
   { href: "/qibla", labelKey: "nav.qibla", icon: Compass },
+  { href: "/calendar", labelKey: "nav.calendar", icon: CalendarDays },
   { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 

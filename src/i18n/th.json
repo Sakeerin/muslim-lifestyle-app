@@ -3,6 +3,7 @@
   "nav.prayers": "เวลาละหมาด",
   "nav.quran": "อัลกุรอาน",
   "nav.qibla": "กิบลัต",
+  "nav.calendar": "ปฏิทิน",
   "nav.settings": "ตั้งค่า",
   "nav.brand": "มุสลิม คอมแพเนียน",
   "lang.toggle": "EN",
@@ -108,5 +109,15 @@
   "settings.upcomingOptions": "ฟีเจอร์ที่จะมาเร็วๆ นี้",
   "settings.prayerReminders": "ตั้งเตือนเวลาละหมาด",
   "settings.preferredReciter": "เลือกผู้อ่านและความเร็ว",
-  "settings.quranSync": "ซิงค์การอ่านอัลกุรอาน"
+  "settings.quranSync": "ซิงค์การอ่านอัลกุรอาน",
+  "calendar.title": "ปฏิทินอิสลาม",
+  "calendar.gregorian": "สากล (กรีกอเรียน)",
+  "calendar.hijri": "อิสลาม (ฮิจเราะห์)",
+  "calendar.today": "วันนี้",
+  "calendar.prevMonth": "เดือนก่อนหน้า",
+  "calendar.nextMonth": "เดือนถัดไป",
+  "calendar.events": "วันสำคัญเดือนนี้",
+  "calendar.noEvents": "ไม่มีวันสำคัญในเดือนนี้",
+  "calendar.islamic": "อิสลาม",
+  "calendar.international": "สากล"
 }

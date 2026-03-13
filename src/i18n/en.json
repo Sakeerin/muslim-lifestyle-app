@@ -3,6 +3,7 @@
   "nav.prayers": "Prayers",
   "nav.quran": "Quran",
   "nav.qibla": "Qibla",
+  "nav.calendar": "Calendar",
   "nav.settings": "Settings",
   "nav.brand": "Muslim Companion",
   "lang.toggle": "TH",
@@ -108,5 +109,15 @@
   "settings.upcomingOptions": "Upcoming options",
   "settings.prayerReminders": "Prayer reminder schedules",
   "settings.preferredReciter": "Preferred reciter and playback speed",
-  "settings.quranSync": "Quran reading progress sync"
+  "settings.quranSync": "Quran reading progress sync",
+  "calendar.title": "Islamic Calendar",
+  "calendar.gregorian": "Gregorian",
+  "calendar.hijri": "Islamic (Hijri)",
+  "calendar.today": "Today",
+  "calendar.prevMonth": "Previous month",
+  "calendar.nextMonth": "Next month",
+  "calendar.events": "Events this month",
+  "calendar.noEvents": "No notable events this month.",
+  "calendar.islamic": "Islamic",
+  "calendar.international": "International"
 }
