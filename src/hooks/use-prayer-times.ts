@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   fetchMonthlyPrayerCalendar,
   fetchTodayPrayerTimes,
@@ -22,6 +22,9 @@ type PrayerTimesState = {
 
 export function usePrayerTimes(method: number) {
   const location = useGeolocation();
+  const [dayString, setDayString] = useState(() => 
+    typeof window !== "undefined" ? new Date().toLocaleDateString() : ""
+  );
   const [state, setState] = useState<PrayerTimesState>({
     timings: null,
     date: null,
@@ -93,33 +96,34 @@ export function usePrayerTimes(method: number) {
     location.error,
     location.isLoading,
     method,
+    dayString,
   ]);
 
-  const nextPrayerInfo = useMemo(() => {
-    if (!state.timings) {
-      return null;
-    }
-
-    return getNextPrayer(state.timings);
-  }, [state.timings]);
-
   useEffect(() => {
-    if (!nextPrayerInfo) {
+    if (!state.timings) {
       return;
     }
 
     const timer = window.setInterval(() => {
+      const nowString = new Date().toLocaleDateString();
+      if (dayString && nowString !== dayString) {
+        setDayString(nowString);
+        return;
+      }
+
+      const currentNext = getNextPrayer(state.timings!);
+      
       setState((previous) => ({
         ...previous,
-        countdown: formatCountdown(nextPrayerInfo.prayerTime),
-        nextPrayer: nextPrayerInfo.prayerName,
+        countdown: formatCountdown(currentNext.prayerTime),
+        nextPrayer: currentNext.prayerName,
       }));
     }, 1000);
 
     return () => {
       window.clearInterval(timer);
     };
-  }, [nextPrayerInfo]);
+  }, [state.timings, dayString]);
 
   return {
     ...state,

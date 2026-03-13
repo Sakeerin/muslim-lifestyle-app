@@ -23,7 +23,8 @@ export function getNextPrayer(timings: PrayerTimings) {
   for (const prayerName of PRAYER_ORDER) {
     const prayerTime = toDateFromTime(timings[prayerName]);
 
-    if (prayerTime > now) {
+    // Keep it as "next" for 60 seconds after it starts to display "Now"
+    if (prayerTime.getTime() + 60000 > now.getTime()) {
       return { prayerName, prayerTime };
     }
   }

@@ -150,7 +150,11 @@ export default function PlacesPage() {
           <article key={place.id} className={styles.card}>
             <div className={styles.row}>
               <h2>{place.name}</h2>
-              <span>{Math.round(place.distanceMeters)} m</span>
+              <span>
+                {place.distanceMeters >= 1000
+                  ? `${(place.distanceMeters / 1000).toFixed(1)} km`
+                  : `${Math.round(place.distanceMeters)} m`}
+              </span>
             </div>
             <p>{place.type === "MOSQUE" ? t("places.mosque") : t("places.halalFoodLabel")}</p>
             {place.address ? <p>{place.address}</p> : null}
