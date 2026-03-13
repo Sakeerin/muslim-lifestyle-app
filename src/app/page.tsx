@@ -117,6 +117,9 @@ export default function Home() {
             <Link className={styles.quickLink} href="/calendar">
               {t("home.islamicCalendar")}
             </Link>
+            <Link className={styles.quickLink} href="/zakat">
+              {t("home.zakatCalculator")}
+            </Link>
             <Link className={styles.quickLink} href="/prayer-times">
               {t("home.prayerTimes")}
             </Link>
