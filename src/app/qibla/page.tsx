@@ -18,29 +18,32 @@ export default function QiblaPage() {
   const { t } = useI18n();
 
   useEffect(() => {
-    // We need to keep track of the accumulated rotation to prevent the needle 
+    // We need to keep track of the accumulated rotation to prevent the needle
     // from wildly spinning 360 degrees when crossing the North boundary (0 -> 359).
     let currentRotation = 0;
 
     const handleHeading = (newHeading: number) => {
-       setHeading(newHeading);
-       setOrientationReady(true);
+      setHeading(newHeading);
+      setOrientationReady(true);
 
-       // Compute the target rotation based on the bearing and current heading
-       // Qibla bearing is an absolute degree from North.
-       // Heading is the device's current clockwise degree from North.
-       const bearing = getQiblaBearing(location.coordinates.latitude, location.coordinates.longitude);
-       
-       // Calculate the shortest path to the new target rotation
-       const targetRotation = bearing - newHeading;
-       
-       // Normalize the rotation difference to be between -180 and 180 degrees
-       let diff = targetRotation - (currentRotation % 360);
-       if (diff > 180) diff -= 360;
-       if (diff < -180) diff += 360;
-       
-       currentRotation += diff;
-       setRotation(currentRotation);
+      // Compute the target rotation based on the bearing and current heading
+      // Qibla bearing is an absolute degree from North.
+      // Heading is the device's current clockwise degree from North.
+      const bearing = getQiblaBearing(
+        location.coordinates.latitude,
+        location.coordinates.longitude,
+      );
+
+      // Calculate the shortest path to the new target rotation
+      const targetRotation = bearing - newHeading;
+
+      // Normalize the rotation difference to be between -180 and 180 degrees
+      let diff = targetRotation - (currentRotation % 360);
+      if (diff > 180) diff -= 360;
+      if (diff < -180) diff += 360;
+
+      currentRotation += diff;
+      setRotation(currentRotation);
     };
 
     const onOrientation = (event: DeviceOrientationEvent) => {
@@ -61,7 +64,7 @@ export default function QiblaPage() {
 
     // Try listening to absolute orientation first (primarily for Android)
     window.addEventListener("deviceorientationabsolute", onOrientation as EventListener, true);
-    
+
     // Fallback to standard deviceorientation (used by iOS and older Androids)
     window.addEventListener("deviceorientation", onOrientation, true);
 

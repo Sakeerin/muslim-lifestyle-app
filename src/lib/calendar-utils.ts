@@ -532,7 +532,11 @@ export function getHijriMonthGrid(hijriYear: number, hijriMonth: number): DayCel
     const prevDate = new Date(startDate);
     prevDate.setDate(startDate.getDate() - (firstWeekday - i));
     grid.push({
-      greg: { year: prevDate.getFullYear(), month: prevDate.getMonth() + 1, day: prevDate.getDate() },
+      greg: {
+        year: prevDate.getFullYear(),
+        month: prevDate.getMonth() + 1,
+        day: prevDate.getDate(),
+      },
       hijri: toHijri(prevDate),
       isOtherMonth: true,
       isToday: false,

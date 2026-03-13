@@ -22,8 +22,8 @@ type PrayerTimesState = {
 
 export function usePrayerTimes(method: number) {
   const location = useGeolocation();
-  const [dayString, setDayString] = useState(() => 
-    typeof window !== "undefined" ? new Date().toLocaleDateString() : ""
+  const [dayString, setDayString] = useState(() =>
+    typeof window !== "undefined" ? new Date().toLocaleDateString() : "",
   );
   const [state, setState] = useState<PrayerTimesState>({
     timings: null,
@@ -112,7 +112,7 @@ export function usePrayerTimes(method: number) {
       }
 
       const currentNext = getNextPrayer(state.timings!);
-      
+
       setState((previous) => ({
         ...previous,
         countdown: formatCountdown(currentNext.prayerTime),

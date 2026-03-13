@@ -67,7 +67,10 @@ export default function CalendarPage() {
   // Grid data
   // ------------------------------------------------------------------
   const gregGrid = useMemo(() => getMonthGrid(gregYear, gregMonth), [gregYear, gregMonth]);
-  const hijriGrid = useMemo(() => getHijriMonthGrid(hijriYear, hijriMonth), [hijriYear, hijriMonth]);
+  const hijriGrid = useMemo(
+    () => getHijriMonthGrid(hijriYear, hijriMonth),
+    [hijriYear, hijriMonth],
+  );
   const grid = mode === "gregorian" ? gregGrid : hijriGrid;
 
   // ------------------------------------------------------------------
@@ -287,8 +290,7 @@ export default function CalendarPage() {
 
         {/* Day cells */}
         {grid.map((cell, idx) => {
-          const primaryNum =
-            mode === "gregorian" ? cell.greg.day : cell.hijri.day;
+          const primaryNum = mode === "gregorian" ? cell.greg.day : cell.hijri.day;
           const secondaryLabel = cellSecondaryLabel(cell);
           const islamicDots = cell.events.filter((e) => e.category === "islamic");
           const intlDots = cell.events.filter((e) => e.category === "international");
