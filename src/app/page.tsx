@@ -76,7 +76,10 @@ export default function Home() {
       <section className={styles.hero}>
         <div className={styles.heroTop}>
           <div>
-            <p suppressHydrationWarning className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}>
+            <p
+              suppressHydrationWarning
+              className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}
+            >
               {date ?? t("home.todaySchedule")}
             </p>
             <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
@@ -91,7 +94,7 @@ export default function Home() {
             {t("home.method")}
             <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
               {CALCULATION_METHODS.map((option) => (
-               <option key={option.value} value={option.value}>
+                <option key={option.value} value={option.value}>
                   {option.label}
                 </option>
               ))}
@@ -104,15 +107,16 @@ export default function Home() {
       <section className={styles.grid}>
         <article className={styles.card}>
           <h2>{mounted ? dailyContent.title : fallbackContent.title}</h2>
-          <p className={styles.arabic}>
-            {mounted ? dailyContent.arabic : fallbackContent.arabic}
-          </p>
+          <p className={styles.arabic}>{mounted ? dailyContent.arabic : fallbackContent.arabic}</p>
           <p>{mounted ? dailyContent.translation : fallbackContent.translation}</p>
         </article>
 
         <article className={styles.card}>
           <h2>{t("home.quickAccess")}</h2>
           <div className={styles.quickGrid}>
+            <Link className={styles.quickLink} href="/calendar">
+              {t("home.islamicCalendar")}
+            </Link>
             <Link className={styles.quickLink} href="/prayer-times">
               {t("home.prayerTimes")}
             </Link>

@@ -12,6 +12,7 @@ type NavItem = {
   href: string;
   labelKey: string;
   icon: typeof Home;
+  mobileHide?: boolean;
 };
 
 const navItems: NavItem[] = [
@@ -19,7 +20,7 @@ const navItems: NavItem[] = [
   { href: "/prayer-times", labelKey: "nav.prayers", icon: Sunrise },
   { href: "/quran", labelKey: "nav.quran", icon: BookOpen },
   { href: "/qibla", labelKey: "nav.qibla", icon: Compass },
-  { href: "/calendar", labelKey: "nav.calendar", icon: CalendarDays },
+  { href: "/calendar", labelKey: "nav.calendar", icon: CalendarDays, mobileHide: true },
   { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 
@@ -85,20 +86,22 @@ export function AppShell({ children }: AppShellProps) {
       <main className={styles.main}>{children}</main>
 
       <nav className={styles.mobileNav}>
-        {navItems.map(({ href, labelKey, icon: Icon }) => {
-          const active = isActive(pathname, href);
+        {navItems
+          .filter((item) => !item.mobileHide)
+          .map(({ href, labelKey, icon: Icon }) => {
+            const active = isActive(pathname, href);
 
-          return (
-            <Link
-              key={href}
-              href={href}
-              className={`${styles.mobileLink} ${active ? styles.mobileActive : ""}`}
-            >
-              <Icon />
-              <span>{t(labelKey)}</span>
-            </Link>
-          );
-        })}
+            return (
+              <Link
+                key={href}
+                href={href}
+                className={`${styles.mobileLink} ${active ? styles.mobileActive : ""}`}
+              >
+                <Icon />
+                <span>{t(labelKey)}</span>
+              </Link>
+            );
+          })}
       </nav>
     </div>
   );
