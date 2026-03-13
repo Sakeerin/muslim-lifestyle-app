@@ -136,7 +136,7 @@
   "zakat.silverPriceLabel": "Silver price per gram",
   "zakat.priceHint": "Enter price in your local currency, or wait for auto-fetch",
   "zakat.fetchingPrices": "Fetching live price...",
-  "zakat.autoPrice": "Live price · USD/g",
+  "zakat.autoPrice": "Live price · {currency}/g",
   "zakat.priceSource": "Source: metals.live",
   "zakat.priceError": "Could not load live price. Enter manually.",
   "zakat.useAutoPrice": "Restore live price",
@@ -172,5 +172,9 @@
   "zakat.helpStep3": "Assets — Enter current market value of: cash & bank, gold, silver, business inventory, investments, and receivables held for ≥ 1 lunar year.",
   "zakat.helpStep4": "Liabilities — Only debts due within this lunar year. Do not include multi-year mortgage balance (only the current year’s instalment).",
   "zakat.helpStep5": "Results — Update in real-time. If Net Wealth ≥ Nisab: Zakat Due = Net Wealth × 2.5%.",
-  "zakat.helpExample": "Example: gold 102.88 USD/g · assets 30,000 − debts 3,000 = net 27,000 · nisab ≈ 9,000 → Zakat due: 675.00 USD"
+  "zakat.helpExample": "Example: gold 102.88 USD/g · assets 30,000 − debts 3,000 = net 27,000 · nisab ≈ 9,000 → Zakat due: 675.00 USD",
+  "zakat.currencySection": "Currency",
+  "zakat.currencyTHB": "THB (฿)",
+  "zakat.currencyUSD": "USD ($)",
+  "zakat.exchangeRateNote": "1 USD ≈ {rate} THB"
 }

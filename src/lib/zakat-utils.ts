@@ -1,6 +1,22 @@
 // Pure Zakat calculation utilities. No external dependencies.
 
 // ---------------------------------------------------------------------------
+// Currency
+// ---------------------------------------------------------------------------
+
+export type Currency = "THB" | "USD";
+
+const CURRENCY_SYMBOLS: Record<Currency, string> = {
+  THB: "฿",
+  USD: "$",
+};
+
+function addThousandsSep(n: number): string {
+  const [int, dec] = n.toFixed(2).split(".");
+  return int.replace(/\B(?=(\d{3})+(?!\d))/g, ",") + "." + dec;
+}
+
+// ---------------------------------------------------------------------------
 // Types
 // ---------------------------------------------------------------------------
 
@@ -100,9 +116,9 @@ export function calculateZakat(
 }
 
 /**
- * Format a number with 2 decimal places for display.
- * Uses toFixed to avoid locale-dependent separators (prevents hydration mismatch).
+ * Format a monetary value with currency symbol and thousands separators.
+ * Uses regex (not toLocaleString) to avoid locale-dependent output and hydration mismatches.
  */
-export function formatCurrency(value: number): string {
-  return value.toFixed(2);
+export function formatCurrency(value: number, currency: Currency = "USD"): string {
+  return CURRENCY_SYMBOLS[currency] + addThousandsSep(value);
 }

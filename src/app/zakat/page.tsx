@@ -6,11 +6,14 @@ import {
   calculateZakat,
   calculateNisab,
   formatCurrency,
+  type Currency,
   type NisabStandard,
 } from "@/lib/zakat-utils";
 import { useMetalPrices } from "@/hooks/use-metal-prices";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
+
+const CURRENCY_KEY = "zakat-currency";
 
 function parseNum(s: string): number {
   const n = parseFloat(s);
@@ -21,10 +24,42 @@ export default function ZakatPage() {
   const { t } = useI18n();
   const { data: metalPrices, loading: pricesLoading, error: pricesError } = useMetalPrices();
 
+  // Currency preference (default THB)
+  const [currency, setCurrencyState] = useState<Currency>(() => {
+    if (typeof window !== "undefined") {
+      try {
+        const stored = localStorage.getItem(CURRENCY_KEY);
+        if (stored === "THB" || stored === "USD") return stored as Currency;
+      } catch {}
+    }
+    return "THB";
+  });
+
+  function setCurrency(next: Currency) {
+    setCurrencyState(next);
+    setManualPrice(null);
+    try {
+      localStorage.setItem(CURRENCY_KEY, next);
+    } catch {}
+  }
+
   // Nisab section
   const [nisabStandard, setNisabStandard] = useState<NisabStandard>("gold");
-  const [pricePerGram, setPricePerGram] = useState("");
-  const [isManualPrice, setIsManualPrice] = useState(false);
+  const [manualPrice, setManualPrice] = useState<string | null>(null);
+
+  const pricePerGram = useMemo(() => {
+    if (manualPrice !== null) return manualPrice;
+    if (!metalPrices) return "";
+
+    const rawUsd =
+      nisabStandard === "gold" ? metalPrices.goldPerGram : metalPrices.silverPerGram;
+    const price =
+      currency === "THB" && metalPrices.usdToThb ? rawUsd * metalPrices.usdToThb : rawUsd;
+    const decimals = currency === "THB" ? 2 : 4;
+    return price.toFixed(decimals);
+  }, [metalPrices, nisabStandard, currency, manualPrice]);
+
+  const isManualPrice = manualPrice !== null;
 
   // Assets
   const [cash, setCash] = useState("0");
@@ -37,19 +72,7 @@ export default function ZakatPage() {
   // Liabilities
   const [debts, setDebts] = useState("0");
 
-  // ---------------------------------------------------------------------------
-  // Auto-fill price when data loads or standard changes (unless manually edited)
-  // ---------------------------------------------------------------------------
-  useEffect(() => {
-    if (!metalPrices || isManualPrice) return;
-    const price =
-      nisabStandard === "gold" ? metalPrices.goldPerGram : metalPrices.silverPerGram;
-    setPricePerGram(price.toFixed(4));
-  }, [metalPrices, nisabStandard, isManualPrice]);
-
-  // ---------------------------------------------------------------------------
   // Real-time calculation
-  // ---------------------------------------------------------------------------
   const result = useMemo(
     () =>
       calculateZakat(
@@ -64,7 +87,17 @@ export default function ZakatPage() {
         { debts: parseNum(debts) },
         { standard: nisabStandard, pricePerGram: parseNum(pricePerGram) },
       ),
-    [cash, goldValue, silverValue, business, investments, receivables, debts, nisabStandard, pricePerGram],
+    [
+      cash,
+      goldValue,
+      silverValue,
+      business,
+      investments,
+      receivables,
+      debts,
+      nisabStandard,
+      pricePerGram,
+    ],
   );
 
   const nisabDisplay = useMemo(
@@ -72,21 +105,16 @@ export default function ZakatPage() {
     [nisabStandard, pricePerGram],
   );
 
-  // ---------------------------------------------------------------------------
-  // Handlers
-  // ---------------------------------------------------------------------------
   function handlePriceChange(value: string) {
-    setPricePerGram(value);
-    setIsManualPrice(true);
+    setManualPrice(value);
   }
 
   function handleRestoreAutoPrice() {
-    setIsManualPrice(false);
+    setManualPrice(null);
   }
 
   function handleReset() {
-    setPricePerGram("");
-    setIsManualPrice(false);
+    setManualPrice(null);
     setCash("0");
     setGoldValue("0");
     setSilverValue("0");
@@ -96,9 +124,6 @@ export default function ZakatPage() {
     setDebts("0");
   }
 
-  // ---------------------------------------------------------------------------
-  // Render
-  // ---------------------------------------------------------------------------
   return (
     <div className={styles.page}>
       {/* ---- Header ---- */}
@@ -111,6 +136,32 @@ export default function ZakatPage() {
           <p>{t("zakat.subtitle")}</p>
         </div>
       </section>
+
+      {/* ---- Currency selector ---- */}
+      <div className={styles.currencyBar}>
+        <span className={styles.currencyLabel}>{t("zakat.currencySection")}</span>
+        <div className={styles.currencyToggle}>
+          <button
+            type="button"
+            className={`${styles.currencyBtn} ${currency === "THB" ? styles.currencyBtnActive : ""}`}
+            onClick={() => setCurrency("THB")}
+          >
+            {t("zakat.currencyTHB")}
+          </button>
+          <button
+            type="button"
+            className={`${styles.currencyBtn} ${currency === "USD" ? styles.currencyBtnActive : ""}`}
+            onClick={() => setCurrency("USD")}
+          >
+            {t("zakat.currencyUSD")}
+          </button>
+        </div>
+        {currency === "THB" && metalPrices?.usdToThb && (
+          <span className={styles.exchangeNote}>
+            {t("zakat.exchangeRateNote", { rate: metalPrices.usdToThb.toFixed(2) })}
+          </span>
+        )}
+      </div>
 
       {/* ---- Hawl reminder ---- */}
       <div className={styles.hawlBanner}>
@@ -192,7 +243,6 @@ export default function ZakatPage() {
             )}
           </div>
 
-          {/* Status badge */}
           {pricesLoading && (
             <span className={styles.priceBadge}>{t("zakat.fetchingPrices")}</span>
           )}
@@ -203,7 +253,7 @@ export default function ZakatPage() {
           )}
           {metalPrices && !isManualPrice && (
             <span className={`${styles.priceBadge} ${styles.priceBadgeAuto}`}>
-              {t("zakat.autoPrice")} · {t("zakat.priceSource")}
+              {t("zakat.autoPrice", { currency })} · {t("zakat.priceSource")}
             </span>
           )}
           {metalPrices && isManualPrice && (
@@ -220,7 +270,7 @@ export default function ZakatPage() {
         {nisabDisplay > 0 && (
           <div className={styles.nisabResult}>
             <span className={styles.nisabResultLabel}>{t("zakat.nisabThreshold")}</span>
-            <span className={styles.nisabResultValue}>{formatCurrency(nisabDisplay)}</span>
+            <span className={styles.nisabResultValue}>{formatCurrency(nisabDisplay, currency)}</span>
           </div>
         )}
       </section>
@@ -363,22 +413,22 @@ export default function ZakatPage() {
         <div className={styles.resultsList}>
           <div className={styles.resultRow}>
             <span className={styles.resultLabel}>{t("zakat.totalAssets")}</span>
-            <span className={styles.resultValue}>{formatCurrency(result.totalAssets)}</span>
+            <span className={styles.resultValue}>{formatCurrency(result.totalAssets, currency)}</span>
           </div>
           <div className={styles.resultRow}>
             <span className={styles.resultLabel}>{t("zakat.totalDebts")}</span>
             <span className={`${styles.resultValue} ${styles.resultDebt}`}>
-              − {formatCurrency(result.totalLiabilities)}
+              − {formatCurrency(result.totalLiabilities, currency)}
             </span>
           </div>
           <div className={`${styles.resultRow} ${styles.resultRowNet}`}>
             <span className={styles.resultLabel}>{t("zakat.netWealth")}</span>
-            <span className={styles.resultValue}>{formatCurrency(result.netWealth)}</span>
+            <span className={styles.resultValue}>{formatCurrency(result.netWealth, currency)}</span>
           </div>
           {result.nisabThreshold > 0 && (
             <div className={styles.resultRow}>
               <span className={styles.resultLabel}>{t("zakat.nisabThreshold")}</span>
-              <span className={styles.resultValue}>{formatCurrency(result.nisabThreshold)}</span>
+              <span className={styles.resultValue}>{formatCurrency(result.nisabThreshold, currency)}</span>
             </div>
           )}
         </div>
@@ -392,7 +442,7 @@ export default function ZakatPage() {
         {result.isEligible && (
           <div className={styles.zakatDueBox}>
             <p className={styles.zakatDueLabel}>{t("zakat.zakatDue")}</p>
-            <p className={styles.zakatDueAmount}>{formatCurrency(result.zakatDue)}</p>
+            <p className={styles.zakatDueAmount}>{formatCurrency(result.zakatDue, currency)}</p>
             <p className={styles.zakatRate}>{t("zakat.rateNote")}</p>
           </div>
         )}
