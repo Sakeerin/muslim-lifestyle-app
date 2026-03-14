@@ -95,7 +95,7 @@
 - `npm run prisma:studio`: เปิด Web UI ของ Prisma เพื่อจัดการข้อมูลใน Database แบบมองเห็นภาพ
 - `npm run format`: จัดรูปแบบโค้ด (Format) ด้วย Prettier
 
-## 🚀 Production Migration (MySQL / Hostinger)
+<!-- ## 🚀 Production Migration (MySQL / Hostinger)
 
 สำหรับการขึ้นระบบจริงบน MySQL (เช่น Hostinger Business Plan):
 
@@ -143,7 +143,7 @@ Quick verify หลัง deploy:
 
 - เปิด `/api/lessons` และ `/api/duas` ต้องได้ `200`.
 - ล็อกอิน `/admin/login` ได้ และสร้างข้อมูลใหม่ได้จริง.
-- หน้า `/places` เรียกข้อมูลได้โดยไม่ error.
+- หน้า `/places` เรียกข้อมูลได้โดยไม่ error. -->
 
 ## 🤝 การมีส่วนร่วมในการพัฒนา (Contributing)
 
