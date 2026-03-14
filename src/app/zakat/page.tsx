@@ -51,8 +51,7 @@ export default function ZakatPage() {
     if (manualPrice !== null) return manualPrice;
     if (!metalPrices) return "";
 
-    const rawUsd =
-      nisabStandard === "gold" ? metalPrices.goldPerGram : metalPrices.silverPerGram;
+    const rawUsd = nisabStandard === "gold" ? metalPrices.goldPerGram : metalPrices.silverPerGram;
     const price =
       currency === "THB" && metalPrices.usdToThb ? rawUsd * metalPrices.usdToThb : rawUsd;
     const decimals = currency === "THB" ? 2 : 4;
@@ -243,9 +242,7 @@ export default function ZakatPage() {
             )}
           </div>
 
-          {pricesLoading && (
-            <span className={styles.priceBadge}>{t("zakat.fetchingPrices")}</span>
-          )}
+          {pricesLoading && <span className={styles.priceBadge}>{t("zakat.fetchingPrices")}</span>}
           {pricesError && (
             <span className={`${styles.priceBadge} ${styles.priceBadgeError}`}>
               {t("zakat.priceError")}
@@ -257,11 +254,7 @@ export default function ZakatPage() {
             </span>
           )}
           {metalPrices && isManualPrice && (
-            <button
-              type="button"
-              className={styles.restoreLink}
-              onClick={handleRestoreAutoPrice}
-            >
+            <button type="button" className={styles.restoreLink} onClick={handleRestoreAutoPrice}>
               {t("zakat.useAutoPrice")}
             </button>
           )}
@@ -270,7 +263,9 @@ export default function ZakatPage() {
         {nisabDisplay > 0 && (
           <div className={styles.nisabResult}>
             <span className={styles.nisabResultLabel}>{t("zakat.nisabThreshold")}</span>
-            <span className={styles.nisabResultValue}>{formatCurrency(nisabDisplay, currency)}</span>
+            <span className={styles.nisabResultValue}>
+              {formatCurrency(nisabDisplay, currency)}
+            </span>
           </div>
         )}
       </section>
@@ -413,7 +408,9 @@ export default function ZakatPage() {
         <div className={styles.resultsList}>
           <div className={styles.resultRow}>
             <span className={styles.resultLabel}>{t("zakat.totalAssets")}</span>
-            <span className={styles.resultValue}>{formatCurrency(result.totalAssets, currency)}</span>
+            <span className={styles.resultValue}>
+              {formatCurrency(result.totalAssets, currency)}
+            </span>
           </div>
           <div className={styles.resultRow}>
             <span className={styles.resultLabel}>{t("zakat.totalDebts")}</span>
@@ -428,7 +425,9 @@ export default function ZakatPage() {
           {result.nisabThreshold > 0 && (
             <div className={styles.resultRow}>
               <span className={styles.resultLabel}>{t("zakat.nisabThreshold")}</span>
-              <span className={styles.resultValue}>{formatCurrency(result.nisabThreshold, currency)}</span>
+              <span className={styles.resultValue}>
+                {formatCurrency(result.nisabThreshold, currency)}
+              </span>
             </div>
           )}
         </div>

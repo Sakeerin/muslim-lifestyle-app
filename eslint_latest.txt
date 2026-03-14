@@ -1,0 +1,37 @@
+﻿
+D:\Projects\muslim-pro\src\app\zakat\page.tsx
+  33:49  error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Projects\muslim-pro\src\app\zakat\page.tsx:33:49
+  31 |     try {
+  32 |       const stored = localStorage.getItem(CURRENCY_KEY);
+> 33 |       if (stored === "THB" || stored === "USD") setCurrencyState(stored);
+     |                                                 ^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  34 |     } catch {}
+  35 |   }, []);
+  36 |                                                                                 react-hooks/set-state-in-effect
+  69:5   error  Error: Calling setState synchronously within an effect can trigger cascading renders
+
+Effects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:
+* Update external systems with the latest state from React.
+* Subscribe for updates from some external system, calling setState in a callback function when external state changes.
+
+Calling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).
+
+D:\Projects\muslim-pro\src\app\zakat\page.tsx:69:5
+  67 |       currency === "THB" && metalPrices.usdToThb ? rawUsd * metalPrices.usdToThb : rawUsd;
+  68 |     const decimals = currency === "THB" ? 2 : 4;
+> 69 |     setPricePerGram(price.toFixed(decimals));
+     |     ^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect
+  70 |   }, [metalPrices, nisabStandard, isManualPrice, currency, setPricePerGram]);
+  71 |
+  72 |   // Real-time calculation  react-hooks/set-state-in-effect
+
+โ– 2 problems (2 errors, 0 warnings)
+

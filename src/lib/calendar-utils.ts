@@ -216,20 +216,6 @@ const ISLAMIC_EVENT_DEFS: IslamicEventDef[] = [
     hijriDay: 1,
   },
   {
-    key: "eid_al_fitr_2",
-    nameEn: "Eid al-Fitr (Day 2)",
-    nameTh: "วันอีดิลฟิฏร์ (วันที่ 2)",
-    hijriMonth: 10,
-    hijriDay: 2,
-  },
-  {
-    key: "eid_al_fitr_3",
-    nameEn: "Eid al-Fitr (Day 3)",
-    nameTh: "วันอีดิลฟิฏร์ (วันที่ 3)",
-    hijriMonth: 10,
-    hijriDay: 3,
-  },
-  {
     key: "day_of_arafah",
     nameEn: "Day of Arafah (Wuquf)",
     nameTh: "วันเอาะเราะฟะฮ์ (วูกุฟ)",
@@ -356,28 +342,31 @@ export function getEventsForMonth(year: number, month: number): CalendarEvent[] 
   const events: CalendarEvent[] = [];
   const totalDays = daysInGregorianMonth(year, month);
 
-  // Build a map: "hijriMonth-hijriDay" → list of Gregorian days in this month
+  // Extend scan 3 days past month end so multi-day events (e.g. Eid al-Fitr Day 1-3)
+  // that straddle a Gregorian month boundary are all captured.
+  const OVERFLOW = 3;
   const hijriToGreg = new Map<string, number>();
-  for (let d = 1; d <= totalDays; d++) {
-    const hijri = toHijri(new Date(year, month - 1, d));
+  for (let d = 1; d <= totalDays + OVERFLOW; d++) {
+    const hijri = toHijri(new Date(year, month - 1, d)); // JS Date handles overflow correctly
     const hKey = `${hijri.month}-${hijri.day}`;
     if (!hijriToGreg.has(hKey)) {
       hijriToGreg.set(hKey, d);
     }
   }
 
-  // Islamic events
+  // Islamic events — use actual Gregorian date so overflow days get the right month/day
   for (const def of ISLAMIC_EVENT_DEFS) {
     const hKey = `${def.hijriMonth}-${def.hijriDay}`;
-    const gregDay = hijriToGreg.get(hKey);
-    if (gregDay !== undefined) {
+    const d = hijriToGreg.get(hKey);
+    if (d !== undefined) {
+      const actualDate = new Date(year, month - 1, d); // resolves overflow into next month
       events.push({
         key: def.key,
         nameEn: def.nameEn,
         nameTh: def.nameTh,
         category: "islamic",
-        gregMonth: month,
-        gregDay: gregDay,
+        gregMonth: actualDate.getMonth() + 1,
+        gregDay: actualDate.getDate(),
       });
     }
   }

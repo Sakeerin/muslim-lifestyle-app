@@ -3,7 +3,16 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
-import { BookOpen, CalendarDays, Coins, Compass, Globe, Home, Settings, Sunrise } from "lucide-react";
+import {
+  BookOpen,
+  CalendarDays,
+  Coins,
+  Compass,
+  Globe,
+  Home,
+  Settings,
+  Sunrise,
+} from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./app-shell.module.css";

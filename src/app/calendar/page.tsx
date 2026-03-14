@@ -337,14 +337,20 @@ export default function CalendarPage() {
           <div className={styles.eventList}>
             {events
               .slice()
-              .sort((a, b) => a.gregDay - b.gregDay)
+              .sort((a, b) => {
+                // Sort chronologically; overflow events (next month) come after current month
+                const baseMonth = mode === "gregorian" ? gregMonth : 0;
+                const aVal = (a.gregMonth - baseMonth) * 100 + a.gregDay;
+                const bVal = (b.gregMonth - baseMonth) * 100 + b.gregDay;
+                return aVal - bVal;
+              })
               .map((ev) => {
                 const isIslamic = ev.category === "islamic";
                 const dateLabel =
                   mode === "gregorian"
                     ? isEn
-                      ? `${GREG_MONTHS_EN[gregMonth - 1]} ${ev.gregDay}`
-                      : `${ev.gregDay} ${GREG_MONTHS_TH[gregMonth - 1]}`
+                      ? `${GREG_MONTHS_EN[ev.gregMonth - 1] ?? ""} ${ev.gregDay}`
+                      : `${ev.gregDay} ${GREG_MONTHS_TH[ev.gregMonth - 1] ?? ""}`
                     : ev.gregDay > 0
                       ? `${ev.gregDay}/${ev.gregMonth}`
                       : "";

@@ -169,7 +169,7 @@
 }
 
 .helpSummary::before {
-  content: '▸';
+  content: "▸";
   font-size: 0.75rem;
   transition: transform 0.2s;
   display: inline-block;
@@ -329,7 +329,9 @@
   background: transparent;
   color: var(--color-fg-muted, #888);
   cursor: pointer;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .restoreBtn:hover {
@@ -405,7 +407,9 @@
   background: var(--color-surface-1, transparent);
   color: var(--color-fg);
   font-size: 0.95rem;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
   box-sizing: border-box;
 }
 

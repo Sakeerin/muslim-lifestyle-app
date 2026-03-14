@@ -23,10 +23,10 @@ function addThousandsSep(n: number): string {
 export type NisabStandard = "gold" | "silver";
 
 export interface ZakatAssets {
-  cash: number;        // Cash, bank balances
-  goldValue: number;   // Market value of gold owned
+  cash: number; // Cash, bank balances
+  goldValue: number; // Market value of gold owned
   silverValue: number; // Market value of silver owned
-  business: number;    // Business inventory / trade goods
+  business: number; // Business inventory / trade goods
   investments: number; // Stocks, funds, shares (market value)
   receivables: number; // Money owed to you (expected to be received)
 }
@@ -46,7 +46,7 @@ export interface ZakatResult {
   netWealth: number;
   nisabThreshold: number;
   isEligible: boolean; // netWealth >= nisabThreshold (and nisabThreshold > 0)
-  zakatDue: number;    // 0 if not eligible, else netWealth * ZAKAT_RATE
+  zakatDue: number; // 0 if not eligible, else netWealth * ZAKAT_RATE
 }
 
 // ---------------------------------------------------------------------------
