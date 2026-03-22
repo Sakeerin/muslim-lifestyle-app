@@ -29,7 +29,11 @@ function parseType(value?: string | null) {
 }
 
 function typeFromTags(tags: Record<string, string>) {
-  if (tags.amenity === "place_of_worship" && tags.religion === "muslim") {
+  if (
+    (tags.amenity === "place_of_worship" && tags.religion === "muslim") ||
+    tags.building === "mosque" ||
+    tags.amenity === "mosque"
+  ) {
     return PlaceType.MOSQUE;
   }
 
@@ -45,11 +49,21 @@ function asPlace(element: OverpassElement, lat: number, lng: number): PlaceWithD
     return null;
   }
 
-  const name = tags.name ?? tags["name:en"] ?? "Unnamed place";
+  const localName = tags["name:th"] ?? tags.name;
+  const englishName = tags["name:en"];
+  const name = localName
+    ? englishName && englishName !== localName
+      ? `${localName} (${englishName})`
+      : localName
+    : (englishName ?? "Unnamed place");
+
   const addressParts = [
-    tags["addr:street"],
+    tags["addr:housename"],
     tags["addr:housenumber"],
-    tags["addr:city"],
+    tags["addr:street"],
+    tags["addr:subdistrict"],
+    tags["addr:district"],
+    tags["addr:city"] ?? tags["addr:province"],
     tags["addr:postcode"],
   ].filter(Boolean);
 
@@ -68,16 +82,23 @@ function asPlace(element: OverpassElement, lat: number, lng: number): PlaceWithD
 }
 
 async function fetchOverpassPlaces(lat: number, lng: number, radius: number) {
-  const query = `[out:json][timeout:15];
+  const query = `[out:json][timeout:20];
 (
   node["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lng});
   way["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lng});
+  relation["amenity"="place_of_worship"]["religion"="muslim"](around:${radius},${lat},${lng});
+  node["building"="mosque"](around:${radius},${lat},${lng});
+  way["building"="mosque"](around:${radius},${lat},${lng});
   node["shop"="halal"](around:${radius},${lat},${lng});
   way["shop"="halal"](around:${radius},${lat},${lng});
   node["cuisine"~"halal",i](around:${radius},${lat},${lng});
   way["cuisine"~"halal",i](around:${radius},${lat},${lng});
+  node["amenity"~"restaurant|fast_food|cafe"]["halal"="yes"](around:${radius},${lat},${lng});
+  way["amenity"~"restaurant|fast_food|cafe"]["halal"="yes"](around:${radius},${lat},${lng});
+  node["diet:halal"="yes"](around:${radius},${lat},${lng});
+  way["diet:halal"="yes"](around:${radius},${lat},${lng});
 );
-out center 50;`;
+out center 100;`;
 
   const response = await fetch("https://overpass-api.de/api/interpreter", {
     method: "POST",
