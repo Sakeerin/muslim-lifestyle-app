@@ -26,6 +26,7 @@
   "home.halalPlaces": "สถานที่ฮาลาล",
   "home.appSettings": "ตั้งค่าแอป",
   "home.todayIntention": "เนียตวันนี้",
+  "home.hijriDate": "{day} {month} {year} ฮ.ศ.",
   "home.intentionBody": "เริ่มต้นด้วยการทบทวนตัวเองสองนาที จากนั้นเปิดโหมดอัลกุรอานเพื่ออ่านต่อจากที่ค้างไว้",
   "prayerTimes.title": "เวลาละหมาด",
   "prayerTimes.fetchingSchedule": "กำลังโหลดตารางเวลา...",

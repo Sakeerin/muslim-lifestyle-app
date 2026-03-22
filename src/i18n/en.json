@@ -26,6 +26,7 @@
   "home.halalPlaces": "Halal Places",
   "home.appSettings": "App Settings",
   "home.todayIntention": "Today's intention",
+  "home.hijriDate": "{day} {month} {year} AH",
   "home.intentionBody": "Begin with two minutes of reflection, then open Quran mode to continue your recitation where you left off.",
   "prayerTimes.title": "Prayer Times",
   "prayerTimes.fetchingSchedule": "Fetching schedule...",

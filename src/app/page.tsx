@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
+import { toHijri } from "@/lib/calendar-utils";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 import enDuasData from "./duas/en.json";
@@ -21,6 +22,12 @@ export default function Home() {
   const { countdown, date, error, loading, nextPrayer } = usePrayerTimes(method);
   const { t, locale } = useI18n();
   const { resolvedTheme } = useTheme();
+
+  const hijriLabel = useMemo(() => {
+    const h = toHijri(new Date());
+    const monthName = locale === "th" ? h.monthNameTh : h.monthNameEn;
+    return t("home.hijriDate", { day: String(h.day), month: monthName, year: String(h.year) });
+  }, [locale, t]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -89,6 +96,9 @@ export default function Home() {
               className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}
             >
               {date ?? t("home.todaySchedule")}
+            </p>
+            <p className={styles.hijriDate} suppressHydrationWarning>
+              ☪ {mounted ? hijriLabel : ""}
             </p>
             <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
             <p

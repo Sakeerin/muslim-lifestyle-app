@@ -85,15 +85,35 @@
   padding: 12px 6px 10px;
   font-size: 0.68rem;
   color: var(--text-secondary);
+  position: relative;
+  transition: color 0.2s ease;
 }
 
 .mobileLink svg {
   height: 18px;
   width: 18px;
+  transition: transform 0.2s ease;
 }
 
 .mobileActive {
-  color: var(--text-primary);
+  color: #0e8d71;
+  font-weight: 600;
+}
+
+.mobileActive svg {
+  transform: scale(1.15);
+}
+
+.mobileActive::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;
+  height: 3px;
+  border-radius: 0 0 6px 6px;
+  background: linear-gradient(90deg, #0e8d71, #d8c776);
 }
 
 @media (min-width: 900px) {

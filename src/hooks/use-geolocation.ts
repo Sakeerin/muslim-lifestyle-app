@@ -14,6 +14,7 @@ type GeolocationState = {
   source: Source;
   isLoading: boolean;
   error: string | null;
+  cityName: string | null;
 };
 
 const MAKKAH_COORDINATES: Coordinates = {
@@ -21,7 +22,28 @@ const MAKKAH_COORDINATES: Coordinates = {
   longitude: 39.8262,
 };
 
-async function resolveIpLocation(): Promise<Coordinates | null> {
+type IpApiResponse = {
+  latitude?: number;
+  longitude?: number;
+  city?: string;
+  country_name?: string;
+};
+
+type NominatimResponse = {
+  address?: {
+    city?: string;
+    town?: string;
+    village?: string;
+    county?: string;
+    state?: string;
+    country?: string;
+  };
+};
+
+async function resolveIpLocation(): Promise<{
+  coordinates: Coordinates;
+  cityName: string | null;
+} | null> {
   try {
     const response = await fetch("https://ipapi.co/json/", {
       cache: "no-store",
@@ -31,15 +53,49 @@ async function resolveIpLocation(): Promise<Coordinates | null> {
       return null;
     }
 
-    const data = (await response.json()) as {
-      latitude?: number;
-      longitude?: number;
-    };
+    const data = (await response.json()) as IpApiResponse;
 
     if (typeof data.latitude === "number" && typeof data.longitude === "number") {
-      return { latitude: data.latitude, longitude: data.longitude };
+      const cityName =
+        data.city && data.country_name
+          ? `${data.city}, ${data.country_name}`
+          : (data.city ?? null);
+
+      return {
+        coordinates: { latitude: data.latitude, longitude: data.longitude },
+        cityName,
+      };
     }
 
+    return null;
+  } catch {
+    return null;
+  }
+}
+
+async function resolveGpsCityName(lat: number, lng: number): Promise<string | null> {
+  try {
+    const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=10`;
+    const response = await fetch(url, {
+      headers: { "Accept-Language": "en" },
+      cache: "no-store",
+    });
+
+    if (!response.ok) {
+      return null;
+    }
+
+    const data = (await response.json()) as NominatimResponse;
+    const place =
+      data.address?.city ??
+      data.address?.town ??
+      data.address?.village ??
+      data.address?.county ??
+      data.address?.state;
+    const country = data.address?.country;
+
+    if (place && country) return `${place}, ${country}`;
+    if (place) return place;
     return null;
   } catch {
     return null;
@@ -52,24 +108,26 @@ export function useGeolocation() {
     source: "default",
     isLoading: true,
     error: null,
+    cityName: null,
   });
 
   useEffect(() => {
     let mounted = true;
 
     const setFallback = async (message: string) => {
-      const ipCoordinates = await resolveIpLocation();
+      const result = await resolveIpLocation();
 
       if (!mounted) {
         return;
       }
 
-      if (ipCoordinates) {
+      if (result) {
         setState({
-          coordinates: ipCoordinates,
+          coordinates: result.coordinates,
           source: "ip",
           isLoading: false,
           error: message,
+          cityName: result.cityName,
         });
 
         return;
@@ -80,6 +138,7 @@ export function useGeolocation() {
         source: "default",
         isLoading: false,
         error: message,
+        cityName: "Makkah al-Mukarramah, Saudi Arabia",
       });
     };
 
@@ -96,14 +155,23 @@ export function useGeolocation() {
           return;
         }
 
+        const coordinates = {
+          latitude: position.coords.latitude,
+          longitude: position.coords.longitude,
+        };
+
         setState({
-          coordinates: {
-            latitude: position.coords.latitude,
-            longitude: position.coords.longitude,
-          },
+          coordinates,
           source: "gps",
           isLoading: false,
           error: null,
+          cityName: null,
+        });
+
+        void resolveGpsCityName(coordinates.latitude, coordinates.longitude).then((cityName) => {
+          if (mounted) {
+            setState((previous) => ({ ...previous, cityName }));
+          }
         });
       },
       () => {

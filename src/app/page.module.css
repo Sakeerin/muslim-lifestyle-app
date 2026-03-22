@@ -31,6 +31,13 @@
   gap: 12px;
 }
 
+.hijriDate {
+  margin-top: 2px;
+  font-size: 0.85rem;
+  color: rgba(221, 184, 102, 0.9);
+  letter-spacing: 0.03em;
+}
+
 .hero h1 {
   font-size: 1.4rem;
 }

@@ -2,9 +2,10 @@
 
 import { useMemo, useRef, useState } from "react";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
+import { toHijri } from "@/lib/calendar-utils";
 import { PRAYER_ORDER } from "@/lib/prayer-utils";
 import { useI18n } from "@/i18n/i18n-context";
-import { Printer } from "lucide-react";
+import { MapPin, Printer } from "lucide-react";
 import styles from "./page.module.css";
 
 const ADHAN_URL = "https://download.quranicaudio.com/quran/adhan/azan1.mp3";
@@ -22,7 +23,13 @@ export default function PrayerTimesPage() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const { countdown, date, error, loading, location, monthly, nextPrayer, timings } =
     usePrayerTimes(method);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
+
+  const hijriLabel = useMemo(() => {
+    const h = toHijri(new Date());
+    const monthName = locale === "th" ? h.monthNameTh : h.monthNameEn;
+    return t("home.hijriDate", { day: String(h.day), month: monthName, year: String(h.year) });
+  }, [locale, t]);
 
   const locationLabel = useMemo(() => {
     if (location.source === "gps") {
@@ -66,7 +73,11 @@ export default function PrayerTimesPage() {
         <div>
           <h1>{t("prayerTimes.title")}</h1>
           <p>{date ?? t("prayerTimes.fetchingSchedule")}</p>
-          <p>{locationLabel}</p>
+          <p className={styles.hijriDate} suppressHydrationWarning>☪ {hijriLabel}</p>
+          <p className={styles.locationName} suppressHydrationWarning>
+            <MapPin size={13} />
+            {location.cityName ?? locationLabel}
+          </p>
         </div>
         <label>
           {t("prayerTimes.calculation")}
