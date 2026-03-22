@@ -6,6 +6,8 @@ import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
+import enDuasData from "./duas/en.json";
+import thDuasData from "./duas/th.json";
 
 const CALCULATION_METHODS: Array<{ value: number; label: string }> = [
   { value: 2, label: "ISNA" },
@@ -17,7 +19,7 @@ export default function Home() {
   const [method, setMethod] = useState(2);
   const [mounted, setMounted] = useState(false);
   const { countdown, date, error, loading, nextPrayer } = usePrayerTimes(method);
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
@@ -25,28 +27,34 @@ export default function Home() {
     setMounted(true);
   }, []);
 
-  const dailyWidgets = useMemo(
-    () => [
-      {
-        title: t("home.dailyAyah"),
-        arabic: "فَإِنَّ مَعَ الْعُسْرِ يُسْرًا",
-        translation: "Surely with hardship comes ease. (Qur'an 94:6)",
-      },
-      {
-        title: t("home.dailyDua"),
-        arabic: "رَبِّ زِدْنِي عِلْمًا",
-        translation: "My Lord, increase me in knowledge. (Qur'an 20:114)",
-      },
-    ],
-    [t],
-  );
+  const dailyPool = useMemo(() => {
+    const data = locale === "th" ? thDuasData : enDuasData;
+    return data.map((d) => ({
+      category: d.source?.startsWith("QS.") ? ("ayah" as const) : ("dua" as const),
+      arabic: d.arabic,
+      translation: d.translation,
+      source: d.source ?? "",
+    }));
+  }, [locale]);
 
-  const dailyContent = useMemo(
-    () => dailyWidgets[new Date().getDate() % dailyWidgets.length],
-    [dailyWidgets],
-  );
+  const dailyContent = useMemo(() => {
+    const item = dailyPool[new Date().getDate() % dailyPool.length];
+    return {
+      title: item.category === "ayah" ? t("home.dailyAyah") : t("home.dailyDua"),
+      arabic: item.arabic,
+      translation: item.translation,
+      source: item.source,
+    };
+  }, [dailyPool, t]);
 
-  const fallbackContent = dailyWidgets[0];
+  const fallbackContent = useMemo(() => {
+    const item = enDuasData[0];
+    return {
+      title: t("home.dailyDua"),
+      arabic: item.arabic,
+      translation: item.translation,
+    };
+  }, [t]);
 
   const jsonLd = {
     "@context": "https://schema.org",
