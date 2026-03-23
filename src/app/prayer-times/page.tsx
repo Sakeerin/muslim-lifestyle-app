@@ -73,7 +73,9 @@ export default function PrayerTimesPage() {
         <div>
           <h1>{t("prayerTimes.title")}</h1>
           <p>{date ?? t("prayerTimes.fetchingSchedule")}</p>
-          <p className={styles.hijriDate} suppressHydrationWarning>☪ {hijriLabel}</p>
+          <p className={styles.hijriDate} suppressHydrationWarning>
+            ☪ {hijriLabel}
+          </p>
           <p className={styles.locationName} suppressHydrationWarning>
             <MapPin size={13} />
             {location.cityName ?? locationLabel}

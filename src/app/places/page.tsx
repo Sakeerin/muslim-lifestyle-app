@@ -131,7 +131,6 @@ export default function PlacesPage() {
               <option value={15000}>15 km</option>
             </select>
           </label>
-
         </div>
       </section>
 

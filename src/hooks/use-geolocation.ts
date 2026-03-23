@@ -57,9 +57,7 @@ async function resolveIpLocation(): Promise<{
 
     if (typeof data.latitude === "number" && typeof data.longitude === "number") {
       const cityName =
-        data.city && data.country_name
-          ? `${data.city}, ${data.country_name}`
-          : (data.city ?? null);
+        data.city && data.country_name ? `${data.city}, ${data.country_name}` : (data.city ?? null);
 
       return {
         coordinates: { latitude: data.latitude, longitude: data.longitude },

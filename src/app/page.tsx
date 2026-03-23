@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
+import { describeWeather, useWeather } from "@/hooks/use-weather";
 import { toHijri } from "@/lib/calendar-utils";
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
@@ -19,7 +20,12 @@ const CALCULATION_METHODS: Array<{ value: number; label: string }> = [
 export default function Home() {
   const [method, setMethod] = useState(2);
   const [mounted, setMounted] = useState(false);
-  const { countdown, date, error, loading, nextPrayer } = usePrayerTimes(method);
+  const { countdown, date, error, loading, nextPrayer, location } = usePrayerTimes(method);
+  const weather = useWeather(
+    location.coordinates.latitude,
+    location.coordinates.longitude,
+    !location.isLoading,
+  );
   const { t, locale } = useI18n();
   const { resolvedTheme } = useTheme();
 
@@ -108,16 +114,37 @@ export default function Home() {
               {loading ? "--:--:--" : countdown}
             </p>
           </div>
-          <label>
-            {t("home.method")}
-            <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
-              {CALCULATION_METHODS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
-          </label>
+          <div className={styles.heroRight}>
+            <label>
+              {t("home.method")}
+              <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
+                {CALCULATION_METHODS.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </label>
+
+            {!weather.loading && weather.temperature !== null && weather.weatherCode !== null && (
+              <div className={styles.weather}>
+                <span className={styles.weatherIcon}>
+                  {describeWeather(weather.weatherCode).icon}
+                </span>
+                <div>
+                  <p className={styles.weatherTemp}>{weather.temperature}°C</p>
+                  <p className={styles.weatherDesc}>
+                    {locale === "th"
+                      ? describeWeather(weather.weatherCode).labelTh
+                      : describeWeather(weather.weatherCode).labelEn}
+                  </p>
+                  {weather.humidity !== null && (
+                    <p className={styles.weatherHumidity}>💧 {weather.humidity}%</p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
         </div>
         {error ? <p className={styles.warning}>{error}</p> : null}
       </section>

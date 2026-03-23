@@ -36,12 +36,10 @@ function getDuaCategories(englishTitle: string, source: string): string[] {
   if (source.startsWith("QS.")) cats.push("quran");
 
   // Morning & Evening — by title keyword
-  if (t.includes("morning") || t.includes("evening"))
-    cats.push("morningEvening");
+  if (t.includes("morning") || t.includes("evening")) cats.push("morningEvening");
 
   // Upon Waking Up
-  if (t.includes("waking up") || t.includes("upon waking"))
-    cats.push("wakingUp");
+  if (t.includes("waking up") || t.includes("upon waking")) cats.push("wakingUp");
   // Morning & Evening — specific well-known Quran adhkar recited morning/evening
   if (
     source.startsWith("QS. Al-Fatiha:") ||

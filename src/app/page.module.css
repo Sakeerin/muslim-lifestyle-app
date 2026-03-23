@@ -31,6 +31,47 @@
   gap: 12px;
 }
 
+.heroRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.weatherIcon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.weatherTemp {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f3f6ed;
+}
+
+.weatherDesc {
+  font-size: 0.72rem;
+  color: rgba(243, 246, 237, 0.7);
+  margin-top: 1px;
+}
+
+.weatherHumidity {
+  font-size: 0.72rem;
+  color: rgba(221, 184, 102, 0.85);
+  margin-top: 2px;
+}
+
 .hijriDate {
   margin-top: 2px;
   font-size: 0.85rem;
