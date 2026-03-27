@@ -22,24 +22,73 @@
   width: 140px;
   border-radius: 999px;
   background: radial-gradient(circle, rgba(221, 184, 102, 0.3), transparent 70%);
+  pointer-events: none;
 }
 
 .heroTop {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dateMethodRow {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   gap: 12px;
 }
 
-.heroRight {
+.dateMethodRow label {
   display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.78rem;
+  color: rgba(243, 246, 237, 0.7);
+  white-space: nowrap;
   flex-shrink: 0;
 }
 
+.dateMethodRow select {
+  background: #0d4a3a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  color: #f3f6ed;
+  font-size: 0.78rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  outline: none;
+  max-width: 180px;
+}
+
+.dateMethodRow select option {
+  background: #0d4a3a;
+  color: #f3f6ed;
+}
+
+.heroBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.heroLeft {
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.heroRight {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  align-items: stretch;
+}
+
 .weather {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -47,6 +96,14 @@
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
   padding: 10px 14px;
+  cursor: pointer;
+  color: inherit;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.weather:hover {
+  background: rgba(255, 255, 255, 0.14);
 }
 
 .weatherIcon {
@@ -72,21 +129,150 @@
   margin-top: 2px;
 }
 
-.hijriDate {
+.donationWidget {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, rgba(221, 184, 102, 0.15), rgba(221, 184, 102, 0.07));
+  border: 1px solid rgba(221, 184, 102, 0.3);
+  border-radius: 14px;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #f3f6ed;
+  transition: background 0.2s ease, transform 0.15s ease;
+  cursor: pointer;
+}
+
+.donationWidget:hover {
+  background: linear-gradient(135deg, rgba(221, 184, 102, 0.28), rgba(221, 184, 102, 0.15));
+  transform: translateY(-1px);
+}
+
+.donationIcon {
+  font-size: 1.55rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.donationTitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgba(221, 184, 102, 0.95);
+  margin: 0;
+}
+
+.donateCta {
+  font-size: 0.72rem;
+  color: rgba(243, 246, 237, 0.65);
+  margin: 2px 0 0;
+}
+
+.hijriRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
   margin-top: 2px;
+}
+
+.hijriDate {
   font-size: 0.85rem;
   color: rgba(221, 184, 102, 0.9);
   letter-spacing: 0.03em;
+  margin: 0;
 }
 
-.hero h1 {
-  font-size: 1.4rem;
+.hijriCountdown {
+  font-size: 0.85rem;
+  color: rgba(221, 184, 102, 0.9);
+  letter-spacing: 0.03em;
+  margin: 0;
+  white-space: nowrap;
 }
 
-.countdown {
-  margin-top: 8px;
-  font-size: 2.1rem;
-  letter-spacing: 0.08em;
+.prayerStatusRow {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.prayerCard {
+  flex: 1;
+  min-width: 0;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  padding: 10px 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.prayerCardTop {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.prayerCardName {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #f3f6ed;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.prayerCardWeather {
+  font-size: 1.1rem;
+  line-height: 1;
+  margin-left: auto;
+  flex-shrink: 0;
+}
+
+.prayerCardTime {
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: #f3f6ed;
+  margin: 0;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.currentBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  color: rgba(243, 246, 237, 0.9);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #0e8d71;
+  flex-shrink: 0;
+}
+
+.nextBadge {
+  display: inline-flex;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-size: 0.68rem;
+  color: rgba(243, 246, 237, 0.9);
+  font-weight: 500;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .warning {
@@ -138,6 +324,69 @@
 
 .quickLink:hover {
   transform: translateY(-2px);
+}
+
+@media (max-width: 560px) {
+  .dateMethodRow label {
+    font-size: 0.72rem;
+  }
+
+  .dateMethodRow select {
+    font-size: 0.75rem;
+    padding: 3px 6px;
+  }
+
+  .hero h1 {
+    font-size: 1.2rem;
+  }
+
+  .prayerCardTime {
+    font-size: 1.3rem;
+  }
+
+  .prayerStatusRow {
+    gap: 8px;
+  }
+
+  /* ทำให้ weather และ donation มีขนาด font เท่ากันกับ prayer card บนมือถือ */
+  .weatherTemp {
+    font-size: 1rem;
+  }
+
+  .weatherIcon {
+    font-size: 1.4rem;
+  }
+
+  .donationIcon {
+    font-size: 1.3rem;
+  }
+
+  .donationTitle {
+    font-size: 0.82rem;
+  }
+
+  .donateCta {
+    font-size: 0.68rem;
+  }
+}
+
+@media (min-width: 600px) {
+  .heroBody {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .heroLeft {
+    flex: 1 1 0;
+    width: auto;
+  }
+
+  .heroRight {
+    width: auto;
+    flex-shrink: 0;
+  }
 }
 
 @media (min-width: 760px) {

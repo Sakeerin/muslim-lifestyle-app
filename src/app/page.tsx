@@ -2,25 +2,34 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
 import { describeWeather, useWeather } from "@/hooks/use-weather";
 import { toHijri } from "@/lib/calendar-utils";
 import { useI18n } from "@/i18n/i18n-context";
+import { WeatherDetailModal } from "@/components/features/weather-detail";
 import styles from "./page.module.css";
 import enDuasData from "./duas/en.json";
 import thDuasData from "./duas/th.json";
 
-const CALCULATION_METHODS: Array<{ value: number; label: string }> = [
-  { value: 2, label: "ISNA" },
-  { value: 3, label: "MWL" },
-  { value: 5, label: "Egypt" },
+const CALCULATION_METHODS: Array<{ value: number; label: string; shortLabel: string }> = [
+  { value: 4, label: "อุมม์ อัลกุรอ์ — มักกะห์", shortLabel: "อุมม์ อัลกุรอ์" },
+  { value: 3, label: "MWL — สันนิบาตมุสลิมโลก", shortLabel: "MWL" },
+  { value: 5, label: "อียิปต์", shortLabel: "อียิปต์" },
+  { value: 16, label: "JAKIM — มาเลเซีย", shortLabel: "JAKIM" },
+  { value: 20, label: "KEMENAG — อินโดนีเซีย", shortLabel: "KEMENAG" },
+  { value: 12, label: "Diyanet — ตุรกี", shortLabel: "Diyanet" },
+  { value: 8, label: "คูเวต", shortLabel: "คูเวต" },
+  { value: 1, label: "การาจี — ปากีสถาน", shortLabel: "การาจี" },
+  { value: 2, label: "ISNA — อเมริกา/แคนาดา", shortLabel: "ISNA" },
 ];
 
 export default function Home() {
-  const [method, setMethod] = useState(2);
+  const [method, setMethod] = useLocalStorage("prayer-method", CALCULATION_METHODS[0]!.value);
   const [mounted, setMounted] = useState(false);
-  const { countdown, date, error, loading, nextPrayer, location } = usePrayerTimes(method);
+  const [showWeatherDetail, setShowWeatherDetail] = useState(false);
+  const { countdown, date, error, loading, nextPrayer, location, timings } = usePrayerTimes(method);
   const weather = useWeather(
     location.coordinates.latitude,
     location.coordinates.longitude,
@@ -39,6 +48,45 @@ export default function Home() {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
+
+  const currentPrayer = useMemo(() => {
+    if (!timings) return null;
+    const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    let current: (typeof prayers)[number] | null = null;
+    let currentTime = "";
+    for (const p of prayers) {
+      const raw = timings[p as keyof typeof timings] ?? "";
+      const timeStr = raw.split(" ")[0];
+      const [h, m] = timeStr.split(":").map(Number);
+      if (h * 60 + m <= nowMins) {
+        current = p;
+        currentTime = timeStr;
+      }
+    }
+    if (!current) {
+      current = "Isha";
+      currentTime = (timings["Isha"] ?? "").split(" ")[0];
+    }
+    return { name: current, time: currentTime };
+  }, [timings]);
+
+  const nextPrayerData = useMemo(() => {
+    if (!timings) return null;
+    const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
+    const now = new Date();
+    const nowMins = now.getHours() * 60 + now.getMinutes();
+    for (const p of prayers) {
+      const raw = timings[p as keyof typeof timings] ?? "";
+      const timeStr = raw.split(" ")[0];
+      const [h, m] = timeStr.split(":").map(Number);
+      if (h * 60 + m > nowMins) {
+        return { name: p, time: timeStr };
+      }
+    }
+    return { name: "Fajr" as const, time: (timings["Fajr"] ?? "").split(" ")[0] };
+  }, [timings]);
 
   const dailyPool = useMemo(() => {
     const data = locale === "th" ? thDuasData : enDuasData;
@@ -96,58 +144,119 @@ export default function Home() {
       )}
       <section className={styles.hero}>
         <div className={styles.heroTop}>
-          <div>
+          <div className={styles.dateMethodRow}>
             <p
               suppressHydrationWarning
               className={mounted && resolvedTheme === "light" ? styles.textWhite : ""}
             >
               {date ?? t("home.todaySchedule")}
             </p>
-            <p className={styles.hijriDate} suppressHydrationWarning>
-              ☪ {mounted ? hijriLabel : ""}
-            </p>
-            <h1>{t("home.nextPrayer", { name: nextPrayer ?? t("home.loading") })}</h1>
-            <p
-              suppressHydrationWarning
-              className={`${styles.countdown} ${mounted && resolvedTheme === "light" ? styles.textWhite : ""}`.trim()}
-            >
-              {loading ? "--:--:--" : countdown}
-            </p>
-          </div>
-          <div className={styles.heroRight}>
             <label>
               {t("home.method")}
-              <select value={method} onChange={(event) => setMethod(Number(event.target.value))}>
+              <select
+                suppressHydrationWarning
+                value={method}
+                onChange={(event) => {
+                  setMethod(Number(event.target.value));
+                }}
+              >
                 {CALCULATION_METHODS.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                  <option
+                    suppressHydrationWarning
+                    key={option.value}
+                    value={option.value}
+                    title={option.label}
+                  >
+                    {option.shortLabel}
                   </option>
                 ))}
               </select>
             </label>
-
-            {!weather.loading && weather.temperature !== null && weather.weatherCode !== null && (
-              <div className={styles.weather}>
-                <span className={styles.weatherIcon}>
-                  {describeWeather(weather.weatherCode).icon}
-                </span>
-                <div>
-                  <p className={styles.weatherTemp}>{weather.temperature}°C</p>
-                  <p className={styles.weatherDesc}>
-                    {locale === "th"
-                      ? describeWeather(weather.weatherCode).labelTh
-                      : describeWeather(weather.weatherCode).labelEn}
+          </div>
+          <div className={styles.heroBody}>
+            <div className={styles.heroLeft}>
+              <div className={styles.hijriRow}>
+                <p className={styles.hijriDate} suppressHydrationWarning>
+                  ☪ {mounted ? hijriLabel : ""}
+                </p>
+                <p suppressHydrationWarning className={styles.hijriCountdown}>
+                  {loading ? "--:--:--" : (countdown ?? "--:--:--")}
+                </p>
+              </div>
+              <div className={styles.prayerStatusRow}>
+                {currentPrayer && (
+                  <div className={styles.prayerCard}>
+                    <div className={styles.prayerCardTop}>
+                      <span className={styles.currentBadge}>
+                        <span className={styles.dot} />
+                        {t("home.now")}
+                      </span>
+                      <span className={styles.prayerCardName}>
+                        {t(`prayer.${currentPrayer.name}`)}
+                      </span>
+                    </div>
+                    <p className={styles.prayerCardTime}>{currentPrayer.time}</p>
+                  </div>
+                )}
+                <div className={styles.prayerCard}>
+                  <div className={styles.prayerCardTop}>
+                    <span className={styles.nextBadge}>{t("home.next")}</span>
+                    <span className={styles.prayerCardName}>
+                      {nextPrayerData ? t(`prayer.${nextPrayerData.name}`) : (nextPrayer ?? t("home.loading"))}
+                    </span>
+                  </div>
+                  <p suppressHydrationWarning className={styles.prayerCardTime}>
+                    {loading ? "--:--" : (nextPrayerData?.time ?? "--:--")}
                   </p>
-                  {weather.humidity !== null && (
-                    <p className={styles.weatherHumidity}>💧 {weather.humidity}%</p>
-                  )}
                 </div>
               </div>
-            )}
+            </div>
+            <div className={styles.heroRight}>
+              {!weather.loading && weather.temperature !== null && weather.weatherCode !== null && (
+                <button
+                  className={styles.weather}
+                  onClick={() => setShowWeatherDetail(true)}
+                  aria-label="View weather details"
+                >
+                  <span className={styles.weatherIcon}>
+                    {describeWeather(weather.weatherCode).icon}
+                  </span>
+                  <div>
+                    <p className={styles.weatherTemp}>{weather.temperature}°C</p>
+                    <p className={styles.weatherDesc}>
+                      {locale === "th"
+                        ? describeWeather(weather.weatherCode).labelTh
+                        : describeWeather(weather.weatherCode).labelEn}
+                    </p>
+                    {weather.humidity !== null && (
+                      <p className={styles.weatherHumidity}>💧 {weather.humidity}%</p>
+                    )}
+                  </div>
+                </button>
+              )}
+              <Link href="/donate" className={styles.donationWidget}>
+                <span className={styles.donationIcon}>🤲</span>
+                <div>
+                  <p className={styles.donationTitle}>{t("home.donateTitle")}</p>
+                  <p className={styles.donateCta}>{t("home.donateCta")}</p>
+                </div>
+              </Link>
+            </div>
           </div>
         </div>
         {error ? <p className={styles.warning}>{error}</p> : null}
       </section>
+
+      <WeatherDetailModal
+        open={showWeatherDetail}
+        onClose={() => setShowWeatherDetail(false)}
+        temperature={weather.temperature}
+        weatherCode={weather.weatherCode}
+        humidity={weather.humidity}
+        lat={location.coordinates.latitude}
+        lng={location.coordinates.longitude}
+        locationName={location.cityName ?? ""}
+      />
 
       <section className={styles.grid}>
         <article className={styles.card}>

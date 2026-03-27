@@ -1,0 +1,323 @@
+.page {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  overflow: hidden;
+  border-radius: 20px;
+  background: linear-gradient(140deg, rgba(8, 72, 61, 0.94), rgba(5, 36, 56, 0.94));
+  color: #f3f6ed;
+  padding: 36px 24px 32px;
+  text-align: center;
+}
+
+.heroOrb {
+  position: absolute;
+  top: -50px;
+  right: -20px;
+  width: 180px;
+  height: 180px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(221, 184, 102, 0.25), transparent 70%);
+  pointer-events: none;
+}
+
+.heroIcon {
+  font-size: 2.6rem;
+  display: block;
+  margin-bottom: 12px;
+}
+
+.heroTitle {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #f3f6ed;
+  margin: 0 0 8px;
+}
+
+.heroSub {
+  font-size: 0.92rem;
+  color: rgba(243, 246, 237, 0.75);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* Card */
+.card {
+  border: 1px solid var(--border-soft);
+  border-radius: 18px;
+  background: var(--surface-card);
+  padding: 20px;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.cardHeader h2 {
+  font-size: 1.05rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.cardHeaderIcon {
+  color: #e05a5a;
+  flex-shrink: 0;
+}
+
+.bankEmoji {
+  font-size: 1.15rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.bodyText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 14px;
+}
+
+/* Feature list */
+.featureList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 12px;
+}
+
+.featureItem {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.875rem;
+  color: var(--text-primary);
+}
+
+.featureIcon {
+  color: #0e8d71;
+  flex-shrink: 0;
+}
+
+/* Bank card */
+.bankCard {
+  background: var(--surface-muted);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.bankRow {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.bankLabel {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  padding-top: 1px;
+}
+
+.bankValue {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.bankDivider {
+  height: 1px;
+  background: var(--border-soft);
+  margin: 2px 0;
+}
+
+.accountRow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.accountNumber {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  font-variant-numeric: tabular-nums;
+}
+
+.copyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(14, 141, 113, 0.12);
+  border: 1px solid rgba(14, 141, 113, 0.3);
+  border-radius: 8px;
+  padding: 4px 10px;
+  font-size: 0.75rem;
+  color: #0e8d71;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  white-space: nowrap;
+}
+
+.copyBtn:hover {
+  background: rgba(14, 141, 113, 0.2);
+}
+
+.copyBtnDone {
+  composes: copyBtn;
+  background: rgba(14, 141, 113, 0.2);
+  border-color: rgba(14, 141, 113, 0.5);
+}
+
+/* Developer */
+.devCard {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 14px;
+}
+
+.devAvatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0e8d71, #064d40);
+  color: #f3f6ed;
+  font-size: 1rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.devInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.devName {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.devRole {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.contactList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--surface-muted);
+  border: 1px solid var(--border-soft);
+  font-size: 0.87rem;
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.contactItem:hover {
+  background: var(--surface-hover, rgba(14, 141, 113, 0.07));
+}
+
+.contactIcon {
+  color: #0e8d71;
+  flex-shrink: 0;
+}
+
+.externalIcon {
+  margin-left: auto;
+  color: var(--text-secondary);
+  flex-shrink: 0;
+}
+
+/* Thank you */
+.thankYouCard {
+  border: 1px solid rgba(221, 184, 102, 0.3);
+  border-radius: 18px;
+  background: linear-gradient(135deg, rgba(221, 184, 102, 0.08), rgba(221, 184, 102, 0.03));
+  padding: 24px 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.thankYouArabic {
+  font-family: var(--font-arabic), serif;
+  font-size: 1.6rem;
+  line-height: 1.8;
+  color: rgba(221, 184, 102, 0.9);
+  margin: 0;
+}
+
+.thankYouText {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.backBtn {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(14, 141, 113, 0.12);
+  border: 1px solid rgba(14, 141, 113, 0.3);
+  border-radius: 10px;
+  padding: 8px 18px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #0e8d71;
+  text-decoration: none;
+  transition: background 0.15s ease;
+}
+
+.backBtn:hover {
+  background: rgba(14, 141, 113, 0.2);
+}
+
+@media (max-width: 480px) {
+  .featureList {
+    grid-template-columns: 1fr;
+  }
+
+  .heroTitle {
+    font-size: 1.3rem;
+  }
+}

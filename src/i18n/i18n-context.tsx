@@ -30,7 +30,6 @@ const STORAGE_KEY = "app-locale";
 
 export function I18nProvider({ children }: { children: ReactNode }) {
   const [locale, setLocaleState] = useState<Locale>("en");
-  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
     try {
@@ -40,7 +39,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
         setLocaleState(stored);
       }
     } catch {}
-    setMounted(true);
   }, []);
 
   const setLocale = useCallback((next: Locale) => {
@@ -69,11 +67,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     () => ({ locale, setLocale, t }),
     [locale, setLocale, t],
   );
-
-  // Avoid hydration mismatch — render children after mount
-  if (!mounted) {
-    return <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>;
-  }
 
   return <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>;
 }
