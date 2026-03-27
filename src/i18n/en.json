@@ -40,6 +40,7 @@
   "prayerTimes.calculation": "Calculation",
   "prayerTimes.next": "Next: {name}",
   "prayerTimes.todayPrayers": "Today's prayers",
+  "prayerTimes.tomorrowPrayers": "Tomorrow's prayers",
   "prayerTimes.azanPlayer": "Azan player",
   "prayerTimes.playAzan": "Play Azan",
   "prayerTimes.pauseAzan": "Pause Azan",

@@ -40,6 +40,7 @@
   "prayerTimes.calculation": "วิธีคำนวณ",
   "prayerTimes.next": "ถัดไป: {name}",
   "prayerTimes.todayPrayers": "ละหมาดวันนี้",
+  "prayerTimes.tomorrowPrayers": "ละหมาดพรุ่งนี้",
   "prayerTimes.azanPlayer": "เล่นอะซาน",
   "prayerTimes.playAzan": "เปิดอะซาน",
   "prayerTimes.pauseAzan": "หยุดอะซาน",

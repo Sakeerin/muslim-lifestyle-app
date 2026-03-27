@@ -6,7 +6,7 @@ import { usePrayerTimes } from "@/hooks/use-prayer-times";
 import { toHijri } from "@/lib/calendar-utils";
 import { PRAYER_ORDER } from "@/lib/prayer-utils";
 import { useI18n } from "@/i18n/i18n-context";
-import { ChevronDown, MapPin, Printer } from "lucide-react";
+import { ChevronDown, MapPin, Pause, Play, Printer } from "lucide-react";
 import styles from "./page.module.css";
 
 const ADHAN_URL = "https://download.quranicaudio.com/quran/adhan/azan1.mp3";
@@ -48,6 +48,13 @@ export default function PrayerTimesPage() {
     const monthName = locale === "th" ? h.monthNameTh : h.monthNameEn;
     return t("home.hijriDate", { day: String(h.day), month: monthName, year: String(h.year) });
   }, [locale, t]);
+
+  const tomorrowTimings = useMemo(() => {
+    const tomorrow = new Date();
+    tomorrow.setDate(tomorrow.getDate() + 1);
+    const tomorrowDay = String(tomorrow.getDate());
+    return monthly.find((d) => d.day === tomorrowDay)?.timings ?? null;
+  }, [monthly]);
 
   const locationLabel = useMemo(() => {
     if (location.source === "gps") {
@@ -108,7 +115,7 @@ export default function PrayerTimesPage() {
             aria-haspopup="listbox"
             aria-expanded={methodOpen}
           >
-            <span>{METHODS.find((m) => m.value === method)?.shortLabel}</span>
+            <span>{METHODS.find((m) => m.value === method)?.label}</span>
             <ChevronDown size={14} className={methodOpen ? styles.chevronOpen : styles.chevronIcon} />
           </button>
           {methodOpen && (
@@ -118,14 +125,13 @@ export default function PrayerTimesPage() {
                   key={item.value}
                   role="option"
                   aria-selected={item.value === method}
-                  title={item.label}
                   className={`${styles.methodOption} ${item.value === method ? styles.methodOptionActive : ""}`}
                   onClick={() => {
                     setMethod(item.value);
                     setMethodOpen(false);
                   }}
                 >
-                  {item.shortLabel}
+                  {item.label}
                 </li>
               ))}
             </ul>
@@ -133,36 +139,55 @@ export default function PrayerTimesPage() {
         </div>
       </section>
 
-      <section className={styles.card}>
-        <h2>{t("prayerTimes.next", { name: nextPrayer ?? "-" })}</h2>
-        <p>{loading ? "--:--:--" : countdown}</p>
-        {error ? <p>{error}</p> : null}
-      </section>
+      <div className={styles.mainGrid}>
+        <section className={`${styles.card} ${styles.todayCard}`}>
+          <h2>{t("prayerTimes.todayPrayers")}</h2>
+          <div className={styles.timings}>
+            {PRAYER_ORDER.map((prayer) => (
+              <article
+                key={prayer}
+                className={`${styles.timing} ${nextPrayer === prayer ? styles.active : ""}`}
+              >
+                <strong>{prayer}</strong>
+                <p>{timings?.[prayer] ?? "--:--"}</p>
+              </article>
+            ))}
+          </div>
+          {tomorrowTimings && (
+            <div className={styles.tomorrowSection}>
+              <h3 className={styles.tomorrowLabel}>{t("prayerTimes.tomorrowPrayers")}</h3>
+              <div className={styles.timings}>
+                {PRAYER_ORDER.map((prayer) => (
+                  <article key={prayer} className={`${styles.timing} ${styles.timingMuted}`}>
+                    <strong>{prayer}</strong>
+                    <p>{tomorrowTimings[prayer]}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+          )}
+        </section>
 
-      <section className={styles.card}>
-        <h2>{t("prayerTimes.todayPrayers")}</h2>
-        <div className={styles.timings}>
-          {PRAYER_ORDER.map((prayer) => (
-            <article
-              key={prayer}
-              className={`${styles.timing} ${nextPrayer === prayer ? styles.active : ""}`}
-            >
-              <strong>{prayer}</strong>
-              <p>{timings?.[prayer] ?? "--:--"}</p>
-            </article>
-          ))}
-        </div>
-      </section>
+        <section className={`${styles.card} ${styles.nextCard}`}>
+          <h2>{t("prayerTimes.next", { name: nextPrayer ?? "-" })}</h2>
+          <p className={styles.countdownTime}>{loading ? "--:--:--" : countdown}</p>
+          {error ? <p className={styles.errorText}>{error}</p> : null}
+        </section>
 
-      <section className={styles.card}>
-        <h2>{t("prayerTimes.azanPlayer")}</h2>
-        <div className={styles.controls}>
-          <button type="button" onClick={toggleAudio}>
-            {isPlaying ? t("prayerTimes.pauseAzan") : t("prayerTimes.playAzan")}
-          </button>
-        </div>
-        <audio ref={audioRef} src={ADHAN_URL} onEnded={() => setIsPlaying(false)} preload="none" />
-      </section>
+        <section className={`${styles.card} ${styles.azanCard}`}>
+          <h2>{t("prayerTimes.azanPlayer")}</h2>
+          <div className={styles.controls}>
+            <button type="button" onClick={toggleAudio}>
+              {isPlaying ? (
+                <><Pause size={15} />{t("prayerTimes.pauseAzan")}</>
+              ) : (
+                <><Play size={15} />{t("prayerTimes.playAzan")}</>
+              )}
+            </button>
+          </div>
+          <audio ref={audioRef} src={ADHAN_URL} onEnded={() => setIsPlaying(false)} preload="none" />
+        </section>
+      </div>
 
       <section className={styles.card}>
         <div className={styles.monthlyHeader}>

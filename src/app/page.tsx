@@ -29,6 +29,7 @@ export default function Home() {
   const [method, setMethod] = useLocalStorage("prayer-method", CALCULATION_METHODS[0]!.value);
   const [mounted, setMounted] = useState(false);
   const [showWeatherDetail, setShowWeatherDetail] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const { countdown, date, error, loading, nextPrayer, location, timings } = usePrayerTimes(method);
   const weather = useWeather(
     location.coordinates.latitude,
@@ -47,6 +48,11 @@ export default function Home() {
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
+    const mq = window.matchMedia("(max-width: 560px)");
+    setIsMobile(mq.matches);
+    const handle = (e: MediaQueryListEvent) => setIsMobile(e.matches);
+    mq.addEventListener("change", handle);
+    return () => mq.removeEventListener("change", handle);
   }, []);
 
   const currentPrayer = useMemo(() => {
@@ -165,83 +171,76 @@ export default function Home() {
                     suppressHydrationWarning
                     key={option.value}
                     value={option.value}
-                    title={option.label}
                   >
-                    {option.shortLabel}
+                    {isMobile ? option.shortLabel : option.label}
                   </option>
                 ))}
               </select>
             </label>
           </div>
-          <div className={styles.heroBody}>
-            <div className={styles.heroLeft}>
-              <div className={styles.hijriRow}>
-                <p className={styles.hijriDate} suppressHydrationWarning>
-                  ☪ {mounted ? hijriLabel : ""}
-                </p>
-                <p suppressHydrationWarning className={styles.hijriCountdown}>
-                  {loading ? "--:--:--" : (countdown ?? "--:--:--")}
-                </p>
-              </div>
-              <div className={styles.prayerStatusRow}>
-                {currentPrayer && (
-                  <div className={styles.prayerCard}>
-                    <div className={styles.prayerCardTop}>
-                      <span className={styles.currentBadge}>
-                        <span className={styles.dot} />
-                        {t("home.now")}
-                      </span>
-                      <span className={styles.prayerCardName}>
-                        {t(`prayer.${currentPrayer.name}`)}
-                      </span>
-                    </div>
-                    <p className={styles.prayerCardTime}>{currentPrayer.time}</p>
-                  </div>
-                )}
-                <div className={styles.prayerCard}>
-                  <div className={styles.prayerCardTop}>
-                    <span className={styles.nextBadge}>{t("home.next")}</span>
-                    <span className={styles.prayerCardName}>
-                      {nextPrayerData ? t(`prayer.${nextPrayerData.name}`) : (nextPrayer ?? t("home.loading"))}
-                    </span>
-                  </div>
-                  <p suppressHydrationWarning className={styles.prayerCardTime}>
-                    {loading ? "--:--" : (nextPrayerData?.time ?? "--:--")}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className={styles.heroRight}>
-              {!weather.loading && weather.temperature !== null && weather.weatherCode !== null && (
-                <button
-                  className={styles.weather}
-                  onClick={() => setShowWeatherDetail(true)}
-                  aria-label="View weather details"
-                >
-                  <span className={styles.weatherIcon}>
-                    {describeWeather(weather.weatherCode).icon}
+          <div className={styles.hijriRow}>
+            <p className={styles.hijriDate} suppressHydrationWarning>
+              ☪ {mounted ? hijriLabel : ""}
+            </p>
+            <p suppressHydrationWarning className={styles.hijriCountdown}>
+              {loading ? "--:--:--" : (countdown ?? "--:--:--")}
+            </p>
+          </div>
+          <div className={styles.prayerStatusRow}>
+            {currentPrayer && (
+              <div className={styles.prayerCard}>
+                <div className={styles.prayerCardTop}>
+                  <span className={styles.currentBadge}>
+                    <span className={styles.dot} />
+                    {t("home.now")}
                   </span>
-                  <div>
-                    <p className={styles.weatherTemp}>{weather.temperature}°C</p>
-                    <p className={styles.weatherDesc}>
-                      {locale === "th"
-                        ? describeWeather(weather.weatherCode).labelTh
-                        : describeWeather(weather.weatherCode).labelEn}
-                    </p>
-                    {weather.humidity !== null && (
-                      <p className={styles.weatherHumidity}>💧 {weather.humidity}%</p>
-                    )}
-                  </div>
-                </button>
-              )}
-              <Link href="/donate" className={styles.donationWidget}>
-                <span className={styles.donationIcon}>🤲</span>
-                <div>
-                  <p className={styles.donationTitle}>{t("home.donateTitle")}</p>
-                  <p className={styles.donateCta}>{t("home.donateCta")}</p>
+                  <span className={styles.prayerCardName}>
+                    {t(`prayer.${currentPrayer.name}`)}
+                  </span>
                 </div>
-              </Link>
+                <p className={styles.prayerCardTime}>{currentPrayer.time}</p>
+              </div>
+            )}
+            <div className={styles.prayerCard}>
+              <div className={styles.prayerCardTop}>
+                <span className={styles.nextBadge}>{t("home.next")}</span>
+                <span className={styles.prayerCardName}>
+                  {nextPrayerData ? t(`prayer.${nextPrayerData.name}`) : (nextPrayer ?? t("home.loading"))}
+                </span>
+              </div>
+              <p suppressHydrationWarning className={styles.prayerCardTime}>
+                {loading ? "--:--" : (nextPrayerData?.time ?? "--:--")}
+              </p>
             </div>
+            {!weather.loading && weather.temperature !== null && weather.weatherCode !== null && (
+              <button
+                className={styles.weather}
+                onClick={() => setShowWeatherDetail(true)}
+                aria-label="View weather details"
+              >
+                <span className={styles.weatherIcon}>
+                  {describeWeather(weather.weatherCode).icon}
+                </span>
+                <div>
+                  <p className={styles.weatherTemp}>{weather.temperature}°C</p>
+                  <p className={styles.weatherDesc}>
+                    {locale === "th"
+                      ? describeWeather(weather.weatherCode).labelTh
+                      : describeWeather(weather.weatherCode).labelEn}
+                  </p>
+                  {weather.humidity !== null && (
+                    <p className={styles.weatherHumidity}>💧 {weather.humidity}%</p>
+                  )}
+                </div>
+              </button>
+            )}
+            <Link href="/donate" className={styles.donationWidget}>
+              <span className={styles.donationIcon}>🤲</span>
+              <div>
+                <p className={styles.donationTitle}>{t("home.donateTitle")}</p>
+                <p className={styles.donateCta}>{t("home.donateCta")}</p>
+              </div>
+            </Link>
           </div>
         </div>
         {error ? <p className={styles.warning}>{error}</p> : null}

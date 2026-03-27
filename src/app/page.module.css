@@ -57,7 +57,7 @@
   padding: 4px 8px;
   cursor: pointer;
   outline: none;
-  max-width: 180px;
+  max-width: 260px;
 }
 
 .dateMethodRow select option {
@@ -65,27 +65,6 @@
   color: #f3f6ed;
 }
 
-.heroBody {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.heroLeft {
-  width: 100%;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-}
-
-.heroRight {
-  display: flex;
-  flex-direction: row;
-  gap: 8px;
-  width: 100%;
-  align-items: stretch;
-}
 
 .weather {
   flex: 1;
@@ -196,6 +175,7 @@
   align-items: stretch;
   gap: 10px;
   margin-top: 10px;
+  flex-wrap: nowrap;
 }
 
 .prayerCard {
@@ -340,15 +320,22 @@
     font-size: 1.2rem;
   }
 
+  /* Wrap to 2×2 grid on mobile */
+  .prayerStatusRow {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .prayerCard,
+  .weather,
+  .donationWidget {
+    flex: 1 1 calc(50% - 4px);
+  }
+
   .prayerCardTime {
     font-size: 1.3rem;
   }
 
-  .prayerStatusRow {
-    gap: 8px;
-  }
-
-  /* ทำให้ weather และ donation มีขนาด font เท่ากันกับ prayer card บนมือถือ */
   .weatherTemp {
     font-size: 1rem;
   }
@@ -371,21 +358,8 @@
 }
 
 @media (min-width: 600px) {
-  .heroBody {
-    flex-direction: row;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 12px;
-  }
-
-  .heroLeft {
-    flex: 1 1 0;
-    width: auto;
-  }
-
-  .heroRight {
-    width: auto;
-    flex-shrink: 0;
+  .hero {
+    padding: 28px 32px;
   }
 }
 
