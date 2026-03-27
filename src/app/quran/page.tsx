@@ -20,11 +20,16 @@ export default function QuranPage() {
   const { t } = useI18n();
 
   useEffect(() => {
+    const controller = new AbortController();
     let mounted = true;
 
     async function loadSurahs() {
       try {
-        const response = await fetch("https://api.alquran.cloud/v1/surah", { cache: "no-store" });
+        // Surah list never changes — use browser cache
+        const response = await fetch("https://api.alquran.cloud/v1/surah", {
+          cache: "force-cache",
+          signal: controller.signal,
+        });
 
         if (!response.ok) {
           throw new Error("Unable to load surah index");
@@ -32,19 +37,14 @@ export default function QuranPage() {
 
         const payload = (await response.json()) as { data: Surah[] };
 
-        if (!mounted) {
-          return;
-        }
+        if (!mounted) return;
 
         setSurahs(payload.data);
-      } catch {
-        if (mounted) {
-          setSurahs([]);
-        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        if (mounted) setSurahs([]);
       } finally {
-        if (mounted) {
-          setLoading(false);
-        }
+        if (mounted) setLoading(false);
       }
     }
 
@@ -52,6 +52,7 @@ export default function QuranPage() {
 
     return () => {
       mounted = false;
+      controller.abort();
     };
   }, []);
 

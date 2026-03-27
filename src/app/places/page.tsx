@@ -44,6 +44,7 @@ export default function PlacesPage() {
   const { t } = useI18n();
 
   useEffect(() => {
+    const controller = new AbortController();
     let mounted = true;
 
     async function loadPlaces() {
@@ -62,7 +63,7 @@ export default function PlacesPage() {
 
       try {
         const response = await fetch(`/api/proximities?${params.toString()}`, {
-          cache: "no-store",
+          signal: controller.signal,
         });
         if (!response.ok) {
           throw new Error("Unable to fetch places");
@@ -75,10 +76,9 @@ export default function PlacesPage() {
         }
 
         setItems(payload.data);
-      } catch {
-        if (!mounted) {
-          return;
-        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        if (!mounted) return;
 
         setError(t("places.couldNotLoad"));
         setItems([]);
@@ -93,6 +93,7 @@ export default function PlacesPage() {
 
     return () => {
       mounted = false;
+      controller.abort();
     };
   }, [location.coordinates.latitude, location.coordinates.longitude, radius, type, t]);
 

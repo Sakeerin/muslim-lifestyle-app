@@ -9,11 +9,14 @@ import "@/styles/globals.css";
 const garamond = EB_Garamond({
   variable: "--font-garamond",
   subsets: ["latin"],
+  display: "swap",
 });
 
 const naskhArabic = Noto_Naskh_Arabic({
   variable: "--font-arabic",
   subsets: ["arabic"],
+  display: "swap",
+  weight: ["400", "700"],
 });
 
 export const metadata: Metadata = {

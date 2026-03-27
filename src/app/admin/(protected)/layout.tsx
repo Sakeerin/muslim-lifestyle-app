@@ -27,7 +27,7 @@ export default async function ProtectedAdminLayout({ children }: ProtectedAdminL
       <aside className={styles.sidebar}>
         <div>
           <p className={styles.eyebrow}>Admin CMS</p>
-          <h2 className={styles.brand}>Muslim Companion</h2>
+          <h2 className={styles.brand}>Muslim Lifestyle</h2>
           <p className={styles.adminEmail}>{session.user.email}</p>
         </div>
 

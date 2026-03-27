@@ -212,11 +212,10 @@ export default function CalendarPage() {
 
   // Also show today's Hijri date in header
   const todayHijriLabel = useMemo(() => {
-    const h = toHijri(today);
+    const h = toHijri(new Date());
     return isEn
       ? `${h.day} ${h.monthNameEn} ${h.year} AH`
       : `${h.day} ${h.monthNameTh} ${h.year} ฮ.ศ.`;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isEn]);
 
   return (
