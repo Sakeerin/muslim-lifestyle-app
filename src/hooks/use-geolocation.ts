@@ -40,18 +40,14 @@ type NominatimResponse = {
   };
 };
 
-async function resolveIpLocation(): Promise<{
+async function resolveIpLocation(signal?: AbortSignal): Promise<{
   coordinates: Coordinates;
   cityName: string | null;
 } | null> {
   try {
-    const response = await fetch("https://ipapi.co/json/", {
-      cache: "no-store",
-    });
+    const response = await fetch("https://ipapi.co/json/", { signal });
 
-    if (!response.ok) {
-      return null;
-    }
+    if (!response.ok) return null;
 
     const data = (await response.json()) as IpApiResponse;
 
@@ -71,17 +67,19 @@ async function resolveIpLocation(): Promise<{
   }
 }
 
-async function resolveGpsCityName(lat: number, lng: number): Promise<string | null> {
+async function resolveGpsCityName(
+  lat: number,
+  lng: number,
+  signal?: AbortSignal,
+): Promise<string | null> {
   try {
     const url = `https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json&zoom=10`;
     const response = await fetch(url, {
       headers: { "Accept-Language": "en" },
-      cache: "no-store",
+      signal,
     });
 
-    if (!response.ok) {
-      return null;
-    }
+    if (!response.ok) return null;
 
     const data = (await response.json()) as NominatimResponse;
     const place =
@@ -110,14 +108,14 @@ export function useGeolocation() {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
     let mounted = true;
+    let watchId: number | null = null;
 
     const setFallback = async (message: string) => {
-      const result = await resolveIpLocation();
+      const result = await resolveIpLocation(controller.signal);
 
-      if (!mounted) {
-        return;
-      }
+      if (!mounted) return;
 
       if (result) {
         setState({
@@ -127,7 +125,6 @@ export function useGeolocation() {
           error: message,
           cityName: result.cityName,
         });
-
         return;
       }
 
@@ -144,14 +141,16 @@ export function useGeolocation() {
       void setFallback("Geolocation unavailable on this device.");
       return () => {
         mounted = false;
+        controller.abort();
       };
     }
 
-    navigator.geolocation.getCurrentPosition(
+    // Use watchPosition so we can clearWatch (cancel) in cleanup
+    watchId = navigator.geolocation.watchPosition(
       (position) => {
-        if (!mounted) {
-          return;
-        }
+        // Got first fix — stop watching immediately
+        if (watchId !== null) navigator.geolocation.clearWatch(watchId);
+        if (!mounted) return;
 
         const coordinates = {
           latitude: position.coords.latitude,
@@ -166,20 +165,22 @@ export function useGeolocation() {
           cityName: null,
         });
 
-        void resolveGpsCityName(coordinates.latitude, coordinates.longitude).then((cityName) => {
-          if (mounted) {
-            setState((previous) => ({ ...previous, cityName }));
-          }
-        });
+        void resolveGpsCityName(coordinates.latitude, coordinates.longitude, controller.signal).then(
+          (cityName) => {
+            if (mounted) setState((previous) => ({ ...previous, cityName }));
+          },
+        );
       },
       () => {
         void setFallback("Location permission denied, using fallback.");
       },
-      { timeout: 9000, enableHighAccuracy: true },
+      { timeout: 5000, enableHighAccuracy: false, maximumAge: 60_000 },
     );
 
     return () => {
       mounted = false;
+      controller.abort();
+      if (watchId !== null) navigator.geolocation.clearWatch(watchId);
     };
   }, []);
 

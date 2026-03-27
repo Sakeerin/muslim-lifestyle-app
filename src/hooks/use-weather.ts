@@ -47,6 +47,7 @@ export function useWeather(lat: number, lng: number, ready: boolean) {
   useEffect(() => {
     if (!ready) return;
 
+    const controller = new AbortController();
     let mounted = true;
 
     async function fetchWeather() {
@@ -56,7 +57,7 @@ export function useWeather(lat: number, lng: number, ready: boolean) {
           `?latitude=${lat}&longitude=${lng}` +
           `&current=temperature_2m,weather_code,relative_humidity_2m`;
 
-        const res = await fetch(url, { cache: "no-store" });
+        const res = await fetch(url, { signal: controller.signal });
 
         if (!res.ok) {
           if (mounted) setState((prev) => ({ ...prev, loading: false }));
@@ -73,7 +74,8 @@ export function useWeather(lat: number, lng: number, ready: boolean) {
             loading: false,
           });
         }
-      } catch {
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
         if (mounted) setState((prev) => ({ ...prev, loading: false }));
       }
     }
@@ -82,6 +84,7 @@ export function useWeather(lat: number, lng: number, ready: boolean) {
 
     return () => {
       mounted = false;
+      controller.abort();
     };
   }, [lat, lng, ready]);
 
