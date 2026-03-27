@@ -69,6 +69,7 @@ type PrayerQuery = {
   latitude: number;
   longitude: number;
   method: number;
+  signal?: AbortSignal;
 };
 
 export async function fetchTodayPrayerTimes(query: PrayerQuery) {
@@ -79,7 +80,7 @@ export async function fetchTodayPrayerTimes(query: PrayerQuery) {
   });
 
   const response = await fetch(`${BASE_URL}/timings?${params.toString()}`, {
-    cache: "no-store",
+    signal: query.signal,
   });
 
   if (!response.ok) {
@@ -116,7 +117,7 @@ export async function fetchMonthlyPrayerCalendar(query: PrayerQuery) {
   });
 
   const response = await fetch(`${BASE_URL}/calendar?${params.toString()}`, {
-    cache: "no-store",
+    signal: query.signal,
   });
 
   if (!response.ok) {

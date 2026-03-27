@@ -36,6 +36,7 @@ export function usePrayerTimes(method: number) {
   });
 
   useEffect(() => {
+    const controller = new AbortController();
     let mounted = true;
 
     async function loadPrayerData() {
@@ -50,11 +51,13 @@ export function usePrayerTimes(method: number) {
             latitude: location.coordinates.latitude,
             longitude: location.coordinates.longitude,
             method,
+            signal: controller.signal,
           }),
           fetchMonthlyPrayerCalendar({
             latitude: location.coordinates.latitude,
             longitude: location.coordinates.longitude,
             method,
+            signal: controller.signal,
           }),
         ]);
 
@@ -72,10 +75,9 @@ export function usePrayerTimes(method: number) {
           countdown: formatCountdown(upcoming.prayerTime),
           nextPrayer: upcoming.prayerName,
         });
-      } catch {
-        if (!mounted) {
-          return;
-        }
+      } catch (err) {
+        if (err instanceof Error && err.name === "AbortError") return;
+        if (!mounted) return;
 
         setState((previous) => ({
           ...previous,
@@ -89,6 +91,7 @@ export function usePrayerTimes(method: number) {
 
     return () => {
       mounted = false;
+      controller.abort();
     };
   }, [
     location.coordinates.latitude,

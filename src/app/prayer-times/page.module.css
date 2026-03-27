@@ -25,17 +25,22 @@
 
 .header {
   position: relative;
-  overflow: hidden;
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+  gap: 14px;
   border: 1px solid var(--border-soft);
   border-radius: 20px;
   background: linear-gradient(140deg, rgba(8, 72, 61, 0.94), rgba(5, 36, 56, 0.94));
   color: #f3f6ed;
   padding: 22px;
+}
+
+.headerTop {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
 
 .header::after {
@@ -63,35 +68,135 @@
   margin-top: 2px;
 }
 
-.header > div {
+.headerTop > div {
   flex: 1 1 200px;
+  min-width: 0;
 }
 
-.header label {
+.headerRight {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  font-size: 0.875rem;
-  color: rgba(243, 246, 237, 0.7);
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
   position: relative;
   z-index: 1;
 }
 
-.header select {
+.weather {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px;
+  padding: 10px 14px;
+}
+
+.weatherIcon {
+  font-size: 1.7rem;
+  line-height: 1;
+}
+
+.weatherTemp {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f3f6ed;
+}
+
+.weatherDesc {
+  font-size: 0.72rem;
+  color: rgba(243, 246, 237, 0.7);
+  margin-top: 1px;
+}
+
+.weatherHumidity {
+  font-size: 0.72rem;
+  color: rgba(221, 184, 102, 0.85);
+  margin-top: 2px;
+}
+
+.methodWrap {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 200px;
+}
+
+.methodLabel {
+  font-size: 0.875rem;
+  color: rgba(243, 246, 237, 0.7);
+}
+
+.methodBtn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  width: 100%;
   padding: 8px 12px;
   border-radius: 8px;
   border: 1px solid rgba(255, 255, 255, 0.2);
-  background: rgba(255, 255, 255, 0.1);
+  background: #0d4a3a;
   color: #f3f6ed;
-  font-size: 0.9rem;
+  font-size: 0.875rem;
   cursor: pointer;
   outline: none;
-  backdrop-filter: blur(4px);
+  text-align: left;
   transition: border-color 0.2s;
 }
 
-.header select:focus {
+.methodBtn:focus {
   border-color: rgba(216, 199, 118, 0.8);
+}
+
+.chevronIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+
+.chevronOpen {
+  flex-shrink: 0;
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+
+.methodDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: #0d4a3a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  z-index: 100;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+}
+
+.methodOption {
+  padding: 8px 12px;
+  color: #f3f6ed;
+  font-size: 0.875rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.methodOption:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.methodOptionActive {
+  background: rgba(216, 199, 118, 0.15);
+  color: rgba(216, 199, 118, 1);
+  font-weight: 600;
 }
 
 .card {
@@ -305,11 +410,7 @@
     width: 100%;
   }
 
-  .header label {
-    width: 100%;
-  }
-
-  .header select {
+  .methodWrap {
     width: 100%;
   }
 
