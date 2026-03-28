@@ -34,3 +34,397 @@ button.item {
   color: inherit;
   text-align: left;
 }
+
+/* ── Section header ────────────────────────────── */
+
+.sectionHeader {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+}
+
+.sectionHeader h2 {
+  margin-bottom: 2px;
+}
+
+.sectionDesc {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin: 2px 0 0;
+}
+
+/* ── Notification permission ───────────────────── */
+
+.permBtn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #0e8d71;
+  background: transparent;
+  color: #0e8d71;
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.permBtn:hover {
+  background: rgba(14, 141, 113, 0.08);
+}
+
+.permDenied {
+  border-color: var(--border-soft);
+  color: var(--text-secondary);
+  cursor: not-allowed;
+}
+
+.permGranted {
+  font-size: 0.82rem;
+  color: #0e8d71;
+  font-weight: 600;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+/* ── Prayer toggle rows ────────────────────────── */
+
+.toggleList {
+  display: grid;
+  gap: 2px;
+}
+
+.toggleRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 11px 10px;
+  border-radius: 10px;
+  transition: background 0.12s;
+}
+
+.toggleRow:hover {
+  background: var(--surface-muted);
+}
+
+.prayerIcon {
+  font-size: 1.2rem;
+  width: 28px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.prayerLabel {
+  flex: 1;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+/* CSS-only toggle switch */
+.toggle {
+  position: relative;
+  width: 46px;
+  height: 26px;
+  border-radius: 999px;
+  background: var(--border-soft);
+  border: none;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.toggle::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.22);
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.toggleOn {
+  background: #0e8d71;
+}
+
+.toggleOn::after {
+  transform: translateX(20px);
+}
+
+.toggle:focus-visible {
+  outline: 2px solid #0e8d71;
+  outline-offset: 2px;
+}
+
+/* ── Reciter selection ─────────────────────────── */
+
+.reciterList {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.reciterRow {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  border: 1.5px solid var(--border-soft);
+  background: var(--surface-muted);
+  cursor: pointer;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
+  outline: none;
+}
+
+.reciterRow:hover {
+  background: var(--surface-hover);
+}
+
+.reciterRow:focus-visible {
+  outline: 2px solid #0e8d71;
+  outline-offset: 2px;
+}
+
+.reciterActive {
+  border-color: #0e8d71;
+  background: linear-gradient(90deg, rgba(14, 141, 113, 0.07), rgba(216, 199, 118, 0.05));
+}
+
+.reciterRadio {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--border-soft);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.15s;
+}
+
+.reciterActive .reciterRadio {
+  border-color: #0e8d71;
+}
+
+.reciterDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #0e8d71;
+}
+
+.reciterInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.reciterName {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0 0 2px;
+}
+
+.reciterOrigin {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.previewBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-card);
+  color: var(--text-secondary);
+  font-size: 0.65rem;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: all 0.15s;
+}
+
+.previewBtn:hover {
+  background: var(--surface-hover);
+  color: var(--text-primary);
+}
+
+.previewBtnActive {
+  background: #0e8d71;
+  border-color: #0e8d71;
+  color: white;
+}
+
+.previewBtnError {
+  border-color: #e05555;
+  color: #e05555;
+}
+
+/* ── Quran Reading Progress ─────────────────── */
+
+.syncIcon {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.lastReadCard {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, rgba(14, 141, 113, 0.08), rgba(216, 199, 118, 0.06));
+  border: 1px solid rgba(14, 141, 113, 0.25);
+  margin-bottom: 14px;
+}
+
+.lastReadInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.lastReadLabel {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0e8d71;
+  font-weight: 600;
+}
+
+.lastReadName {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 2px 0 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lastReadAr {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.lastReadDate {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.continueBtn {
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: #0e8d71;
+  color: #fff;
+  font-size: 0.8rem;
+  font-weight: 600;
+  white-space: nowrap;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+
+.continueBtn:hover {
+  background: #0b7560;
+}
+
+.neverRead {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  padding: 12px 0;
+  margin-bottom: 14px;
+}
+
+.progressSection {
+  margin-bottom: 16px;
+}
+
+.progressHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.progressLabel {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+}
+
+.progressPct {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: #0e8d71;
+}
+
+.progressBar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--border-soft);
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0e8d71, #c5a84f);
+  transition: width 0.4s ease;
+  min-width: 0;
+}
+
+.syncActions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.syncBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 1.5px solid var(--border-soft);
+  background: transparent;
+  color: var(--text-primary);
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
+}
+
+.syncBtn:hover {
+  background: var(--surface-muted);
+}
+
+.syncBtnDanger {
+  border-color: rgba(224, 85, 85, 0.4);
+  color: #e05555;
+}
+
+.syncBtnDanger:hover {
+  background: rgba(224, 85, 85, 0.08);
+}
+
+.hiddenInput {
+  display: none;
+}

@@ -1,8 +1,11 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import Link from "next/link";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import { VirtualizedAyahList, type AyahView } from "@/components/features/virtualized-ayah-list";
 import { useI18n } from "@/i18n/i18n-context";
+import { useQuranProgress } from "@/hooks/use-quran-progress";
 import styles from "./page.module.css";
 
 type SurahAyah = {
@@ -45,7 +48,10 @@ export default function SurahPage({ params }: SurahPageProps) {
   const [surahId, setSurahId] = useState<string>("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  // Track which surahId has already been marked to avoid re-marking on translationLang change
+  const markedSurahRef = useRef<string | null>(null);
   const { t } = useI18n();
+  const { markAsRead } = useQuranProgress();
 
   useEffect(() => {
     try {
@@ -176,6 +182,11 @@ export default function SurahPage({ params }: SurahPageProps) {
           englishNameTranslation: arabicPayload.data.englishNameTranslation,
           name: arabicPayload.data.name,
         });
+        // Only mark as read once per surah navigation, not on every translationLang re-fetch
+        if (markedSurahRef.current !== surahId) {
+          markedSurahRef.current = surahId;
+          markAsRead(Number(surahId), arabicPayload.data.englishName, arabicPayload.data.name);
+        }
         setAyahs(combinedAyahs);
         setAudioAyahs(audioPayload.data.ayahs);
       } catch {
@@ -192,7 +203,7 @@ export default function SurahPage({ params }: SurahPageProps) {
     return () => {
       mounted = false;
     };
-  }, [surahId, translationLang]);
+  }, [surahId, translationLang, markAsRead]);
 
   const currentAudio = useMemo(() => {
     const source = audioAyahs[activeAyah]?.audio;
@@ -317,6 +328,44 @@ export default function SurahPage({ params }: SurahPageProps) {
           mode={readingMode ? "reading" : "compact"}
           showTranslation={showTranslation}
         />
+
+        {surahId &&
+          (() => {
+            const surahNum = Number(surahId);
+            return (
+              <div className={styles.surahNav}>
+                {surahNum > 1 ? (
+                  <Link href={`/quran/${surahNum - 1}`} className={styles.surahNavBtn}>
+                    <ChevronLeft size={18} className={styles.navIcon} />
+                    <span className={styles.navText}>
+                      <span className={styles.navDir}>{t("surah.prevSurah")}</span>
+                      <span className={styles.navNum}>
+                        {t("surah.surahN", { n: String(surahNum - 1) })}
+                      </span>
+                    </span>
+                  </Link>
+                ) : (
+                  <div />
+                )}
+                {surahNum < 114 ? (
+                  <Link
+                    href={`/quran/${surahNum + 1}`}
+                    className={`${styles.surahNavBtn} ${styles.surahNavBtnNext}`}
+                  >
+                    <span className={styles.navText}>
+                      <span className={styles.navDir}>{t("surah.nextSurah")}</span>
+                      <span className={styles.navNum}>
+                        {t("surah.surahN", { n: String(surahNum + 1) })}
+                      </span>
+                    </span>
+                    <ChevronRight size={18} className={styles.navIcon} />
+                  </Link>
+                ) : (
+                  <div />
+                )}
+              </div>
+            );
+          })()}
       </section>
     </div>
   );

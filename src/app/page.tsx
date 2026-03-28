@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
-import { Grid3X3, X } from "lucide-react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { ChevronDown, Grid3X3, X } from "lucide-react";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
@@ -106,6 +106,8 @@ export default function Home() {
   const [showWeatherDetail, setShowWeatherDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [showMore, setShowMore] = useState(false);
+  const [methodOpen, setMethodOpen] = useState(false);
+  const methodWrapRef = useRef<HTMLDivElement>(null);
   const { countdown, date, error, loading, nextPrayer, location, timings } = usePrayerTimes(method);
   const weather = useWeather(
     location.coordinates.latitude,
@@ -120,6 +122,16 @@ export default function Home() {
     const monthName = locale === "th" ? h.monthNameTh : h.monthNameEn;
     return t("home.hijriDate", { day: String(h.day), month: monthName, year: String(h.year) });
   }, [locale, t]);
+
+  useEffect(() => {
+    const handleOutside = (e: MouseEvent) => {
+      if (methodWrapRef.current && !methodWrapRef.current.contains(e.target as Node)) {
+        setMethodOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, []);
 
   useEffect(() => {
     if (showMore) {
@@ -236,6 +248,7 @@ export default function Home() {
         />
       )}
       <section className={styles.hero}>
+        <div className={styles.heroGlow} aria-hidden="true" />
         <div className={styles.heroTop}>
           <div className={styles.dateMethodRow}>
             <p
@@ -244,22 +257,47 @@ export default function Home() {
             >
               {date ?? t("home.todaySchedule")}
             </p>
-            <label>
-              {t("home.method")}
-              <select
+            <div ref={methodWrapRef} className={styles.heroMethodWrap}>
+              <button
+                type="button"
+                className={styles.heroMethodBtn}
+                onClick={() => setMethodOpen((o) => !o)}
+                aria-haspopup="listbox"
+                aria-expanded={methodOpen}
                 suppressHydrationWarning
-                value={method}
-                onChange={(event) => {
-                  setMethod(Number(event.target.value));
-                }}
               >
-                {CALCULATION_METHODS.map((option) => (
-                  <option suppressHydrationWarning key={option.value} value={option.value}>
-                    {isMobile ? option.shortLabel : option.label}
-                  </option>
-                ))}
-              </select>
-            </label>
+                <span className={styles.heroMethodLabel}>{t("home.method")}</span>
+                <span className={styles.heroMethodName} suppressHydrationWarning>
+                  {
+                    CALCULATION_METHODS.find((m) => m.value === method)?.[
+                      isMobile ? "shortLabel" : "label"
+                    ]
+                  }
+                </span>
+                <ChevronDown
+                  size={12}
+                  className={methodOpen ? styles.chevronOpen : styles.chevronIcon}
+                />
+              </button>
+              {methodOpen && (
+                <ul role="listbox" className={styles.heroMethodDropdown}>
+                  {CALCULATION_METHODS.map((option) => (
+                    <li
+                      key={option.value}
+                      role="option"
+                      aria-selected={option.value === method}
+                      className={`${styles.heroMethodOption} ${option.value === method ? styles.heroMethodOptionActive : ""}`}
+                      onClick={() => {
+                        setMethod(option.value);
+                        setMethodOpen(false);
+                      }}
+                    >
+                      {option.label}
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
           </div>
           <div className={styles.hijriRow}>
             <p className={styles.hijriDate} suppressHydrationWarning>

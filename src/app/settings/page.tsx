@@ -1,11 +1,73 @@
 "use client";
 
+import { useEffect, useRef, useState } from "react";
+import Link from "next/link";
+import { BookOpen, Download, RotateCcw, Upload } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
 import { useI18n } from "@/i18n/i18n-context";
+import { PRAYER_NAMES, RECITERS, useAzanSettings, type Reciter } from "@/hooks/use-azan-settings";
+import { useQuranProgress } from "@/hooks/use-quran-progress";
 import styles from "./page.module.css";
+
+const PRAYER_ICONS: Record<string, string> = {
+  Fajr: "🌄",
+  Dhuhr: "☀️",
+  Asr: "🌤️",
+  Maghrib: "🌆",
+  Isha: "🌙",
+};
 
 export default function SettingsPage() {
   const { locale, setLocale, t } = useI18n();
+  const { toggles, togglePrayer, reciterId, setReciterId } = useAzanSettings();
+  const { progress, resetProgress, exportData, importData } = useQuranProgress();
+  const [permission, setPermission] = useState<NotificationPermission | null>(null);
+  const [previewId, setPreviewId] = useState<string | null>(null);
+  const [previewError, setPreviewError] = useState<string | null>(null);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const importInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    if ("Notification" in window) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setPermission(Notification.permission);
+    }
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      audioRef.current?.pause();
+    };
+  }, []);
+
+  const requestPermission = async () => {
+    if (!("Notification" in window)) return;
+    const result = await Notification.requestPermission();
+    setPermission(result);
+  };
+
+  const handlePreview = (reciter: Reciter) => {
+    setPreviewError(null);
+    if (previewId === reciter.id) {
+      audioRef.current?.pause();
+      if (audioRef.current) audioRef.current.currentTime = 0;
+      setPreviewId(null);
+      return;
+    }
+    audioRef.current?.pause();
+    const audio = new Audio(reciter.audioUrl);
+    audioRef.current = audio;
+    audio.onended = () => setPreviewId(null);
+    audio.onerror = () => {
+      setPreviewId(null);
+      setPreviewError(reciter.id);
+    };
+    void audio.play().catch(() => {
+      setPreviewId(null);
+      setPreviewError(reciter.id);
+    });
+    setPreviewId(reciter.id);
+  };
 
   return (
     <div className={styles.page}>
@@ -39,12 +101,179 @@ export default function SettingsPage() {
         </div>
       </section>
 
+      {/* ── Prayer notification toggles ──────────── */}
       <section className={styles.card}>
-        <h2>{t("settings.upcomingOptions")}</h2>
-        <div className={styles.list}>
-          <div className={styles.item}>{t("settings.prayerReminders")}</div>
-          <div className={styles.item}>{t("settings.preferredReciter")}</div>
-          <div className={styles.item}>{t("settings.quranSync")}</div>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h2>{t("settings.prayerReminders")}</h2>
+            <p className={styles.sectionDesc}>{t("settings.prayerRemindersDesc")}</p>
+          </div>
+          {permission === null ? null : permission === "granted" ? (
+            <span className={styles.permGranted}>✓ {t("settings.permissionGranted")}</span>
+          ) : (
+            <button
+              type="button"
+              className={`${styles.permBtn} ${permission === "denied" ? styles.permDenied : ""}`}
+              onClick={requestPermission}
+              disabled={permission === "denied"}
+            >
+              {permission === "denied"
+                ? t("settings.permissionDenied")
+                : t("settings.requestPermission")}
+            </button>
+          )}
+        </div>
+        <div className={styles.toggleList}>
+          {PRAYER_NAMES.map((prayer) => (
+            <div key={prayer} className={styles.toggleRow}>
+              <span className={styles.prayerIcon}>{PRAYER_ICONS[prayer]}</span>
+              <span className={styles.prayerLabel}>{t(`prayer.${prayer}`)}</span>
+              <button
+                type="button"
+                role="switch"
+                aria-checked={toggles[prayer]}
+                className={`${styles.toggle} ${toggles[prayer] ? styles.toggleOn : ""}`}
+                onClick={() => togglePrayer(prayer)}
+              />
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Reciter selection ────────────────────── */}
+      <section className={styles.card}>
+        <h2>{t("settings.reciter")}</h2>
+        <p className={styles.sectionDesc}>{t("settings.reciterDesc")}</p>
+        <div className={styles.reciterList}>
+          {RECITERS.map((reciter) => (
+            <div
+              key={reciter.id}
+              className={`${styles.reciterRow} ${reciterId === reciter.id ? styles.reciterActive : ""}`}
+              onClick={() => setReciterId(reciter.id)}
+              role="radio"
+              aria-checked={reciterId === reciter.id}
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                  e.preventDefault();
+                  setReciterId(reciter.id);
+                }
+              }}
+            >
+              <div className={styles.reciterRadio}>
+                {reciterId === reciter.id && <span className={styles.reciterDot} />}
+              </div>
+              <div className={styles.reciterInfo}>
+                <p className={styles.reciterName}>
+                  {locale === "th" ? reciter.nameTh : reciter.nameEn}
+                </p>
+                <p className={styles.reciterOrigin}>{reciter.origin}</p>
+              </div>
+              <button
+                type="button"
+                className={`${styles.previewBtn} ${previewId === reciter.id ? styles.previewBtnActive : ""} ${previewError === reciter.id ? styles.previewBtnError : ""}`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handlePreview(reciter);
+                }}
+                aria-label={previewId === reciter.id ? t("settings.stop") : t("settings.preview")}
+                title={previewError === reciter.id ? "ไม่สามารถโหลดเสียงได้" : undefined}
+              >
+                {previewError === reciter.id ? "✕" : previewId === reciter.id ? "■" : "▶"}
+              </button>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* ── Quran Reading Progress ───────────────── */}
+      <section className={styles.card}>
+        <div className={styles.sectionHeader}>
+          <div>
+            <h2>{t("settings.quranSync")}</h2>
+            <p className={styles.sectionDesc}>{t("settings.quranSyncDesc")}</p>
+          </div>
+          <BookOpen size={22} className={styles.syncIcon} />
+        </div>
+
+        {progress.lastSurah ? (
+          <div className={styles.lastReadCard}>
+            <div className={styles.lastReadInfo}>
+              <span className={styles.lastReadLabel}>{t("settings.lastRead")}</span>
+              <p className={styles.lastReadName}>
+                {progress.lastSurahName}
+                <span className={styles.lastReadAr}> · {progress.lastSurahNameAr}</span>
+              </p>
+              {progress.lastReadAt && (
+                <p className={styles.lastReadDate} suppressHydrationWarning>
+                  {new Date(progress.lastReadAt).toLocaleDateString(
+                    locale === "th" ? "th-TH" : "en-GB",
+                    { day: "numeric", month: "short", year: "numeric" },
+                  )}
+                </p>
+              )}
+            </div>
+            <Link href={`/quran/${progress.lastSurah}`} className={styles.continueBtn}>
+              {t("settings.continueReading")} →
+            </Link>
+          </div>
+        ) : (
+          <p className={styles.neverRead}>{t("settings.neverRead")}</p>
+        )}
+
+        <div className={styles.progressSection}>
+          <div className={styles.progressHeader}>
+            <span className={styles.progressLabel}>
+              {t("settings.surahsVisited", {
+                count: String(progress.visitedSurahs.length),
+              })}
+            </span>
+            <span className={styles.progressPct}>
+              {Math.round((progress.visitedSurahs.length / 114) * 100)}%
+            </span>
+          </div>
+          <div className={styles.progressBar}>
+            <div
+              className={styles.progressFill}
+              style={{ width: `${(progress.visitedSurahs.length / 114) * 100}%` }}
+            />
+          </div>
+        </div>
+
+        <div className={styles.syncActions}>
+          <button type="button" className={styles.syncBtn} onClick={exportData}>
+            <Download size={14} />
+            {t("settings.exportProgress")}
+          </button>
+          <button
+            type="button"
+            className={styles.syncBtn}
+            onClick={() => importInputRef.current?.click()}
+          >
+            <Upload size={14} />
+            {t("settings.importProgress")}
+          </button>
+          <input
+            ref={importInputRef}
+            type="file"
+            accept=".json"
+            className={styles.hiddenInput}
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) importData(file);
+              e.target.value = "";
+            }}
+          />
+          <button
+            type="button"
+            className={`${styles.syncBtn} ${styles.syncBtnDanger}`}
+            onClick={() => {
+              if (window.confirm(t("settings.confirmReset"))) resetProgress();
+            }}
+          >
+            <RotateCcw size={14} />
+            {t("settings.resetProgress")}
+          </button>
         </div>
       </section>
     </div>

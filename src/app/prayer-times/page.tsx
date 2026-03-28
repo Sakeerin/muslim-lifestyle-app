@@ -9,7 +9,8 @@ import { useI18n } from "@/i18n/i18n-context";
 import { ChevronDown, MapPin, Pause, Play, Printer } from "lucide-react";
 import styles from "./page.module.css";
 
-const ADHAN_URL = "https://download.quranicaudio.com/quran/adhan/azan1.mp3";
+const ADHAN_URL =
+  "https://raw.githubusercontent.com/achaudhry/adhan/master/Adhan-Mishary-Rashid-Al-Afasy.mp3";
 
 const METHODS: Array<{ value: number; label: string; shortLabel: string }> = [
   { value: 4, label: "อุมม์ อัลกุรอ์ — มักกะห์", shortLabel: "อุมม์ อัลกุรอ์" },

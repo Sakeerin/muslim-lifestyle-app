@@ -5,7 +5,6 @@
 
 .hero {
   position: relative;
-  overflow: hidden;
   border: 1px solid var(--border-soft);
   border-radius: 20px;
   background: linear-gradient(140deg, rgba(8, 72, 61, 0.94), rgba(5, 36, 56, 0.94));
@@ -13,7 +12,18 @@
   padding: 22px;
 }
 
-.hero::after {
+/* Separate clip layer so the glow is clipped at the card boundary
+   but the dropdown (position: absolute on heroMethodWrap) can overflow freely */
+.heroGlow {
+  position: absolute;
+  inset: 0;
+  border-radius: 20px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.heroGlow::after {
   content: "";
   position: absolute;
   top: -40px;
@@ -22,10 +32,11 @@
   width: 140px;
   border-radius: 999px;
   background: radial-gradient(circle, rgba(221, 184, 102, 0.3), transparent 70%);
-  pointer-events: none;
 }
 
 .heroTop {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -38,31 +49,88 @@
   gap: 12px;
 }
 
-.dateMethodRow label {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 0.78rem;
-  color: rgba(243, 246, 237, 0.7);
-  white-space: nowrap;
+/* ── Hero calculation method dropdown ───────────── */
+
+.heroMethodWrap {
+  position: relative;
   flex-shrink: 0;
 }
 
-.dateMethodRow select {
-  background: #0d4a3a;
-  border: 1px solid rgba(255, 255, 255, 0.2);
+.heroMethodBtn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 8px;
   border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: #0d4a3a;
   color: #f3f6ed;
   font-size: 0.78rem;
-  padding: 4px 8px;
   cursor: pointer;
   outline: none;
-  max-width: 260px;
+  white-space: nowrap;
+  transition: border-color 0.2s;
 }
 
-.dateMethodRow select option {
-  background: #0d4a3a;
+.heroMethodBtn:focus {
+  border-color: rgba(216, 199, 118, 0.8);
+}
+
+.heroMethodLabel {
+  color: rgba(243, 246, 237, 0.6);
+}
+
+.heroMethodName {
+  font-weight: 500;
   color: #f3f6ed;
+}
+
+.chevronIcon {
+  flex-shrink: 0;
+  color: rgba(243, 246, 237, 0.7);
+  transition: transform 0.2s;
+}
+
+.chevronOpen {
+  flex-shrink: 0;
+  color: rgba(243, 246, 237, 0.7);
+  transform: rotate(180deg);
+  transition: transform 0.2s;
+}
+
+.heroMethodDropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  right: 0;
+  min-width: 200px;
+  background: #0d4a3a;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 10px;
+  list-style: none;
+  padding: 4px 0;
+  margin: 0;
+  z-index: 200;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.4);
+  overflow: hidden;
+}
+
+.heroMethodOption {
+  padding: 9px 14px;
+  color: #f3f6ed;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+}
+
+.heroMethodOption:hover {
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.heroMethodOptionActive {
+  background: rgba(216, 199, 118, 0.15);
+  color: rgba(216, 199, 118, 1);
+  font-weight: 600;
 }
 
 .weather {

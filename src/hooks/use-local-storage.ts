@@ -21,7 +21,6 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T)
         } catch {
           // Legacy: stored as plain string (not JSON-encoded)
           const legacy = raw as unknown as T;
-          // eslint-disable-next-line react-hooks/set-state-in-effect
           setValue((prev) => (prev !== legacy ? legacy : prev));
         }
       }

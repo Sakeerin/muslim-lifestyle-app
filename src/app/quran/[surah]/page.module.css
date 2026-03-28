@@ -126,6 +126,78 @@
   }
 }
 
+/* ── Surah navigation ──────────────────────── */
+
+.surahNav {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 28px;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.surahNavBtn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 16px;
+  border-radius: 14px;
+  border: 1.5px solid var(--border-soft);
+  background: var(--surface-muted);
+  text-decoration: none;
+  color: var(--text-primary);
+  transition:
+    border-color 0.18s,
+    background 0.18s,
+    transform 0.15s;
+  min-width: 0;
+}
+
+.surahNavBtn:hover {
+  border-color: #0e8d71;
+  background: linear-gradient(135deg, rgba(14, 141, 113, 0.07), rgba(216, 199, 118, 0.05));
+  transform: translateY(-1px);
+}
+
+.surahNavBtn:active {
+  transform: translateY(0);
+}
+
+.surahNavBtnNext {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.navIcon {
+  color: #0e8d71;
+  flex-shrink: 0;
+}
+
+.navText {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.navDir {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #0e8d71;
+  font-weight: 600;
+}
+
+.navNum {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 @media (max-width: 640px) {
   .readingModeHeader {
     flex-direction: column;
@@ -143,5 +215,18 @@
   .controls button {
     flex: 1 1 calc(50% - 8px);
     min-width: 120px;
+  }
+
+  .surahNav {
+    gap: 8px;
+  }
+
+  .surahNavBtn {
+    padding: 12px 12px;
+    border-radius: 12px;
+  }
+
+  .navNum {
+    font-size: 0.85rem;
   }
 }
