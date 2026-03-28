@@ -20,9 +20,7 @@ import {
 import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
-const BANK_ACCOUNTS = [
-  { bank: "ธนาคารกรุงเทพ", bankEn: "Bangkok Bank", number: "902-0-245883" },
-];
+const BANK_ACCOUNTS = [{ bank: "ธนาคารกรุงเทพ", bankEn: "Bangkok Bank", number: "902-0-245883" }];
 
 const FEATURES = [
   { icon: Clock, key: "donate.featurePrayer" },

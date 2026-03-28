@@ -7,10 +7,7 @@ import { useCallback, useEffect, useState } from "react";
  * Always initializes with defaultValue (avoids hydration mismatch),
  * then reads the stored value on the client after mount.
  */
-export function useLocalStorage<T>(
-  key: string,
-  defaultValue: T,
-): [T, (value: T) => void] {
+export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T) => void] {
   const [value, setValue] = useState<T>(defaultValue);
 
   useEffect(() => {
@@ -18,10 +15,14 @@ export function useLocalStorage<T>(
       const raw = localStorage.getItem(key);
       if (raw !== null) {
         try {
-          setValue(JSON.parse(raw) as T);
+          const parsed = JSON.parse(raw) as T;
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setValue((prev) => (prev !== parsed ? parsed : prev));
         } catch {
           // Legacy: stored as plain string (not JSON-encoded)
-          setValue(raw as unknown as T);
+          const legacy = raw as unknown as T;
+          // eslint-disable-next-line react-hooks/set-state-in-effect
+          setValue((prev) => (prev !== legacy ? legacy : prev));
         }
       }
     } catch {}

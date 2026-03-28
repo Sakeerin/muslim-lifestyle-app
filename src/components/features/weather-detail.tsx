@@ -144,9 +144,7 @@ export function WeatherDetailModal({
                   ↑{detail.todayMax}° ↓{detail.todayMin}°
                 </span>
               )}
-              {humidity !== null && (
-                <span className={styles.metaChip}>💧 {humidity}%</span>
-              )}
+              {humidity !== null && <span className={styles.metaChip}>💧 {humidity}%</span>}
             </div>
           </div>
           <span className={styles.currentBigIcon}>{weatherInfo?.icon ?? "🌡️"}</span>
@@ -155,9 +153,7 @@ export function WeatherDetailModal({
         {/* Hourly forecast */}
         {(detail.loading || detail.hourly.length > 0) && (
           <div className={styles.section} style={{ animationDelay: "0.1s" }}>
-            <p className={styles.sectionTitle}>
-              {isTh ? "พยากรณ์รายชั่วโมง" : "Hourly Forecast"}
-            </p>
+            <p className={styles.sectionTitle}>{isTh ? "พยากรณ์รายชั่วโมง" : "Hourly Forecast"}</p>
             {detail.loading && detail.hourly.length === 0 ? (
               <div className={styles.skeletonRow}>
                 {Array.from({ length: 6 }).map((_, i) => (
@@ -177,9 +173,7 @@ export function WeatherDetailModal({
                       </span>
                       <span className={styles.hourlyIcon}>{describeWeather(h.code).icon}</span>
                       <span className={styles.hourlyTemp}>{h.temp}°</span>
-                      <span className={styles.hourlyRain}>
-                        {h.rain > 0 ? `💧${h.rain}%` : "—"}
-                      </span>
+                      <span className={styles.hourlyRain}>{h.rain > 0 ? `💧${h.rain}%` : "—"}</span>
                     </div>
                   ))}
                 </div>
@@ -191,9 +185,7 @@ export function WeatherDetailModal({
         {/* Daily forecast */}
         {(detail.loading || detail.daily.length > 0) && (
           <div className={styles.section} style={{ animationDelay: "0.16s" }}>
-            <p className={styles.sectionTitle}>
-              {isTh ? "พยากรณ์ 7 วัน" : "7-Day Forecast"}
-            </p>
+            <p className={styles.sectionTitle}>{isTh ? "พยากรณ์ 7 วัน" : "7-Day Forecast"}</p>
             {detail.loading && detail.daily.length === 0 ? (
               <div className={styles.skeletonList}>
                 {Array.from({ length: 5 }).map((_, i) => (
@@ -207,14 +199,9 @@ export function WeatherDetailModal({
                 const barLeft = ((d.min - weekMin) / range) * 100;
                 const barWidth = Math.max(((d.max - d.min) / range) * 100, 6);
                 return (
-                  <div
-                    key={i}
-                    className={`${styles.dailyRow} ${i === 0 ? styles.todayRow : ""}`}
-                  >
+                  <div key={i} className={`${styles.dailyRow} ${i === 0 ? styles.todayRow : ""}`}>
                     <span className={styles.dailyDay}>{label}</span>
-                    <span className={styles.dailyRain}>
-                      {d.rain > 0 ? `💧${d.rain}%` : ""}
-                    </span>
+                    <span className={styles.dailyRain}>{d.rain > 0 ? `💧${d.rain}%` : ""}</span>
                     <span className={styles.dailyIcon}>{w.icon}</span>
                     <div className={styles.dailyTempBar}>
                       <div
@@ -236,17 +223,13 @@ export function WeatherDetailModal({
         {/* Sunrise / Sunset */}
         {(detail.sunrise ?? detail.sunset) && (
           <div className={styles.section} style={{ animationDelay: "0.22s" }}>
-            <p className={styles.sectionTitle}>
-              {isTh ? "ดวงอาทิตย์" : "Sun"}
-            </p>
+            <p className={styles.sectionTitle}>{isTh ? "ดวงอาทิตย์" : "Sun"}</p>
             <div className={styles.sunRow}>
               <div className={styles.sunItem}>
                 <div className={styles.sunIconWrap}>
                   <Sunrise size={22} />
                 </div>
-                <p className={styles.sunLabel}>
-                  {isTh ? "พระอาทิตย์ขึ้น" : "Sunrise"}
-                </p>
+                <p className={styles.sunLabel}>{isTh ? "พระอาทิตย์ขึ้น" : "Sunrise"}</p>
                 <p className={styles.sunTime}>{detail.sunrise ?? "--:--"}</p>
               </div>
 
@@ -271,7 +254,10 @@ export function WeatherDetailModal({
                   )}
                   {/* Horizon line */}
                   <line
-                    x1="2" y1="52" x2="98" y2="52"
+                    x1="2"
+                    y1="52"
+                    x2="98"
+                    y2="52"
                     stroke="rgba(255,255,255,0.1)"
                     strokeWidth="1"
                   />
@@ -287,12 +273,7 @@ export function WeatherDetailModal({
                         r="5.5"
                         fill="rgba(221,184,102,0.2)"
                       />
-                      <circle
-                        cx={sunDotPos.x}
-                        cy={sunDotPos.y}
-                        r="3"
-                        fill="rgba(251,191,36,1)"
-                      />
+                      <circle cx={sunDotPos.x} cy={sunDotPos.y} r="3" fill="rgba(251,191,36,1)" />
                     </>
                   )}
                 </svg>
@@ -302,9 +283,7 @@ export function WeatherDetailModal({
                 <div className={styles.sunIconWrap}>
                   <Sunset size={22} />
                 </div>
-                <p className={styles.sunLabel}>
-                  {isTh ? "พระอาทิตย์ตก" : "Sunset"}
-                </p>
+                <p className={styles.sunLabel}>{isTh ? "พระอาทิตย์ตก" : "Sunset"}</p>
                 <p className={styles.sunTime}>{detail.sunset ?? "--:--"}</p>
               </div>
             </div>

@@ -116,7 +116,10 @@ export default function PrayerTimesPage() {
             aria-expanded={methodOpen}
           >
             <span>{METHODS.find((m) => m.value === method)?.label}</span>
-            <ChevronDown size={14} className={methodOpen ? styles.chevronOpen : styles.chevronIcon} />
+            <ChevronDown
+              size={14}
+              className={methodOpen ? styles.chevronOpen : styles.chevronIcon}
+            />
           </button>
           {methodOpen && (
             <ul role="listbox" className={styles.methodDropdown}>
@@ -179,13 +182,24 @@ export default function PrayerTimesPage() {
           <div className={styles.controls}>
             <button type="button" onClick={toggleAudio}>
               {isPlaying ? (
-                <><Pause size={15} />{t("prayerTimes.pauseAzan")}</>
+                <>
+                  <Pause size={15} />
+                  {t("prayerTimes.pauseAzan")}
+                </>
               ) : (
-                <><Play size={15} />{t("prayerTimes.playAzan")}</>
+                <>
+                  <Play size={15} />
+                  {t("prayerTimes.playAzan")}
+                </>
               )}
             </button>
           </div>
-          <audio ref={audioRef} src={ADHAN_URL} onEnded={() => setIsPlaying(false)} preload="none" />
+          <audio
+            ref={audioRef}
+            src={ADHAN_URL}
+            onEnded={() => setIsPlaying(false)}
+            preload="none"
+          />
         </section>
       </div>
 

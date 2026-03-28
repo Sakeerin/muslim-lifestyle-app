@@ -13,8 +13,12 @@
 }
 
 @keyframes backdropIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Modal sheet */
@@ -33,13 +37,26 @@
   scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
 }
 
-.modal::-webkit-scrollbar { width: 3px; }
-.modal::-webkit-scrollbar-track { background: transparent; }
-.modal::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.12); border-radius: 4px; }
+.modal::-webkit-scrollbar {
+  width: 3px;
+}
+.modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+.modal::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 4px;
+}
 
 @keyframes slideUp {
-  from { transform: translateY(100%); opacity: 0.7; }
-  to { transform: translateY(0); opacity: 1; }
+  from {
+    transform: translateY(100%);
+    opacity: 0.7;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 /* Staggered content reveal */
@@ -49,8 +66,14 @@
 }
 
 @keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Drag handle */
@@ -60,7 +83,9 @@
   border-radius: 99px;
   background: rgba(255, 255, 255, 0.2);
   margin: 0 auto 18px;
-  transition: width 0.2s ease, background 0.2s ease;
+  transition:
+    width 0.2s ease,
+    background 0.2s ease;
 }
 
 .modal:hover .handle {
@@ -82,7 +107,9 @@
   gap: 6px;
 }
 
-.locationDot { font-size: 0.95rem; }
+.locationDot {
+  font-size: 0.95rem;
+}
 
 .locationName {
   font-size: 1.05rem;
@@ -102,7 +129,9 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  transition: background 0.15s, transform 0.15s;
+  transition:
+    background 0.15s,
+    transform 0.15s;
 }
 
 .closeBtn:hover {
@@ -167,8 +196,13 @@
 }
 
 @keyframes floatIcon {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
 }
 
 /* Section cards */
@@ -203,7 +237,9 @@
   padding-bottom: 2px;
 }
 
-.hourlyScroll::-webkit-scrollbar { display: none; }
+.hourlyScroll::-webkit-scrollbar {
+  display: none;
+}
 
 .hourlyItem {
   display: flex;
@@ -404,8 +440,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.9; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 0.9;
+  }
 }
 
 /* Desktop */

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import { Coins, RefreshCw } from "lucide-react";
 import {
   calculateZakat,

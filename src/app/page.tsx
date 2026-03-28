@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
+import { Grid3X3, X } from "lucide-react";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
@@ -12,6 +13,80 @@ import { WeatherDetailModal } from "@/components/features/weather-detail";
 import styles from "./page.module.css";
 import enDuasData from "./duas/en.json";
 import thDuasData from "./duas/th.json";
+
+const QUICK_LINKS = [
+  {
+    href: "/prayer-times",
+    labelKey: "home.prayerTimes",
+    icon: "🕌",
+    category: "worship",
+    showOnMobile: false,
+  },
+  {
+    href: "/qibla",
+    labelKey: "home.qiblaCompass",
+    icon: "🧭",
+    category: "worship",
+    showOnMobile: false,
+  },
+  {
+    href: "/quran",
+    labelKey: "home.quranReader",
+    icon: "📖",
+    category: "knowledge",
+    showOnMobile: false,
+  },
+  { href: "/duas", labelKey: "home.duas", icon: "🤲", category: "knowledge", showOnMobile: true },
+  {
+    href: "/lessons",
+    labelKey: "home.islamicLessons",
+    icon: "📚",
+    category: "knowledge",
+    showOnMobile: false,
+  },
+  {
+    href: "/calendar",
+    labelKey: "home.islamicCalendar",
+    icon: "📅",
+    category: "tools",
+    showOnMobile: true,
+  },
+  {
+    href: "/zakat",
+    labelKey: "home.zakatCalculator",
+    icon: "⚖️",
+    category: "tools",
+    showOnMobile: true,
+  },
+  {
+    href: "/places",
+    labelKey: "home.halalPlaces",
+    icon: "📍",
+    category: "tools",
+    showOnMobile: true,
+  },
+  {
+    href: "/settings",
+    labelKey: "home.appSettings",
+    icon: "⚙️",
+    category: "settings",
+    showOnMobile: false,
+  },
+  {
+    href: "/names",
+    labelKey: "home.allahNames",
+    icon: "✨",
+    category: "knowledge",
+    showOnMobile: false,
+  },
+] as const;
+
+const QUICK_LINK_CATEGORIES = [
+  { id: "worship", labelKey: "home.categoryWorship" },
+  { id: "knowledge", labelKey: "home.categoryKnowledge" },
+  { id: "tools", labelKey: "home.categoryTools" },
+  { id: "settings", labelKey: "home.categorySettings" },
+] as const;
 
 const CALCULATION_METHODS: Array<{ value: number; label: string; shortLabel: string }> = [
   { value: 4, label: "อุมม์ อัลกุรอ์ — มักกะห์", shortLabel: "อุมม์ อัลกุรอ์" },
@@ -30,6 +105,7 @@ export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [showWeatherDetail, setShowWeatherDetail] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const { countdown, date, error, loading, nextPrayer, location, timings } = usePrayerTimes(method);
   const weather = useWeather(
     location.coordinates.latitude,
@@ -44,6 +120,15 @@ export default function Home() {
     const monthName = locale === "th" ? h.monthNameTh : h.monthNameEn;
     return t("home.hijriDate", { day: String(h.day), month: monthName, year: String(h.year) });
   }, [locale, t]);
+
+  useEffect(() => {
+    if (showMore) {
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showMore]);
 
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
@@ -81,16 +166,18 @@ export default function Home() {
   const nextPrayerData = useMemo(() => {
     if (!timings) return null;
     const prayers = ["Fajr", "Dhuhr", "Asr", "Maghrib", "Isha"] as const;
-    const now = new Date();
-    const nowMins = now.getHours() * 60 + now.getMinutes();
-    for (const p of prayers) {
-      const raw = timings[p as keyof typeof timings] ?? "";
-      const timeStr = raw.split(" ")[0];
-      const [h, m] = timeStr.split(":").map(Number);
-      if (h * 60 + m > nowMins) {
-        return { name: p, time: timeStr };
-      }
+    const nowMins = new Date().getHours() * 60 + new Date().getMinutes();
+
+    const next = prayers.find((prayer) => {
+      const raw = timings[prayer] ?? "";
+      const [h, m] = raw.split(" ")[0].split(":").map(Number);
+      return h * 60 + m > nowMins;
+    });
+
+    if (next) {
+      return { name: next, time: (timings[next] ?? "").split(" ")[0] };
     }
+
     return { name: "Fajr" as const, time: (timings["Fajr"] ?? "").split(" ")[0] };
   }, [timings]);
 
@@ -167,11 +254,7 @@ export default function Home() {
                 }}
               >
                 {CALCULATION_METHODS.map((option) => (
-                  <option
-                    suppressHydrationWarning
-                    key={option.value}
-                    value={option.value}
-                  >
+                  <option suppressHydrationWarning key={option.value} value={option.value}>
                     {isMobile ? option.shortLabel : option.label}
                   </option>
                 ))}
@@ -194,9 +277,7 @@ export default function Home() {
                     <span className={styles.dot} />
                     {t("home.now")}
                   </span>
-                  <span className={styles.prayerCardName}>
-                    {t(`prayer.${currentPrayer.name}`)}
-                  </span>
+                  <span className={styles.prayerCardName}>{t(`prayer.${currentPrayer.name}`)}</span>
                 </div>
                 <p className={styles.prayerCardTime}>{currentPrayer.time}</p>
               </div>
@@ -205,7 +286,9 @@ export default function Home() {
               <div className={styles.prayerCardTop}>
                 <span className={styles.nextBadge}>{t("home.next")}</span>
                 <span className={styles.prayerCardName}>
-                  {nextPrayerData ? t(`prayer.${nextPrayerData.name}`) : (nextPrayer ?? t("home.loading"))}
+                  {nextPrayerData
+                    ? t(`prayer.${nextPrayerData.name}`)
+                    : (nextPrayer ?? t("home.loading"))}
                 </span>
               </div>
               <p suppressHydrationWarning className={styles.prayerCardTime}>
@@ -267,33 +350,20 @@ export default function Home() {
         <article className={styles.card}>
           <h2>{t("home.quickAccess")}</h2>
           <div className={styles.quickGrid}>
-            <Link className={styles.quickLink} href="/calendar">
-              {t("home.islamicCalendar")}
-            </Link>
-            <Link className={styles.quickLink} href="/zakat">
-              {t("home.zakatCalculator")}
-            </Link>
-            <Link className={styles.quickLink} href="/prayer-times">
-              {t("home.prayerTimes")}
-            </Link>
-            <Link className={styles.quickLink} href="/quran">
-              {t("home.quranReader")}
-            </Link>
-            <Link className={styles.quickLink} href="/qibla">
-              {t("home.qiblaCompass")}
-            </Link>
-            <Link className={styles.quickLink} href="/lessons">
-              {t("home.islamicLessons")}
-            </Link>
-            <Link className={styles.quickLink} href="/duas">
-              {t("home.duas")}
-            </Link>
-            <Link className={styles.quickLink} href="/places">
-              {t("home.halalPlaces")}
-            </Link>
-            <Link className={styles.quickLink} href="/settings">
-              {t("home.appSettings")}
-            </Link>
+            {QUICK_LINKS.map((link) => (
+              <Link
+                key={link.href}
+                href={link.href}
+                className={`${styles.quickLink}${!link.showOnMobile ? ` ${styles.quickLinkExtra}` : ""}`}
+              >
+                <span className={styles.quickLinkIcon}>{link.icon}</span>
+                <span>{t(link.labelKey)}</span>
+              </Link>
+            ))}
+            <button type="button" className={styles.moreBtn} onClick={() => setShowMore(true)}>
+              <Grid3X3 size={18} />
+              <span>{t("home.more")}</span>
+            </button>
           </div>
         </article>
       </section>
@@ -302,6 +372,47 @@ export default function Home() {
         <h2>{t("home.todayIntention")}</h2>
         <p>{t("home.intentionBody")}</p>
       </section>
+
+      {showMore && (
+        <>
+          <div className={styles.sheetBackdrop} onClick={() => setShowMore(false)} />
+          <div className={styles.sheet} role="dialog" aria-modal="true">
+            <div className={styles.sheetHandle} />
+            <div className={styles.sheetHeader}>
+              <h3 className={styles.sheetTitle}>{t("home.quickAccess")}</h3>
+              <button
+                type="button"
+                className={styles.sheetClose}
+                onClick={() => setShowMore(false)}
+                aria-label="Close"
+              >
+                <X size={18} />
+              </button>
+            </div>
+            {QUICK_LINK_CATEGORIES.map((cat) => {
+              const links = QUICK_LINKS.filter((l) => l.category === cat.id);
+              return (
+                <div key={cat.id} className={styles.sheetCategory}>
+                  <p className={styles.sheetCategoryLabel}>{t(cat.labelKey)}</p>
+                  <div className={styles.sheetGrid}>
+                    {links.map((link) => (
+                      <Link
+                        key={link.href}
+                        href={link.href}
+                        className={styles.sheetLink}
+                        onClick={() => setShowMore(false)}
+                      >
+                        <span className={styles.sheetLinkIcon}>{link.icon}</span>
+                        <span className={styles.sheetLinkLabel}>{t(link.labelKey)}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }

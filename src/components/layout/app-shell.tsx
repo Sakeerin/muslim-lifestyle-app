@@ -11,6 +11,7 @@ import {
   Globe,
   Home,
   Settings,
+  Star,
   Sunrise,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
@@ -31,6 +32,7 @@ const navItems: NavItem[] = [
   { href: "/qibla", labelKey: "nav.qibla", icon: Compass },
   { href: "/calendar", labelKey: "nav.calendar", icon: CalendarDays, mobileHide: true },
   { href: "/zakat", labelKey: "nav.zakat", icon: Coins, mobileHide: true },
+  { href: "/names", labelKey: "nav.names", icon: Star, mobileHide: true },
   { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 
