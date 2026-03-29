@@ -203,7 +203,7 @@ export default function SettingsPage() {
                   handlePreview(reciter);
                 }}
                 aria-label={previewId === reciter.id ? t("settings.stop") : t("settings.preview")}
-                title={previewError === reciter.id ? "ไม่สามารถโหลดเสียงได้" : undefined}
+                title={previewError === reciter.id ? t("settings.previewError") : undefined}
               >
                 {previewError === reciter.id ? "✕" : previewId === reciter.id ? "■" : "▶"}
               </button>

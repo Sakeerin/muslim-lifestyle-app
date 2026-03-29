@@ -54,7 +54,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
 
       if (params) {
         for (const [param, replacement] of Object.entries(params)) {
-          value = value.replace(`{${param}}`, String(replacement));
+          value = value.replaceAll(`{${param}}`, String(replacement));
         }
       }
 

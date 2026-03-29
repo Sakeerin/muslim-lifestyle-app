@@ -165,13 +165,13 @@ export function useGeolocation() {
           cityName: null,
         });
 
-        void resolveGpsCityName(
-          coordinates.latitude,
-          coordinates.longitude,
-          controller.signal,
-        ).then((cityName) => {
-          if (mounted) setState((previous) => ({ ...previous, cityName }));
-        });
+        void resolveGpsCityName(coordinates.latitude, coordinates.longitude, controller.signal)
+          .then((cityName) => {
+            if (mounted) setState((previous) => ({ ...previous, cityName }));
+          })
+          .catch(() => {
+            // City name is cosmetic — silently ignore if reverse-geocoding fails
+          });
       },
       () => {
         void setFallback("Location permission denied, using fallback.");

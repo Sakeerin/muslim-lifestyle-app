@@ -68,7 +68,8 @@ export function useQuranProgress() {
       const reader = new FileReader();
       reader.onload = (e) => {
         try {
-          const data = JSON.parse(e.target?.result as string) as QuranProgress;
+          if (typeof e.target?.result !== "string") return;
+          const data = JSON.parse(e.target.result) as QuranProgress;
           // Validate structure: visitedSurahs must be an array of valid surah numbers (1–114)
           if (
             Array.isArray(data.visitedSurahs) &&
