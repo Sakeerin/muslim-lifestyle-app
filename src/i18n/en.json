@@ -94,6 +94,7 @@
   "surah.nextSurah": "Next",
   "surah.surahN": "Surah {n}",
   "surah.settingsTitle": "Display Settings",
+  "surah.closeSettings": "Close settings",
   "surah.tabDisplay": "Display",
   "surah.tabText": "Text",
   "surah.tabAudio": "Audio",
@@ -272,5 +273,7 @@
   "donate.devTitle": "About the Developer",
   "donate.devRole": "Full-Stack Developer",
   "donate.thankYou": "JazakAllah Khayran — May Allah reward you abundantly for your generosity.",
-  "donate.backHome": "Back to Home"
+  "donate.backHome": "Back to Home",
+  "nav.hajj": "Hajj & Umrah",
+  "home.hajjUmrah": "Hajj & Umrah"
 }

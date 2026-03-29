@@ -391,8 +391,8 @@
   line-height: 1;
 }
 
-/* items 5–9: visible on desktop, hidden on mobile */
-.quickLinkExtra {
+/* non-pinned links: visible on desktop, hidden on mobile */
+.quickLinkDesktopOnly {
   display: flex;
 }
 
@@ -537,12 +537,12 @@
 
 @media (min-width: 561px) {
   .quickGrid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 560px) {
-  .quickLinkExtra {
+  .quickLinkDesktopOnly {
     display: none;
   }
 

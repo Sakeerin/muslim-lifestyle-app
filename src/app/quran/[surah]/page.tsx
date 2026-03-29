@@ -154,14 +154,21 @@ export default function SurahPage({ params }: SurahPageProps) {
     };
   }, [params]);
 
+  // Pause audio on component unmount (prevents audio continuing after navigation)
+  useEffect(() => {
+    const audio = audioRef.current;
+    return () => {
+      audio?.pause();
+    };
+  }, []);
+
   // Reset audio state whenever the surah changes
   useEffect(() => {
     if (!surahId) return;
     setActiveAyah(0);
     setIsAutoPlay(false);
     setIsPlaying(false);
-    const audio = audioRef.current;
-    if (audio) audio.pause();
+    audioRef.current?.pause();
   }, [surahId]);
 
   useEffect(() => {
@@ -169,14 +176,17 @@ export default function SurahPage({ params }: SurahPageProps) {
       return;
     }
 
-    let mounted = true;
+    const controller = new AbortController();
+    const { signal } = controller;
 
     async function loadSurahData() {
       try {
         const [arabicResponse, translationResponse, audioResponse] = await Promise.all([
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}`),
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`),
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${activeReciter.apiEdition}`),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}`, { signal }),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`, { signal }),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${activeReciter.apiEdition}`, {
+            signal,
+          }),
         ]);
 
         if (!arabicResponse.ok || !translationResponse.ok || !audioResponse.ok) {
@@ -186,10 +196,6 @@ export default function SurahPage({ params }: SurahPageProps) {
         const arabicPayload = (await arabicResponse.json()) as SurahPayload;
         const translationPayload = (await translationResponse.json()) as SurahPayload;
         const audioPayload = (await audioResponse.json()) as SurahPayload;
-
-        if (!mounted) {
-          return;
-        }
 
         const combinedAyahs = arabicPayload.data.ayahs.map((ayah, index) => ({
           numberInSurah: ayah.numberInSurah,
@@ -209,11 +215,11 @@ export default function SurahPage({ params }: SurahPageProps) {
         }
         setAyahs(combinedAyahs);
         setAudioAyahs(audioPayload.data.ayahs);
-      } catch {
-        if (!mounted) {
+      } catch (err) {
+        // Ignore AbortError — this is expected when the effect re-runs before fetch completes
+        if (err instanceof DOMException && err.name === "AbortError") {
           return;
         }
-
         setAyahs([]);
       }
     }
@@ -221,7 +227,7 @@ export default function SurahPage({ params }: SurahPageProps) {
     void loadSurahData();
 
     return () => {
-      mounted = false;
+      controller.abort();
     };
   }, [surahId, translationLang, markAsRead, activeReciter.apiEdition]);
 
@@ -255,6 +261,7 @@ export default function SurahPage({ params }: SurahPageProps) {
   };
 
   const startAutoPlay = () => {
+    if (audioAyahs.length === 0) return;
     setActiveAyah(0);
     setIsAutoPlay(true);
   };
@@ -341,7 +348,11 @@ export default function SurahPage({ params }: SurahPageProps) {
             <button
               type="button"
               className={styles.iconBtn}
-              onClick={() => setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1))}
+              onClick={() =>
+                setActiveAyah((value) =>
+                  audioAyahs.length > 0 ? Math.min(audioAyahs.length - 1, value + 1) : 0,
+                )
+              }
               aria-label={t("surah.nextAyah")}
             >
               <SkipForward size={16} />
@@ -375,11 +386,11 @@ export default function SurahPage({ params }: SurahPageProps) {
             src={currentAudio}
             onEnded={() => {
               setIsPlaying(false);
-              const isLast = activeAyah >= audioAyahs.length - 1;
-              if (isLast) {
+              const lastIndex = audioAyahs.length - 1;
+              if (lastIndex < 0 || activeAyah >= lastIndex) {
                 setIsAutoPlay(false);
               } else {
-                setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1));
+                setActiveAyah((value) => Math.min(lastIndex, value + 1));
               }
             }}
           />
@@ -443,17 +454,17 @@ export default function SurahPage({ params }: SurahPageProps) {
           onClick={() => setShowSettings(false)}
           role="dialog"
           aria-modal="true"
-          aria-label={t("surah.settingsTitle")}
+          aria-labelledby="settings-modal-title"
         >
           <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
             <div className={styles.modalHandle} />
             <div className={styles.modalHeader}>
-              <h2>{t("surah.settingsTitle")}</h2>
+              <h2 id="settings-modal-title">{t("surah.settingsTitle")}</h2>
               <button
                 type="button"
                 className={styles.modalCloseBtn}
                 onClick={() => setShowSettings(false)}
-                aria-label="Close"
+                aria-label={t("surah.closeSettings")}
               >
                 <X size={16} />
               </button>

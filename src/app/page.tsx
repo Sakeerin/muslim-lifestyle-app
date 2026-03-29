@@ -20,64 +20,71 @@ const QUICK_LINKS = [
     labelKey: "home.prayerTimes",
     icon: "🕌",
     category: "worship",
-    showOnMobile: false,
+    pinned: false,
   },
   {
     href: "/qibla",
     labelKey: "home.qiblaCompass",
     icon: "🧭",
     category: "worship",
-    showOnMobile: false,
+    pinned: false,
   },
   {
     href: "/quran",
     labelKey: "home.quranReader",
     icon: "📖",
     category: "knowledge",
-    showOnMobile: false,
+    pinned: false,
   },
-  { href: "/duas", labelKey: "home.duas", icon: "🤲", category: "knowledge", showOnMobile: true },
+  { href: "/duas", labelKey: "home.duas", icon: "🤲", category: "knowledge", pinned: true },
   {
     href: "/lessons",
     labelKey: "home.islamicLessons",
     icon: "📚",
     category: "knowledge",
-    showOnMobile: false,
+    pinned: false,
   },
   {
     href: "/calendar",
     labelKey: "home.islamicCalendar",
     icon: "📅",
     category: "tools",
-    showOnMobile: true,
+    pinned: true,
   },
   {
     href: "/zakat",
     labelKey: "home.zakatCalculator",
     icon: "⚖️",
     category: "tools",
-    showOnMobile: true,
+    pinned: false,
   },
   {
     href: "/places",
     labelKey: "home.halalPlaces",
     icon: "📍",
     category: "tools",
-    showOnMobile: true,
+    pinned: true,
   },
   {
     href: "/settings",
     labelKey: "home.appSettings",
     icon: "⚙️",
     category: "settings",
-    showOnMobile: false,
+    pinned: false,
   },
   {
     href: "/names",
     labelKey: "home.allahNames",
     icon: "✨",
     category: "knowledge",
-    showOnMobile: false,
+    pinned: false,
+  },
+  {
+    href: "/hajj-umrah",
+    labelKey: "home.hajjUmrah",
+    icon: "🕋",
+    category: "knowledge",
+    pinned: true,
   },
 ] as const;
 
@@ -392,7 +399,7 @@ export default function Home() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`${styles.quickLink}${!link.showOnMobile ? ` ${styles.quickLinkExtra}` : ""}`}
+                className={`${styles.quickLink}${!link.pinned ? ` ${styles.quickLinkDesktopOnly}` : ""}`}
               >
                 <span className={styles.quickLinkIcon}>{link.icon}</span>
                 <span>{t(link.labelKey)}</span>

@@ -1,0 +1,672 @@
+/* ── Page Layout ─────────────────────────────────────── */
+
+.page {
+  display: grid;
+  gap: 14px;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ── Hero ────────────────────────────────────────────── */
+
+.hero {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(14, 141, 113, 0.3);
+  border-radius: 20px;
+  background: linear-gradient(135deg, #0e8d71, #0a6b56);
+  color: #fff;
+  padding: 32px 24px 28px;
+  text-align: center;
+}
+
+.hero::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -40px;
+  width: 200px;
+  height: 200px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  bottom: -40px;
+  left: -30px;
+  width: 160px;
+  height: 160px;
+  border-radius: 999px;
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.07), transparent 70%);
+  pointer-events: none;
+}
+
+.heroIcon {
+  font-size: 3rem;
+  line-height: 1;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.heroTitle {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #fff;
+  margin: 0 0 6px;
+  line-height: 1.2;
+}
+
+.heroSubtitle {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+  margin: 0;
+}
+
+/* ── Tabs ────────────────────────────────────────────── */
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  background: var(--surface-card);
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  padding: 6px;
+}
+
+.tab {
+  flex: 1;
+  padding: 9px 12px;
+  border-radius: 10px;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    color 0.2s ease;
+  white-space: nowrap;
+}
+
+.tab:hover {
+  background: var(--surface-muted);
+  color: var(--text-primary);
+}
+
+.tabActive {
+  background: #0e8d71;
+  color: #fff;
+}
+
+.tabActive:hover {
+  background: #0a7a62;
+  color: #fff;
+}
+
+/* ── Content ─────────────────────────────────────────── */
+
+.content {
+  display: grid;
+  gap: 10px;
+}
+
+/* ── Intro Card ──────────────────────────────────────── */
+
+.introCard {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  padding: 18px 20px;
+  border-left: 3px solid #0e8d71;
+}
+
+.introTitle {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 6px;
+  line-height: 1.3;
+}
+
+.introDesc {
+  font-size: 0.855rem;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.65;
+}
+
+/* ── Step Card ───────────────────────────────────────── */
+
+.stepCard {
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background: var(--surface-card);
+  overflow: hidden;
+  border-left-width: 4px;
+  border-left-style: solid;
+  transition: box-shadow 0.2s ease;
+}
+
+.stepCard:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.stepBorderRukn {
+  border-left-color: #c0392b;
+}
+
+.stepBorderWajib {
+  border-left-color: #d4830f;
+}
+
+.stepBorderSunnah {
+  border-left-color: #0e8d71;
+}
+
+/* Step Header */
+
+.stepHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 14px 16px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.15s ease;
+}
+
+.stepHeader:hover {
+  background: var(--surface-muted);
+}
+
+.stepNumCircle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0e8d71, #0a6b56);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.stepIcon {
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.stepNameWrap {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+}
+
+.stepNameAr {
+  font-family: var(--font-arabic), "Amiri", "Scheherazade New", serif;
+  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: block;
+}
+
+.stepNameLatin {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: block;
+}
+
+/* Badge Pill */
+
+.badgePill {
+  flex-shrink: 0;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.badgeRukn {
+  background: rgba(192, 57, 43, 0.12);
+  color: #c0392b;
+  border: 1px solid rgba(192, 57, 43, 0.25);
+}
+
+.badgeWajib {
+  background: rgba(212, 131, 15, 0.12);
+  color: #d4830f;
+  border: 1px solid rgba(212, 131, 15, 0.25);
+}
+
+.badgeSunnah {
+  background: rgba(14, 141, 113, 0.1);
+  color: #0e8d71;
+  border: 1px solid rgba(14, 141, 113, 0.2);
+}
+
+.chevron {
+  color: var(--text-secondary);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+/* Step Body */
+
+.stepBody {
+  padding: 4px 16px 16px 16px;
+  border-top: 1px solid var(--border-soft);
+}
+
+.stepLocation {
+  display: flex;
+  align-items: flex-start;
+  gap: 5px;
+  font-size: 0.8rem;
+  color: #0e8d71;
+  font-weight: 600;
+  margin-bottom: 10px;
+  padding-top: 12px;
+}
+
+.locationIcon {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.stepDesc {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 12px;
+}
+
+/* Action List */
+
+.actionList {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.actionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.855rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.actionCheck {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(14, 141, 113, 0.12);
+  color: #0e8d71;
+  font-size: 0.65rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+/* Prohibition List */
+
+.prohibitionLabel {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #c0392b;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 12px 0 6px;
+}
+
+.prohibitionList {
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+  display: grid;
+  gap: 6px;
+}
+
+.prohibitionItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 0.855rem;
+  color: var(--text-primary);
+  line-height: 1.55;
+}
+
+.prohibitionX {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(192, 57, 43, 0.1);
+  color: #c0392b;
+  font-size: 0.6rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+/* Note Box */
+
+.noteBox {
+  display: flex;
+  align-items: flex-start;
+  gap: 7px;
+  margin-top: 10px;
+  padding: 10px 12px;
+  background: rgba(14, 141, 113, 0.06);
+  border: 1px solid rgba(14, 141, 113, 0.18);
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.noteIcon {
+  flex-shrink: 0;
+  color: #0e8d71;
+  margin-top: 2px;
+}
+
+/* Dua Box (inside step) */
+
+.duaBox {
+  margin-top: 12px;
+  padding: 14px 16px;
+  background: linear-gradient(135deg, rgba(8, 72, 61, 0.06), rgba(10, 107, 86, 0.04));
+  border: 1px solid rgba(14, 141, 113, 0.2);
+  border-radius: 12px;
+}
+
+.duaBoxArabic {
+  font-family: var(--font-arabic), "Amiri", "Scheherazade New", serif;
+  font-size: 1.3rem;
+  color: var(--text-primary);
+  text-align: right;
+  line-height: 2;
+  margin: 0 0 8px;
+  opacity: 0.9;
+}
+
+.duaBoxTranslit {
+  font-size: 0.82rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin: 0 0 6px;
+}
+
+.duaBoxTrans {
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+/* ── Day Card (Hajj) ─────────────────────────────────── */
+
+.dayCard {
+  border: 1px solid var(--border-soft);
+  border-radius: 16px;
+  background: var(--surface-card);
+  overflow: hidden;
+}
+
+.dayHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 16px 10px;
+  border-bottom: 1px solid var(--border-soft);
+  background: linear-gradient(135deg, rgba(14, 141, 113, 0.07), rgba(10, 107, 86, 0.04));
+  flex-wrap: wrap;
+}
+
+.dayDatePill {
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #0e8d71;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.dayNameWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  flex: 1;
+  min-width: 0;
+}
+
+.dayNameAr {
+  font-family: var(--font-arabic), "Amiri", "Scheherazade New", serif;
+  font-size: 1.05rem;
+  color: var(--text-primary);
+  line-height: 1.4;
+  display: block;
+}
+
+.dayNameLatin {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-secondary);
+  display: block;
+}
+
+.dayDesc {
+  margin: 10px 16px 12px;
+  font-size: 0.855rem;
+  color: var(--text-secondary);
+  line-height: 1.65;
+}
+
+.daySteps {
+  padding: 0 12px 12px;
+  display: grid;
+  gap: 8px;
+}
+
+/* ── Dua Card ────────────────────────────────────────── */
+
+.duaCard {
+  border: 1px solid var(--border-soft);
+  border-radius: 14px;
+  background: var(--surface-card);
+  padding: 18px 18px 16px;
+  transition: box-shadow 0.2s ease;
+}
+
+.duaCard:hover {
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+}
+
+.duaCardHeader {
+  margin-bottom: 14px;
+}
+
+.duaCardTitles {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.duaCardName {
+  font-size: 0.97rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.duaOccasionPill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(14, 141, 113, 0.1);
+  border: 1px solid rgba(14, 141, 113, 0.2);
+  color: #0e8d71;
+  font-size: 0.75rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.duaArabic {
+  font-family: var(--font-arabic), "Amiri", "Scheherazade New", serif;
+  font-size: 1.45rem;
+  color: var(--text-primary);
+  text-align: right;
+  line-height: 2.1;
+  margin: 0 0 10px;
+  opacity: 0.9;
+  direction: rtl;
+}
+
+.duaTranslit {
+  font-size: 0.855rem;
+  font-style: italic;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0 0 8px;
+}
+
+.duaTrans {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-soft);
+}
+
+/* ── Responsive ──────────────────────────────────────── */
+
+@media (max-width: 640px) {
+  .hero {
+    padding: 24px 18px 22px;
+    border-radius: 16px;
+  }
+
+  .heroIcon {
+    font-size: 2.4rem;
+  }
+
+  .heroTitle {
+    font-size: 1.45rem;
+  }
+
+  .heroSubtitle {
+    font-size: 0.82rem;
+  }
+
+  .tabs {
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .tab {
+    font-size: 0.82rem;
+    padding: 8px 6px;
+  }
+
+  .stepHeader {
+    padding: 12px 12px;
+    gap: 8px;
+  }
+
+  .stepBody {
+    padding: 4px 12px 14px 12px;
+  }
+
+  .stepNameAr {
+    font-size: 0.92rem;
+  }
+
+  .duaArabic {
+    font-size: 1.2rem;
+  }
+
+  .duaBoxArabic {
+    font-size: 1.15rem;
+  }
+
+  .dayHeader {
+    padding: 12px 14px 10px;
+  }
+
+  .daySteps {
+    padding: 0 8px 10px;
+  }
+
+  .duaCard {
+    padding: 14px 14px 14px;
+  }
+}
+
+/* ── Dark mode ───────────────────────────────────────── */
+
+@media (prefers-color-scheme: dark) {
+  .badgeRukn {
+    background: rgba(192, 57, 43, 0.18);
+    color: #e55a4a;
+    border-color: rgba(192, 57, 43, 0.35);
+  }
+
+  .badgeWajib {
+    background: rgba(212, 131, 15, 0.18);
+    color: #e8943a;
+    border-color: rgba(212, 131, 15, 0.35);
+  }
+
+  .badgeSunnah {
+    background: rgba(14, 141, 113, 0.18);
+    color: #2dbfa0;
+    border-color: rgba(14, 141, 113, 0.3);
+  }
+
+  .duaOccasionPill {
+    color: #2dbfa0;
+  }
+
+  .stepLocation {
+    color: #2dbfa0;
+  }
+
+  .noteBox {
+    background: rgba(14, 141, 113, 0.1);
+    border-color: rgba(14, 141, 113, 0.25);
+  }
+
+  .noteIcon {
+    color: #2dbfa0;
+  }
+}

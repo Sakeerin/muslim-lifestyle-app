@@ -94,6 +94,7 @@
   "surah.nextSurah": "ถัดไป",
   "surah.surahN": "ซูเราะห์ที่ {n}",
   "surah.settingsTitle": "การตั้งค่าการแสดงผล",
+  "surah.closeSettings": "ปิดการตั้งค่า",
   "surah.tabDisplay": "แสดงผล",
   "surah.tabText": "ข้อความ",
   "surah.tabAudio": "เสียง",
@@ -272,5 +273,7 @@
   "donate.devTitle": "เกี่ยวกับผู้พัฒนา",
   "donate.devRole": "นักพัฒนา Full-Stack",
   "donate.thankYou": "ญะซากัลลอฮุ ค็อยรอน — ขอให้อัลลอฮฺทรงตอบแทนความเอื้อเฟื้อของคุณอย่างงดงาม",
-  "donate.backHome": "กลับหน้าหลัก"
+  "donate.backHome": "กลับหน้าหลัก",
+  "nav.hajj": "ฮัจญ์ & อุมเราะห์",
+  "home.hajjUmrah": "ฮัจญ์ & อุมเราะห์"
 }
