@@ -2,10 +2,22 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ListMusic,
+  Pause,
+  Play,
+  Settings,
+  SkipBack,
+  SkipForward,
+  StopCircle,
+  X,
+} from "lucide-react";
 import { VirtualizedAyahList, type AyahView } from "@/components/features/virtualized-ayah-list";
 import { useI18n } from "@/i18n/i18n-context";
 import { useQuranProgress } from "@/hooks/use-quran-progress";
+import { QURAN_RECITERS, useQuranReciter } from "@/hooks/use-quran-reciter";
 import styles from "./page.module.css";
 
 type SurahAyah = {
@@ -27,9 +39,24 @@ type SurahPageProps = {
   params: Promise<{ surah: string }>;
 };
 
+const READING_MODE_KEY = "quran-reading-mode";
+const TRANSLATION_LANG_KEY = "quran-translation-lang";
+const SHOW_TRANSLATION_KEY = "quran-show-translation";
+const FONT_SIZE_KEY = "quran-font-size";
+
+const TAB_LABELS = {
+  display: "surah.tabDisplay",
+  text: "surah.tabText",
+  audio: "surah.tabAudio",
+} as const;
+
+const FONT_SIZE_LABELS = {
+  sm: "surah.fontSm",
+  md: "surah.fontMd",
+  lg: "surah.fontLg",
+} as const;
+
 export default function SurahPage({ params }: SurahPageProps) {
-  const readingModeStorageKey = "quran-reading-mode";
-  const readingModeHintStorageKey = "quran-reading-mode-hint-shown";
   const [ayahs, setAyahs] = useState<AyahView[]>([]);
   const [audioAyahs, setAudioAyahs] = useState<SurahAyah[]>([]);
   const [surahInfo, setSurahInfo] = useState<{
@@ -39,91 +66,76 @@ export default function SurahPage({ params }: SurahPageProps) {
   } | null>(null);
   const [activeAyah, setActiveAyah] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isAutoPlay, setIsAutoPlay] = useState(false);
   const [readingMode, setReadingMode] = useState(true);
   const [showTranslation, setShowTranslation] = useState(true);
   const [translationLang, setTranslationLang] = useState<"en.asad" | "th.thai">("en.asad");
-  const [hasShownModeHint, setHasShownModeHint] = useState(false);
-  const [showModeSavedHint, setShowModeSavedHint] = useState(false);
+  const [fontSize, setFontSize] = useState<"sm" | "md" | "lg">("md");
+  const [showSettings, setShowSettings] = useState(false);
+  const [settingsTab, setSettingsTab] = useState<"display" | "text" | "audio">("display");
   const [hasMounted, setHasMounted] = useState(false);
   const [surahId, setSurahId] = useState<string>("");
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const hintTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   // Track which surahId has already been marked to avoid re-marking on translationLang change
   const markedSurahRef = useRef<string | null>(null);
   const { t } = useI18n();
   const { markAsRead } = useQuranProgress();
+  const { activeReciter, reciterId, setReciterId } = useQuranReciter();
 
   useEffect(() => {
     try {
-      const storedMode = window.localStorage.getItem(readingModeStorageKey);
-      if (storedMode === "compact") {
-        setReadingMode(false);
-      }
-      if (storedMode === "reading") {
-        setReadingMode(true);
-      }
+      const storedMode = window.localStorage.getItem(READING_MODE_KEY);
+      if (storedMode === "compact") setReadingMode(false);
+      if (storedMode === "reading") setReadingMode(true);
 
-      const storedTranslationMode = window.localStorage.getItem("quran-show-translation");
+      const storedTranslationMode = window.localStorage.getItem(SHOW_TRANSLATION_KEY);
       if (storedTranslationMode !== null) {
         setShowTranslation(storedTranslationMode === "true");
       }
 
-      const storedLang = window.localStorage.getItem("quran-translation-lang");
+      const storedLang = window.localStorage.getItem(TRANSLATION_LANG_KEY);
       if (storedLang === "th.thai" || storedLang === "en.asad") {
         setTranslationLang(storedLang);
       }
 
-      const hintShown = window.localStorage.getItem(readingModeHintStorageKey);
-      if (hintShown === "1") {
-        setHasShownModeHint(true);
+      const storedFontSize = window.localStorage.getItem(FONT_SIZE_KEY);
+      if (storedFontSize === "sm" || storedFontSize === "md" || storedFontSize === "lg") {
+        setFontSize(storedFontSize);
       }
     } catch {}
 
     setHasMounted(true);
-  }, [readingModeHintStorageKey, readingModeStorageKey]);
-
-  useEffect(() => {
-    if (!hasMounted) {
-      return;
-    }
-
-    try {
-      window.localStorage.setItem(readingModeStorageKey, readingMode ? "reading" : "compact");
-      window.localStorage.setItem("quran-show-translation", String(showTranslation));
-      window.localStorage.setItem("quran-translation-lang", translationLang);
-    } catch {}
-  }, [hasMounted, readingMode, showTranslation, translationLang, readingModeStorageKey]);
-
-  useEffect(() => {
-    return () => {
-      if (hintTimeoutRef.current) {
-        clearTimeout(hintTimeoutRef.current);
-      }
-    };
   }, []);
 
-  const handleReadingModeChange = (nextReadingMode: boolean) => {
-    setReadingMode(nextReadingMode);
-
-    if (!hasMounted || hasShownModeHint) {
-      return;
-    }
-
-    setShowModeSavedHint(true);
-    setHasShownModeHint(true);
-
+  useEffect(() => {
+    if (!hasMounted) return;
     try {
-      window.localStorage.setItem(readingModeHintStorageKey, "1");
+      window.localStorage.setItem(READING_MODE_KEY, readingMode ? "reading" : "compact");
+      window.localStorage.setItem(SHOW_TRANSLATION_KEY, String(showTranslation));
+      window.localStorage.setItem(TRANSLATION_LANG_KEY, translationLang);
+      window.localStorage.setItem(FONT_SIZE_KEY, fontSize);
     } catch {}
+  }, [hasMounted, readingMode, showTranslation, translationLang, fontSize]);
 
-    if (hintTimeoutRef.current) {
-      clearTimeout(hintTimeoutRef.current);
+  useEffect(() => {
+    if (!showSettings) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setShowSettings(false);
+    };
+    document.addEventListener("keydown", handleKey);
+    return () => document.removeEventListener("keydown", handleKey);
+  }, [showSettings]);
+
+  useEffect(() => {
+    if (showSettings) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
     }
-
-    hintTimeoutRef.current = setTimeout(() => {
-      setShowModeSavedHint(false);
-    }, 2200);
-  };
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [showSettings]);
 
   useEffect(() => {
     let mounted = true;
@@ -142,6 +154,16 @@ export default function SurahPage({ params }: SurahPageProps) {
     };
   }, [params]);
 
+  // Reset audio state whenever the surah changes
+  useEffect(() => {
+    if (!surahId) return;
+    setActiveAyah(0);
+    setIsAutoPlay(false);
+    setIsPlaying(false);
+    const audio = audioRef.current;
+    if (audio) audio.pause();
+  }, [surahId]);
+
   useEffect(() => {
     if (!surahId) {
       return;
@@ -152,11 +174,9 @@ export default function SurahPage({ params }: SurahPageProps) {
     async function loadSurahData() {
       try {
         const [arabicResponse, translationResponse, audioResponse] = await Promise.all([
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}`, { cache: "no-store" }),
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`, {
-            cache: "no-store",
-          }),
-          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/ar.alafasy`, { cache: "no-store" }),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}`),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${translationLang}`),
+          fetch(`https://api.alquran.cloud/v1/surah/${surahId}/${activeReciter.apiEdition}`),
         ]);
 
         if (!arabicResponse.ok || !translationResponse.ok || !audioResponse.ok) {
@@ -203,7 +223,7 @@ export default function SurahPage({ params }: SurahPageProps) {
     return () => {
       mounted = false;
     };
-  }, [surahId, translationLang, markAsRead]);
+  }, [surahId, translationLang, markAsRead, activeReciter.apiEdition]);
 
   const currentAudio = useMemo(() => {
     const source = audioAyahs[activeAyah]?.audio;
@@ -234,9 +254,50 @@ export default function SurahPage({ params }: SurahPageProps) {
       });
   };
 
-  useEffect(() => {
+  const startAutoPlay = () => {
+    setActiveAyah(0);
+    setIsAutoPlay(true);
+  };
+
+  const stopAutoPlay = () => {
+    const audio = audioRef.current;
+    if (audio) {
+      audio.pause();
+    }
+    setIsAutoPlay(false);
     setIsPlaying(false);
-  }, [currentAudio]);
+  };
+
+  useEffect(() => {
+    if (!isAutoPlay || !currentAudio) {
+      return;
+    }
+
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+
+    void audio
+      .play()
+      .then(() => setIsPlaying(true))
+      .catch((error: unknown) => {
+        if (error instanceof DOMException && error.name === "AbortError") {
+          return;
+        }
+
+        setIsAutoPlay(false);
+        setIsPlaying(false);
+      });
+  }, [isAutoPlay, currentAudio]);
+
+  // When a new ayah's audio loads and we are NOT in auto-play, clear the playing flag
+  // (the auto-play effect handles playing in auto-play mode)
+  useEffect(() => {
+    if (!isAutoPlay) {
+      setIsPlaying(false);
+    }
+  }, [currentAudio, isAutoPlay]);
 
   return (
     <div className={styles.page}>
@@ -248,85 +309,92 @@ export default function SurahPage({ params }: SurahPageProps) {
       </section>
 
       <section className={styles.card}>
-        <h2>{t("surah.audioControls")}</h2>
-        <div className={styles.controls}>
-          <button type="button" onClick={() => setActiveAyah((value) => Math.max(0, value - 1))}>
-            {t("surah.previousAyah")}
-          </button>
-          <button type="button" onClick={togglePlay}>
-            {isPlaying ? t("surah.pause") : t("surah.play")}
-          </button>
+        <div className={styles.ayahsHeader}>
+          <h2>{t("surah.audioControls")}</h2>
           <button
             type="button"
-            onClick={() => setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1))}
+            className={styles.settingsBtn}
+            onClick={() => setShowSettings(true)}
+            aria-label={t("surah.settingsTitle")}
           >
-            {t("surah.nextAyah")}
+            <Settings size={17} />
           </button>
         </div>
-        <p>{t("surah.playingAyah", { number: audioAyahs[activeAyah]?.numberInSurah ?? 1 })}</p>
+        <div className={styles.audioPlayer}>
+          <div className={styles.controls}>
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={() => setActiveAyah((value) => Math.max(0, value - 1))}
+              aria-label={t("surah.previousAyah")}
+            >
+              <SkipBack size={16} />
+            </button>
+            <button
+              type="button"
+              className={`${styles.iconBtn} ${styles.playBtn}`}
+              onClick={togglePlay}
+              aria-label={isPlaying ? t("surah.pause") : t("surah.play")}
+            >
+              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
+            </button>
+            <button
+              type="button"
+              className={styles.iconBtn}
+              onClick={() => setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1))}
+              aria-label={t("surah.nextAyah")}
+            >
+              <SkipForward size={16} />
+            </button>
+          </div>
+          <p className={styles.ayahIndicator}>
+            {t("surah.playingAyah", { number: audioAyahs[activeAyah]?.numberInSurah ?? 1 })}
+          </p>
+          <button
+            type="button"
+            className={`${styles.fullPlayBtn} ${isAutoPlay ? styles.fullPlayBtnActive : ""}`}
+            onClick={isAutoPlay ? stopAutoPlay : startAutoPlay}
+          >
+            {isAutoPlay ? (
+              <>
+                <StopCircle size={15} />
+                {t("surah.stopFullPlay")}
+              </>
+            ) : (
+              <>
+                <ListMusic size={15} />
+                {t("surah.playFull")}
+              </>
+            )}
+          </button>
+        </div>
         {hasMounted && currentAudio ? (
           <audio
             key={currentAudio}
             ref={audioRef}
-            src={currentAudio || undefined}
+            src={currentAudio}
             onEnded={() => {
               setIsPlaying(false);
-              setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1));
+              const isLast = activeAyah >= audioAyahs.length - 1;
+              if (isLast) {
+                setIsAutoPlay(false);
+              } else {
+                setActiveAyah((value) => Math.min(audioAyahs.length - 1, value + 1));
+              }
             }}
           />
         ) : null}
       </section>
 
       <section className={styles.card}>
-        <div className={styles.readingModeHeader}>
-          <h2>{t("surah.ayahs")}</h2>
-          <div className={styles.modeToggle} role="group" aria-label={t("surah.readingDensity")}>
-            <button
-              type="button"
-              className={readingMode ? styles.activeModeButton : ""}
-              onClick={() => handleReadingModeChange(true)}
-            >
-              {t("surah.readingMode")}
-            </button>
-            <button
-              type="button"
-              className={!readingMode ? styles.activeModeButton : ""}
-              onClick={() => handleReadingModeChange(false)}
-            >
-              {t("surah.compactMode")}
-            </button>
-          </div>
-        </div>
-
-        <div className={styles.translationControls}>
-          <label className={styles.translationLabel}>
-            <input
-              type="checkbox"
-              checked={showTranslation}
-              onChange={(e) => setShowTranslation(e.target.checked)}
-            />
-            {t("surah.showTranslation")}
-          </label>
-
-          <select
-            className={styles.languageSelect}
-            value={translationLang}
-            onChange={(e) => setTranslationLang(e.target.value as "en.asad" | "th.thai")}
-            aria-label={t("surah.selectTranslation")}
-            style={{ display: showTranslation ? undefined : "none" }}
-          >
-            <option value="en.asad">{t("surah.english")}</option>
-            <option value="th.thai">{t("surah.thai")}</option>
-          </select>
-        </div>
-
-        {showModeSavedHint ? (
-          <p className={styles.modeSavedHint}>{t("surah.preferenceSaved")}</p>
-        ) : null}
         <VirtualizedAyahList
           ayahs={ayahs}
           mode={readingMode ? "reading" : "compact"}
           showTranslation={showTranslation}
+          surahNumber={surahId && !isNaN(Number(surahId)) ? Number(surahId) : undefined}
+          surahNameEn={surahInfo?.englishName}
+          surahNameAr={surahInfo?.name}
+          fontSize={fontSize}
         />
 
         {surahId &&
@@ -367,6 +435,169 @@ export default function SurahPage({ params }: SurahPageProps) {
             );
           })()}
       </section>
+
+      {/* ── Settings Modal ── */}
+      {showSettings && (
+        <div
+          className={styles.modalOverlay}
+          onClick={() => setShowSettings(false)}
+          role="dialog"
+          aria-modal="true"
+          aria-label={t("surah.settingsTitle")}
+        >
+          <div className={styles.modal} onClick={(e) => e.stopPropagation()}>
+            <div className={styles.modalHandle} />
+            <div className={styles.modalHeader}>
+              <h2>{t("surah.settingsTitle")}</h2>
+              <button
+                type="button"
+                className={styles.modalCloseBtn}
+                onClick={() => setShowSettings(false)}
+                aria-label="Close"
+              >
+                <X size={16} />
+              </button>
+            </div>
+
+            <div className={styles.modalTabs}>
+              {(["display", "text", "audio"] as const).map((tab) => (
+                <button
+                  key={tab}
+                  type="button"
+                  className={`${styles.modalTab} ${settingsTab === tab ? styles.modalTabActive : ""}`}
+                  onClick={() => setSettingsTab(tab)}
+                >
+                  {t(TAB_LABELS[tab])}
+                </button>
+              ))}
+            </div>
+
+            <div className={styles.modalBody}>
+              {/* ── Display tab ── */}
+              {settingsTab === "display" && (
+                <>
+                  <div className={styles.modalSection}>
+                    <p className={styles.modalSectionLabel}>{t("surah.settingReadingMode")}</p>
+                    <div className={styles.segControl}>
+                      <button
+                        type="button"
+                        className={`${styles.segBtn} ${readingMode ? styles.segBtnActive : ""}`}
+                        onClick={() => setReadingMode(true)}
+                      >
+                        {t("surah.readingMode")}
+                      </button>
+                      <button
+                        type="button"
+                        className={`${styles.segBtn} ${!readingMode ? styles.segBtnActive : ""}`}
+                        onClick={() => setReadingMode(false)}
+                      >
+                        {t("surah.compactMode")}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className={styles.modalSection}>
+                    <p className={styles.modalSectionLabel}>{t("surah.settingFontSize")}</p>
+                    <div className={styles.fontSizeRow}>
+                      {(["sm", "md", "lg"] as const).map((size) => (
+                        <button
+                          key={size}
+                          type="button"
+                          className={`${styles.fontSizeBtn} ${fontSize === size ? styles.fontSizeBtnActive : ""}`}
+                          onClick={() => setFontSize(size)}
+                        >
+                          <span
+                            className={
+                              size === "sm"
+                                ? styles.fontPreviewSm
+                                : size === "lg"
+                                  ? styles.fontPreviewLg
+                                  : styles.fontPreviewMd
+                            }
+                          >
+                            ب
+                          </span>
+                          <span className={styles.fontSizeLabel}>{t(FONT_SIZE_LABELS[size])}</span>
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {/* ── Text tab ── */}
+              {settingsTab === "text" && (
+                <>
+                  <div className={styles.modalSection}>
+                    <div className={styles.toggleRow}>
+                      <span className={styles.toggleLabel}>
+                        {t("surah.settingShowTranslation")}
+                      </span>
+                      <label className={styles.toggleSwitch}>
+                        <input
+                          type="checkbox"
+                          checked={showTranslation}
+                          onChange={(e) => setShowTranslation(e.target.checked)}
+                        />
+                        <span className={styles.toggleTrack} />
+                      </label>
+                    </div>
+                  </div>
+
+                  {showTranslation && (
+                    <div className={styles.modalSection}>
+                      <p className={styles.modalSectionLabel}>{t("surah.settingLanguage")}</p>
+                      <div className={styles.langRow}>
+                        <button
+                          type="button"
+                          className={`${styles.langBtn} ${translationLang === "en.asad" ? styles.langBtnActive : ""}`}
+                          onClick={() => setTranslationLang("en.asad")}
+                        >
+                          {t("surah.english")}
+                        </button>
+                        <button
+                          type="button"
+                          className={`${styles.langBtn} ${translationLang === "th.thai" ? styles.langBtnActive : ""}`}
+                          onClick={() => setTranslationLang("th.thai")}
+                        >
+                          {t("surah.thai")}
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </>
+              )}
+
+              {/* ── Audio tab ── */}
+              {settingsTab === "audio" && (
+                <div className={styles.modalSection}>
+                  <p className={styles.modalSectionLabel}>{t("surah.settingReciter")}</p>
+                  <div className={styles.reciterList}>
+                    {QURAN_RECITERS.map((reciter) => (
+                      <button
+                        key={reciter.id}
+                        type="button"
+                        className={`${styles.reciterItem} ${reciterId === reciter.id ? styles.reciterItemActive : ""}`}
+                        onClick={() => setReciterId(reciter.id)}
+                      >
+                        <div className={styles.reciterRadio}>
+                          {reciterId === reciter.id && <span className={styles.reciterRadioDot} />}
+                        </div>
+                        <div className={styles.reciterInfo}>
+                          <div className={styles.reciterName}>{reciter.nameTh}</div>
+                          <div className={styles.reciterStyle}>
+                            {reciter.origin} · {reciter.styleTh}
+                          </div>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

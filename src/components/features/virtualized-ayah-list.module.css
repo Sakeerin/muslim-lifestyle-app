@@ -16,6 +16,86 @@
   border-bottom: 0;
 }
 
+/* ── Ayah header badge ──────────────────── */
+
+.ayahHeader {
+  display: flex;
+  align-items: center;
+  margin-bottom: 4px;
+}
+
+.ayahBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 8px 3px 3px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, rgba(14, 141, 113, 0.1), rgba(216, 199, 118, 0.08));
+  border: 1px solid rgba(14, 141, 113, 0.2);
+}
+
+.ayahRef {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: #0e8d71;
+  color: #fff;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.ayahNames {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ayahNameEn {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: #0e8d71;
+  letter-spacing: 0.01em;
+}
+
+.ayahNameAr {
+  font-size: 0.76rem;
+  font-family: var(--font-arabic), serif;
+  color: var(--text-secondary);
+  line-height: 1.2;
+}
+
+:global(.dark) .ayahBadge {
+  background: linear-gradient(135deg, rgba(14, 141, 113, 0.15), rgba(216, 199, 118, 0.07));
+  border-color: rgba(14, 141, 113, 0.3);
+}
+
+/* ── Font size variants ─────────────────── */
+
+.fontSm .arabic {
+  font-size: clamp(1rem, 1.1vw + 0.72rem, 1.22rem) !important;
+}
+
+.fontLg .arabic {
+  font-size: clamp(1.65rem, 2.4vw + 1.05rem, 2.15rem) !important;
+}
+
+@media (max-width: 640px) {
+  .fontSm .arabic {
+    font-size: clamp(0.95rem, 1.5vw + 0.65rem, 1.15rem) !important;
+  }
+
+  .fontLg .arabic {
+    font-size: clamp(1.5rem, 2.8vw + 1rem, 1.95rem) !important;
+  }
+}
+
 .arabic {
   font-family: var(--font-arabic), serif;
   font-size: clamp(1.35rem, 2vw + 0.8rem, 1.62rem);

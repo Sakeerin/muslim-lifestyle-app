@@ -6,6 +6,7 @@ import { BookOpen, Download, RotateCcw, Upload } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
 import { useI18n } from "@/i18n/i18n-context";
 import { PRAYER_NAMES, RECITERS, useAzanSettings, type Reciter } from "@/hooks/use-azan-settings";
+import { QURAN_RECITERS, useQuranReciter, type QuranReciter } from "@/hooks/use-quran-reciter";
 import { useQuranProgress } from "@/hooks/use-quran-progress";
 import styles from "./page.module.css";
 
@@ -20,6 +21,7 @@ const PRAYER_ICONS: Record<string, string> = {
 export default function SettingsPage() {
   const { locale, setLocale, t } = useI18n();
   const { toggles, togglePrayer, reciterId, setReciterId } = useAzanSettings();
+  const { reciterId: quranReciterId, setReciterId: setQuranReciterId } = useQuranReciter();
   const { progress, resetProgress, exportData, importData } = useQuranProgress();
   const [permission, setPermission] = useState<NotificationPermission | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
@@ -44,6 +46,30 @@ export default function SettingsPage() {
     if (!("Notification" in window)) return;
     const result = await Notification.requestPermission();
     setPermission(result);
+  };
+
+  const handleQuranPreview = (reciter: QuranReciter) => {
+    const pid = `q:${reciter.id}`;
+    setPreviewError(null);
+    if (previewId === pid) {
+      audioRef.current?.pause();
+      if (audioRef.current) audioRef.current.currentTime = 0;
+      setPreviewId(null);
+      return;
+    }
+    audioRef.current?.pause();
+    const audio = new Audio(reciter.previewUrl);
+    audioRef.current = audio;
+    audio.onended = () => setPreviewId(null);
+    audio.onerror = () => {
+      setPreviewId(null);
+      setPreviewError(pid);
+    };
+    void audio.play().catch(() => {
+      setPreviewId(null);
+      setPreviewError(pid);
+    });
+    setPreviewId(pid);
   };
 
   const handlePreview = (reciter: Reciter) => {
@@ -183,6 +209,60 @@ export default function SettingsPage() {
               </button>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* ── Quran Reciter Selection ──────────────── */}
+      <section className={styles.card}>
+        <h2>{t("settings.quranReciter")}</h2>
+        <p className={styles.sectionDesc}>{t("settings.quranReciterDesc")}</p>
+        <div className={styles.reciterList}>
+          {QURAN_RECITERS.map((reciter) => {
+            const pid = `q:${reciter.id}`;
+            const isPlaying = previewId === pid;
+            const isError = previewError === pid;
+            return (
+              <div
+                key={reciter.id}
+                className={`${styles.reciterRow} ${quranReciterId === reciter.id ? styles.reciterActive : ""}`}
+                onClick={() => setQuranReciterId(reciter.id)}
+                role="radio"
+                aria-checked={quranReciterId === reciter.id}
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    setQuranReciterId(reciter.id);
+                  }
+                }}
+              >
+                <div className={styles.reciterRadio}>
+                  {quranReciterId === reciter.id && <span className={styles.reciterDot} />}
+                </div>
+                <div className={styles.reciterInfo}>
+                  <p className={styles.reciterName}>
+                    {locale === "th" ? reciter.nameTh : reciter.nameEn}
+                  </p>
+                  <p className={styles.reciterOrigin}>{reciter.origin}</p>
+                  <span className={styles.reciterStyle}>
+                    {locale === "th" ? reciter.styleTh : reciter.styleEn}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  className={`${styles.previewBtn} ${isPlaying ? styles.previewBtnActive : ""} ${isError ? styles.previewBtnError : ""}`}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleQuranPreview(reciter);
+                  }}
+                  aria-label={isPlaying ? t("settings.stop") : t("settings.preview")}
+                  title={isError ? t("settings.previewError") : undefined}
+                >
+                  {isError ? "✕" : isPlaying ? "■" : "▶"}
+                </button>
+              </div>
+            );
+          })}
         </div>
       </section>
 

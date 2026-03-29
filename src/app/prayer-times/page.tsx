@@ -3,14 +3,33 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
+import { useAzanSettings, type PrayerName } from "@/hooks/use-azan-settings";
 import { toHijri } from "@/lib/calendar-utils";
 import { PRAYER_ORDER } from "@/lib/prayer-utils";
 import { useI18n } from "@/i18n/i18n-context";
-import { ChevronDown, MapPin, Pause, Play, Printer } from "lucide-react";
+import Link from "next/link";
+import {
+  ChevronDown,
+  MapPin,
+  Pause,
+  Play,
+  Printer,
+  Settings,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import styles from "./page.module.css";
 
 const ADHAN_URL =
   "https://raw.githubusercontent.com/achaudhry/adhan/master/Adhan-Mishary-Rashid-Al-Afasy.mp3";
+
+const PRAYER_TIME_ICONS: Record<string, string> = {
+  Fajr: "🌄",
+  Dhuhr: "☀️",
+  Asr: "🌤️",
+  Maghrib: "🌇",
+  Isha: "🌙",
+};
 
 const METHODS: Array<{ value: number; label: string; shortLabel: string }> = [
   { value: 4, label: "อุมม์ อัลกุรอ์ — มักกะห์", shortLabel: "อุมม์ อัลกุรอ์" },
@@ -42,6 +61,7 @@ export default function PrayerTimesPage() {
   }, []);
   const { countdown, date, error, loading, location, monthly, nextPrayer, timings } =
     usePrayerTimes(method);
+  const { toggles, togglePrayer } = useAzanSettings();
   const { t, locale } = useI18n();
 
   const hijriLabel = useMemo(() => {
@@ -145,17 +165,39 @@ export default function PrayerTimesPage() {
 
       <div className={styles.mainGrid}>
         <section className={`${styles.card} ${styles.todayCard}`}>
-          <h2>{t("prayerTimes.todayPrayers")}</h2>
+          <div className={styles.todayCardHeader}>
+            <h2>{t("prayerTimes.todayPrayers")}</h2>
+            <Link href="/settings" className={styles.azanSettingsLink}>
+              <Settings size={13} />
+              <span>{t("prayerTimes.azanSettings")}</span>
+            </Link>
+          </div>
           <div className={styles.timings}>
-            {PRAYER_ORDER.map((prayer) => (
-              <article
-                key={prayer}
-                className={`${styles.timing} ${nextPrayer === prayer ? styles.active : ""}`}
-              >
-                <strong>{prayer}</strong>
-                <p>{timings?.[prayer] ?? "--:--"}</p>
-              </article>
-            ))}
+            {PRAYER_ORDER.map((prayer) => {
+              const prayerName = prayer as PrayerName;
+              const azanOn = toggles[prayerName];
+              return (
+                <article
+                  key={prayer}
+                  className={`${styles.timing} ${nextPrayer === prayer ? styles.active : ""}`}
+                >
+                  <div className={styles.timingMeta}>
+                    <span className={styles.timingPrayerIcon}>{PRAYER_TIME_ICONS[prayer]}</span>
+                    <button
+                      type="button"
+                      className={`${styles.timingSpeaker} ${azanOn ? styles.timingSpeakerOn : ""}`}
+                      onClick={() => togglePrayer(prayerName)}
+                      aria-label={azanOn ? t("prayerTimes.azanOn") : t("prayerTimes.azanOff")}
+                      title={azanOn ? t("prayerTimes.azanOn") : t("prayerTimes.azanOff")}
+                    >
+                      {azanOn ? <Volume2 size={12} /> : <VolumeX size={12} />}
+                    </button>
+                  </div>
+                  <strong>{t(`prayer.${prayer}`)}</strong>
+                  <p>{timings?.[prayer] ?? "--:--"}</p>
+                </article>
+              );
+            })}
           </div>
           {tomorrowTimings && (
             <div className={styles.tomorrowSection}>
