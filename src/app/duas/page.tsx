@@ -13,7 +13,6 @@ type JsonDua = {
   translation: string;
   notes: string | null;
   benefits?: string;
-  fawaid?: string;
   source: string;
 };
 
@@ -200,8 +199,8 @@ export default function DuasPage() {
             {dua.latin ? <p className={styles.translit}>{dua.latin}</p> : null}
             <p>{dua.translation}</p>
             {dua.notes ? <p className={styles.notes}>{dua.notes}</p> : null}
-            {(dua.benefits ?? dua.fawaid) ? (
-              <p className={styles.benefits}>{dua.benefits ?? dua.fawaid}</p>
+            {dua.benefits ? (
+              <p className={styles.benefits}>{dua.benefits}</p>
             ) : null}
             <p className={styles.source}>{dua.source}</p>
           </article>
