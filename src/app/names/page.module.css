@@ -110,6 +110,52 @@
   padding: 0;
 }
 
+.filterRow {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+  margin-top: 0.75rem;
+}
+
+.filterBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.3rem 0.8rem;
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  cursor: pointer;
+  transition: border-color 0.15s, color 0.15s, background 0.15s;
+}
+
+.filterBtn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+.filterBtnActive {
+  background: rgba(255, 255, 255, 0.18);
+  border-color: rgba(255, 255, 255, 0.6);
+  color: #fff;
+}
+
+.favCount {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 1.1rem;
+  height: 1.1rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0 0.25rem;
+}
+
 .item {
   display: flex;
   align-items: center;
@@ -118,6 +164,41 @@
   border-bottom: 1px solid var(--border-soft);
   transition: background 0.15s;
   cursor: default;
+}
+
+.itemFav {
+  background: color-mix(in srgb, #e11d48 4%, transparent);
+}
+
+.itemRight {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.35rem;
+  flex-shrink: 0;
+}
+
+.favBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: none;
+  background: transparent;
+  color: var(--color-fg-muted, #aaa);
+  cursor: pointer;
+  border-radius: 50%;
+  transition: color 0.15s, background 0.15s;
+}
+
+.favBtn:hover {
+  color: #e11d48;
+  background: rgba(225, 29, 72, 0.08);
+}
+
+.favBtnActive {
+  color: #e11d48;
 }
 
 .item:last-child {

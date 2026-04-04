@@ -1,0 +1,326 @@
+.page {
+  padding: 1.5rem;
+  max-width: 600px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.1rem;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-fg);
+}
+
+.header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-fg-muted, #666);
+}
+
+/* ---- Sahur/Iftar card ---- */
+.timesCard {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  padding: 0.9rem 1.2rem;
+  border-radius: 0.85rem;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  background: var(--color-surface-1, transparent);
+}
+
+.timeItem {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.timeIcon {
+  color: var(--color-primary, #0e8d71);
+  flex-shrink: 0;
+}
+
+.sunIcon {
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.timeLabel {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--color-fg-muted, #666);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.timeValue {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-fg);
+  margin: 0;
+  font-variant-numeric: tabular-nums;
+}
+
+.timeDivider {
+  width: 1px;
+  height: 2.5rem;
+  background: var(--color-border, rgba(0, 0, 0, 0.12));
+  margin: 0 1rem;
+  flex-shrink: 0;
+}
+
+/* ---- Month navigator ---- */
+.navRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.monthInfo {
+  text-align: center;
+  flex: 1;
+}
+
+.monthTitle {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-fg);
+  margin: 0;
+}
+
+.hijriLabel {
+  font-size: 0.78rem;
+  color: var(--color-fg-muted, #888);
+  margin: 0.1rem 0 0;
+}
+
+.navArrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.2rem;
+  height: 2.2rem;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.12));
+  border-radius: 50%;
+  background: var(--color-surface-1, transparent);
+  cursor: pointer;
+  color: var(--color-fg);
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+
+.navArrow:hover {
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+  border-color: transparent;
+}
+
+.todayBtn {
+  align-self: center;
+  padding: 0.3rem 0.85rem;
+  border: 1px solid var(--color-primary, #0e8d71);
+  background: transparent;
+  color: var(--color-primary, #0e8d71);
+  border-radius: 0.5rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 500;
+  transition:
+    background 0.15s,
+    color 0.15s;
+}
+
+.todayBtn:hover {
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+}
+
+/* ---- Stats ---- */
+.stats {
+  font-size: 0.85rem;
+  color: var(--color-fg-muted, #666);
+}
+
+.statsCount {
+  font-weight: 600;
+  color: var(--color-primary, #0e8d71);
+}
+
+/* ---- Calendar grid ---- */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  border-radius: 0.75rem;
+  overflow: hidden;
+}
+
+.weekdayHeader {
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+  text-align: center;
+  padding: 0.5rem 0;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.cell {
+  position: relative;
+  min-height: 64px;
+  padding: 0.35rem 0.3rem 0.25rem;
+  border-right: 1px solid var(--color-border, rgba(0, 0, 0, 0.07));
+  border-bottom: 1px solid var(--color-border, rgba(0, 0, 0, 0.07));
+  background: var(--color-surface-1, transparent);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  transition: background 0.1s;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.cell:nth-child(7n) {
+  border-right: none;
+}
+
+.cell:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 8%, transparent);
+}
+
+.cell:disabled {
+  cursor: default;
+}
+
+.cellOther {
+  opacity: 0.3;
+}
+
+.cellToday {
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 10%, transparent);
+}
+
+.cellFasted {
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 18%, transparent);
+}
+
+.cellSunnah {
+  background: color-mix(in srgb, #f59e0b 8%, transparent);
+}
+
+.dayNum {
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1;
+  color: var(--color-fg);
+}
+
+.todayCircle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.55rem;
+  height: 1.55rem;
+  border-radius: 50%;
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.85rem;
+  line-height: 1;
+}
+
+.hijriNum {
+  font-size: 0.6rem;
+  color: var(--color-fg-muted, #888);
+  line-height: 1;
+}
+
+.fastedDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--color-primary, #0e8d71);
+  margin-top: auto;
+}
+
+.sunnahDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f59e0b;
+  margin-top: auto;
+}
+
+/* ---- Legend ---- */
+.legend {
+  display: flex;
+  gap: 1.25rem;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.78rem;
+  color: var(--color-fg-muted, #666);
+}
+
+.legendDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.legendFasted {
+  background: var(--color-primary, #0e8d71);
+}
+
+.legendSunnah {
+  background: #f59e0b;
+}
+
+/* ---- Hint ---- */
+.hint {
+  font-size: 0.78rem;
+  color: var(--color-fg-muted, #666);
+  margin: 0;
+  text-align: center;
+  opacity: 0.75;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 1rem 0.75rem;
+  }
+
+  .cell {
+    min-height: 52px;
+    padding: 0.3rem 0.2rem;
+  }
+
+  .dayNum,
+  .todayCircle {
+    font-size: 0.78rem;
+    width: 1.4rem;
+    height: 1.4rem;
+  }
+
+  .monthTitle {
+    font-size: 0.95rem;
+  }
+}

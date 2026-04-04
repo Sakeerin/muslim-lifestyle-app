@@ -21,7 +21,217 @@
 .ayahHeader {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   margin-bottom: 4px;
+}
+
+/* ── Ayah action buttons group ── */
+.ayahActions {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+  flex-shrink: 0;
+}
+
+/* ── Memorization button ── */
+.memoBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--color-border, rgba(0,0,0,0.12));
+  background: transparent;
+  color: var(--color-fg-muted, #888);
+  cursor: pointer;
+  border-radius: 4px;
+  font-size: 0.72rem;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.memoBtn:hover {
+  border-color: var(--color-primary, #0e8d71);
+  color: var(--color-primary, #0e8d71);
+}
+
+.memoBtnStatus_learning {
+  border-color: #f59e0b;
+  color: #f59e0b;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.memoBtnStatus_memorized {
+  border-color: var(--color-primary, #0e8d71);
+  color: var(--color-primary, #0e8d71);
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 10%, transparent);
+}
+
+/* ── Row highlight by memo status ── */
+.rowLearning {
+  background: rgba(245, 158, 11, 0.04);
+}
+
+.rowMemorized {
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 5%, transparent);
+}
+
+/* ── Note button ── */
+.noteBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 1px solid var(--color-border, rgba(0,0,0,0.12));
+  background: transparent;
+  color: var(--color-fg-muted, #888);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+  flex-shrink: 0;
+}
+
+.noteBtn:hover {
+  border-color: #a78bfa;
+  color: #7c3aed;
+}
+
+.noteBtnActive {
+  border-color: #a78bfa;
+  color: #7c3aed;
+  background: rgba(167, 139, 250, 0.1);
+}
+
+/* ── Note display ── */
+.noteDisplay {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+  padding: 0.45rem 0.65rem;
+  border-radius: 0.45rem;
+  background: rgba(167, 139, 250, 0.08);
+  border: 1px solid rgba(167, 139, 250, 0.22);
+}
+
+.noteDisplayIcon {
+  color: #7c3aed;
+  flex-shrink: 0;
+  margin-top: 0.1rem;
+}
+
+.noteText {
+  font-size: 0.82rem;
+  color: var(--color-fg);
+  margin: 0;
+  line-height: 1.55;
+  white-space: pre-wrap;
+}
+
+/* ── Note editor ── */
+.noteEditor {
+  margin-top: 0.6rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.noteTextarea {
+  width: 100%;
+  padding: 0.55rem 0.7rem;
+  border: 1px solid #a78bfa;
+  border-radius: 0.5rem;
+  background: var(--color-surface-1, transparent);
+  color: var(--color-fg);
+  font-size: 0.85rem;
+  font-family: inherit;
+  line-height: 1.55;
+  resize: vertical;
+  box-sizing: border-box;
+  transition: box-shadow 0.15s;
+}
+
+.noteTextarea:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(167, 139, 250, 0.2);
+}
+
+.noteActions {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: flex-end;
+}
+
+.noteDeleteBtn {
+  margin-right: auto;
+  font-size: 0.75rem;
+  color: #dc2626;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem 0.4rem;
+  border-radius: 0.3rem;
+  transition: background 0.15s;
+}
+
+.noteDeleteBtn:hover {
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.noteCancelBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.78rem;
+  color: var(--color-fg-muted, #888);
+  background: none;
+  border: 1px solid var(--color-border, rgba(0,0,0,0.12));
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 0.28rem 0.65rem;
+}
+
+.noteSaveBtn {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  background: #7c3aed;
+  border: none;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  padding: 0.3rem 0.75rem;
+  transition: opacity 0.15s;
+}
+
+.noteSaveBtn:hover {
+  opacity: 0.88;
+}
+
+.bookmarkBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: none;
+  background: transparent;
+  color: var(--color-fg-muted, #888);
+  cursor: pointer;
+  border-radius: 4px;
+  transition: color 0.15s, background 0.15s;
+  flex-shrink: 0;
+}
+
+.bookmarkBtn:hover {
+  color: var(--color-primary, #0e8d71);
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 10%, transparent);
+}
+
+.bookmarkBtnActive {
+  color: var(--color-primary, #0e8d71);
 }
 
 .ayahBadge {

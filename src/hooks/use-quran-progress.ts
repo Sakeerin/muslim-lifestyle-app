@@ -3,12 +3,22 @@
 import { useCallback } from "react";
 import { useLocalStorage } from "./use-local-storage";
 
+export type QuranBookmark = {
+  surah: number;
+  surahName: string;
+  surahNameAr: string;
+  ayah: number;
+  note: string;
+  savedAt: string;
+};
+
 export type QuranProgress = {
   lastSurah: number | null;
   lastSurahName: string | null;
   lastSurahNameAr: string | null;
   lastReadAt: string | null;
   visitedSurahs: number[];
+  bookmarks: QuranBookmark[];
 };
 
 const STORAGE_KEY = "quran-progress";
@@ -19,6 +29,7 @@ const DEFAULT_PROGRESS: QuranProgress = {
   lastSurahNameAr: null,
   lastReadAt: null,
   visitedSurahs: [],
+  bookmarks: [],
 };
 
 export function useQuranProgress() {
@@ -40,6 +51,44 @@ export function useQuranProgress() {
           lastSurahNameAr: surahNameAr,
           lastReadAt: new Date().toISOString(),
           visitedSurahs: visited,
+          bookmarks: Array.isArray(current.bookmarks) ? current.bookmarks : [],
+        });
+      } catch {}
+    },
+    [setProgress],
+  );
+
+  const addBookmark = useCallback(
+    (surah: number, surahName: string, surahNameAr: string, ayah: number, note: string) => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const current: QuranProgress = raw ? (JSON.parse(raw) as QuranProgress) : DEFAULT_PROGRESS;
+        const existing = Array.isArray(current.bookmarks) ? current.bookmarks : [];
+        // Remove any existing bookmark for this exact surah:ayah, then add new one
+        const filtered = existing.filter((b) => !(b.surah === surah && b.ayah === ayah));
+        const updated: QuranBookmark = {
+          surah,
+          surahName,
+          surahNameAr,
+          ayah,
+          note: note.trim(),
+          savedAt: new Date().toISOString(),
+        };
+        setProgress({ ...current, bookmarks: [...filtered, updated] });
+      } catch {}
+    },
+    [setProgress],
+  );
+
+  const removeBookmark = useCallback(
+    (surah: number, ayah: number) => {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        const current: QuranProgress = raw ? (JSON.parse(raw) as QuranProgress) : DEFAULT_PROGRESS;
+        const existing = Array.isArray(current.bookmarks) ? current.bookmarks : [];
+        setProgress({
+          ...current,
+          bookmarks: existing.filter((b) => !(b.surah === surah && b.ayah === ayah)),
         });
       } catch {}
     },
@@ -82,6 +131,7 @@ export function useQuranProgress() {
                 typeof data.lastSurahNameAr === "string" ? data.lastSurahNameAr : null,
               lastReadAt: typeof data.lastReadAt === "string" ? data.lastReadAt : null,
               visitedSurahs: data.visitedSurahs,
+              bookmarks: Array.isArray(data.bookmarks) ? data.bookmarks : [],
             });
           }
         } catch {}
@@ -91,5 +141,5 @@ export function useQuranProgress() {
     [setProgress],
   );
 
-  return { progress, markAsRead, resetProgress, exportData, importData };
+  return { progress, markAsRead, addBookmark, removeBookmark, resetProgress, exportData, importData };
 }

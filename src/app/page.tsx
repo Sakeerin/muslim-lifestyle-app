@@ -7,12 +7,13 @@ import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useTheme } from "next-themes";
 import { usePrayerTimes } from "@/hooks/use-prayer-times";
 import { describeWeather, useWeather } from "@/hooks/use-weather";
-import { toHijri } from "@/lib/calendar-utils";
+import { toHijri, getUpcomingIslamicEvents } from "@/lib/calendar-utils";
 import { useI18n } from "@/i18n/i18n-context";
 import { WeatherDetailModal } from "@/components/features/weather-detail";
 import styles from "./page.module.css";
 import enDuasData from "./duas/en.json";
 import thDuasData from "./duas/th.json";
+import { getDailyHadith } from "@/data/hadith";
 
 const QUICK_LINKS = [
   {
@@ -85,6 +86,55 @@ const QUICK_LINKS = [
     icon: "🕋",
     category: "knowledge",
     pinned: true,
+  },
+  {
+    href: "/tasbeeh",
+    labelKey: "home.tasbeeh",
+    icon: "📿",
+    category: "worship",
+    pinned: false,
+  },
+  {
+    href: "/azkar",
+    labelKey: "home.azkar",
+    icon: "🌅",
+    category: "worship",
+    pinned: false,
+  },
+  {
+    href: "/fasting",
+    labelKey: "home.fasting",
+    icon: "🌙",
+    category: "worship",
+    pinned: false,
+  },
+  {
+    href: "/prayer-streak",
+    labelKey: "home.prayerStreak",
+    icon: "🔥",
+    category: "worship",
+    pinned: false,
+  },
+  {
+    href: "/ibadah",
+    labelKey: "home.ibadahChecklist",
+    icon: "☑️",
+    category: "worship",
+    pinned: false,
+  },
+  {
+    href: "/duas/journal",
+    labelKey: "home.duaJournal",
+    icon: "📝",
+    category: "knowledge",
+    pinned: false,
+  },
+  {
+    href: "/stats",
+    labelKey: "home.stats",
+    icon: "📊",
+    category: "tools",
+    pinned: false,
   },
 ] as const;
 
@@ -228,6 +278,8 @@ export default function Home() {
       translation: item.translation,
     };
   }, [t]);
+
+  const upcomingEvents = useMemo(() => getUpcomingIslamicEvents(3), []);
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -391,6 +443,47 @@ export default function Home() {
           <p className={styles.arabic}>{mounted ? dailyContent.arabic : fallbackContent.arabic}</p>
           <p>{mounted ? dailyContent.translation : fallbackContent.translation}</p>
         </article>
+
+        {mounted && (() => {
+          const hadith = getDailyHadith();
+          return (
+            <article className={styles.card}>
+              <h2>{t("home.dailyHadith")}</h2>
+              <p className={styles.arabic}>{hadith.arabic}</p>
+              <p>{locale === "th" ? hadith.translationTh : hadith.translationEn}</p>
+              <p className={styles.hadithSource}>
+                {t("hadith.narrator")}: {hadith.narrator} — {hadith.source}
+              </p>
+            </article>
+          );
+        })()}
+
+        {mounted && upcomingEvents.length > 0 && (
+          <article className={styles.card}>
+            <h2>{t("events.title")}</h2>
+            <ul className={styles.eventsList}>
+              {upcomingEvents.map((ev) => (
+                <li key={ev.key} className={styles.eventItem}>
+                  <div className={styles.eventInfo}>
+                    <span className={styles.eventName}>
+                      {locale === "th" ? ev.nameTh : ev.nameEn}
+                    </span>
+                  </div>
+                  <span className={styles.eventDays}>
+                    {ev.daysAway === 0
+                      ? t("events.today")
+                      : ev.daysAway === 1
+                        ? t("events.tomorrow")
+                        : t("events.daysLeft", { n: String(ev.daysAway) })}
+                  </span>
+                </li>
+              ))}
+            </ul>
+            <Link href="/calendar" className={styles.eventsCalendarLink}>
+              {t("events.viewCalendar")} →
+            </Link>
+          </article>
+        )}
 
         <article className={styles.card}>
           <h2>{t("home.quickAccess")}</h2>

@@ -38,3 +38,119 @@
   font-family: var(--font-arabic), serif;
   font-size: 1.25rem;
 }
+
+/* ---- Mode toggle ---- */
+.modeToggle {
+  display: flex;
+  gap: 0;
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.06));
+  border-radius: 0.75rem;
+  padding: 0.25rem;
+  width: fit-content;
+}
+
+.modeBtn {
+  padding: 0.4rem 1.1rem;
+  border: none;
+  background: transparent;
+  border-radius: 0.55rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--text-secondary, #666);
+  transition: background 0.2s, color 0.2s;
+}
+
+.modeBtnActive {
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.18);
+}
+
+/* ---- Keyword search ---- */
+.searchSection {
+  display: grid;
+  gap: 10px;
+}
+
+.keywordForm {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.keywordForm .search {
+  flex: 1;
+}
+
+.searchBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 1rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 10px;
+  background: var(--color-primary, #0e8d71);
+  color: #fff;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: opacity 0.15s;
+}
+
+.searchBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.searchStatus {
+  font-size: 0.83rem;
+  color: var(--text-secondary, #666);
+  margin: 0;
+}
+
+.searchError {
+  font-size: 0.83rem;
+  color: #dc2626;
+  margin: 0;
+}
+
+.searchItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  border: 1px solid var(--border-soft);
+  border-radius: 12px;
+  background: var(--surface-muted);
+  padding: 12px;
+  text-decoration: none;
+  transition: border-color 0.15s;
+}
+
+.searchItem:hover {
+  border-color: var(--color-primary, #0e8d71);
+}
+
+.searchItemMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.searchSurahName {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--color-primary, #0e8d71);
+}
+
+.searchSurahNameAr {
+  font-family: var(--font-arabic), serif;
+  font-size: 1rem;
+  color: var(--text-secondary, #666);
+}
+
+.searchItemText {
+  font-size: 0.88rem;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.5;
+}

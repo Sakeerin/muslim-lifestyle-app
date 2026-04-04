@@ -440,3 +440,164 @@ button.item {
 .hiddenInput {
   display: none;
 }
+
+/* ── Bookmarks ───────────────────────── */
+.bookmarkList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.bookmarkItem {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border-radius: 0.6rem;
+  border: 1px solid var(--border-soft);
+  background: var(--surface-muted);
+}
+
+.bookmarkInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.bookmarkLink {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-primary, #0e8d71);
+  text-decoration: none;
+}
+
+.bookmarkRef {
+  font-weight: 400;
+  color: var(--text-secondary);
+}
+
+.bookmarkNote {
+  font-size: 0.78rem;
+  color: var(--text-primary);
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bookmarkDate {
+  font-size: 0.72rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.removeBookmarkBtn {
+  flex-shrink: 0;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 1.1rem;
+  cursor: pointer;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color 0.15s, background 0.15s;
+}
+
+.removeBookmarkBtn:hover {
+  color: #dc2626;
+  background: rgba(220, 38, 38, 0.08);
+}
+
+.subtitle {
+  font-size: 0.85rem;
+  color: var(--color-fg-muted, #888);
+  margin: 0 0 0.75rem;
+}
+
+.memoSummaryRow {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.75rem;
+}
+
+.memoStat {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-primary, #0e8d71);
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 10%, transparent);
+}
+
+.memoStatLearning {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d97706;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(217, 119, 6, 0.1);
+}
+
+.memoList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+}
+
+.memoRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.4rem 0.6rem;
+  border-radius: 0.5rem;
+  background: var(--color-surface-2, rgba(0,0,0,0.03));
+}
+
+.memoSurahLink {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--color-primary, #0e8d71);
+  text-decoration: none;
+}
+
+.memoRowCounts {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.memoCount {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--color-primary, #0e8d71);
+}
+
+.memoCountLearning {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #d97706;
+}
+
+.resetBtn {
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--color-border, rgba(0,0,0,0.15));
+  background: transparent;
+  color: var(--color-fg-muted, #666);
+  border-radius: 0.5rem;
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.resetBtn:hover {
+  color: #dc2626;
+  border-color: #dc2626;
+}

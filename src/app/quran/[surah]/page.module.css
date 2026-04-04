@@ -722,3 +722,15 @@
     font-size: 0.85rem;
   }
 }
+
+.memoProgress {
+  font-size: 0.78rem;
+  color: var(--color-primary, #0e8d71);
+  font-weight: 600;
+  margin: 0 0 0.6rem;
+  padding: 0.35rem 0.75rem;
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 8%, transparent);
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--color-primary, #0e8d71) 20%, transparent);
+  display: inline-block;
+}

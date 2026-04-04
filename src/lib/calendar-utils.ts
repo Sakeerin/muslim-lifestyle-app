@@ -389,6 +389,50 @@ export function getEventsForMonth(year: number, month: number): CalendarEvent[] 
 }
 
 // ---------------------------------------------------------------------------
+// Get next N upcoming Islamic events starting from today.
+// Scans forward day-by-day for up to 400 days.
+// ---------------------------------------------------------------------------
+
+export interface UpcomingIslamicEvent {
+  key: string;
+  nameEn: string;
+  nameTh: string;
+  date: Date;
+  /** 0 = today, 1 = tomorrow, etc. */
+  daysAway: number;
+}
+
+export function getUpcomingIslamicEvents(count = 3): UpcomingIslamicEvent[] {
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  const results: UpcomingIslamicEvent[] = [];
+  const seen = new Set<string>();
+
+  for (let offset = 0; offset < 400 && results.length < count; offset++) {
+    const candidate = new Date(today);
+    candidate.setDate(today.getDate() + offset);
+    const hijri = toHijri(candidate);
+
+    for (const def of ISLAMIC_EVENT_DEFS) {
+      if (def.hijriMonth === hijri.month && def.hijriDay === hijri.day) {
+        if (!seen.has(def.key)) {
+          seen.add(def.key);
+          results.push({
+            key: def.key,
+            nameEn: def.nameEn,
+            nameTh: def.nameTh,
+            date: new Date(candidate),
+            daysAway: offset,
+          });
+        }
+      }
+    }
+  }
+
+  return results;
+}
+
+// ---------------------------------------------------------------------------
 // Generate a 6-row × 7-col calendar grid for a Gregorian year/month.
 // Week starts on Sunday (0).
 // ---------------------------------------------------------------------------

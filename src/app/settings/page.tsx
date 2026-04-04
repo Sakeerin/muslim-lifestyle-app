@@ -8,6 +8,7 @@ import { useI18n } from "@/i18n/i18n-context";
 import { PRAYER_NAMES, RECITERS, useAzanSettings, type Reciter } from "@/hooks/use-azan-settings";
 import { QURAN_RECITERS, useQuranReciter, type QuranReciter } from "@/hooks/use-quran-reciter";
 import { useQuranProgress } from "@/hooks/use-quran-progress";
+import { useQuranMemorization } from "@/hooks/use-quran-memorization";
 import styles from "./page.module.css";
 
 const PRAYER_ICONS: Record<string, string> = {
@@ -22,7 +23,8 @@ export default function SettingsPage() {
   const { locale, setLocale, t } = useI18n();
   const { toggles, togglePrayer, reciterId, setReciterId } = useAzanSettings();
   const { reciterId: quranReciterId, setReciterId: setQuranReciterId } = useQuranReciter();
-  const { progress, resetProgress, exportData, importData } = useQuranProgress();
+  const { progress, resetProgress, exportData, importData, removeBookmark } = useQuranProgress();
+  const { totals: memoTotals, bysurah: memoBysurah, clearAll: clearMemo } = useQuranMemorization();
   const [permission, setPermission] = useState<NotificationPermission | null>(null);
   const [previewId, setPreviewId] = useState<string | null>(null);
   const [previewError, setPreviewError] = useState<string | null>(null);
@@ -355,6 +357,86 @@ export default function SettingsPage() {
             {t("settings.resetProgress")}
           </button>
         </div>
+      </section>
+
+      {/* ── Quran Memorization ──────────────────── */}
+      <section className={styles.card}>
+        <h2>{t("memo.settingsTitle")}</h2>
+        <p className={styles.subtitle}>{t("memo.settingsDesc")}</p>
+        {(() => {
+          const { memorized, learning } = memoTotals();
+          const rows = memoBysurah();
+          if (memorized === 0 && learning === 0) {
+            return <p className={styles.neverRead}>{t("memo.noMemo")}</p>;
+          }
+          return (
+            <>
+              <div className={styles.memoSummaryRow}>
+                <span className={styles.memoStat}>{t("memo.totalMemo", { count: String(memorized) })}</span>
+                {learning > 0 && (
+                  <span className={styles.memoStatLearning}>{t("memo.totalLearning", { count: String(learning) })}</span>
+                )}
+              </div>
+              <div className={styles.memoList}>
+                {rows.map((r) => (
+                  <div key={r.surah} className={styles.memoRow}>
+                    <Link href={`/quran/${r.surah}`} className={styles.memoSurahLink}>
+                      Surah {r.surah}
+                    </Link>
+                    <span className={styles.memoRowCounts}>
+                      {r.memorized > 0 && <span className={styles.memoCount}>✅ {r.memorized}</span>}
+                      {r.learning > 0 && <span className={styles.memoCountLearning}>📖 {r.learning}</span>}
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <button type="button" className={styles.resetBtn} onClick={clearMemo}>
+                {t("memo.clearAll")}
+              </button>
+            </>
+          );
+        })()}
+      </section>
+
+      {/* ── Quran Bookmarks ─────────────────────── */}
+      <section className={styles.card}>
+        <h2>{t("quran.bookmarks")}</h2>
+        {!progress.bookmarks || progress.bookmarks.length === 0 ? (
+          <p className={styles.neverRead}>{t("quran.noBookmarks")}</p>
+        ) : (
+          <div className={styles.bookmarkList}>
+            {[...progress.bookmarks]
+              .sort((a, b) => new Date(b.savedAt).getTime() - new Date(a.savedAt).getTime())
+              .map((bm) => (
+                <div key={`${bm.surah}-${bm.ayah}`} className={styles.bookmarkItem}>
+                  <div className={styles.bookmarkInfo}>
+                    <Link
+                      href={`/quran/${bm.surah}`}
+                      className={styles.bookmarkLink}
+                    >
+                      {bm.surahName}
+                      <span className={styles.bookmarkRef}> {bm.surah}:{bm.ayah}</span>
+                    </Link>
+                    {bm.note && <p className={styles.bookmarkNote}>{bm.note}</p>}
+                    <p className={styles.bookmarkDate} suppressHydrationWarning>
+                      {new Date(bm.savedAt).toLocaleDateString(
+                        locale === "th" ? "th-TH" : "en-GB",
+                        { day: "numeric", month: "short", year: "numeric" },
+                      )}
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    className={styles.removeBookmarkBtn}
+                    onClick={() => removeBookmark(bm.surah, bm.ayah)}
+                    aria-label={t("quran.removeBookmark")}
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+          </div>
+        )}
       </section>
     </div>
   );

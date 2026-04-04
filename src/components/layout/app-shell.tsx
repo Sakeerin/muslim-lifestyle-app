@@ -5,14 +5,20 @@ import { usePathname } from "next/navigation";
 import type { ReactNode } from "react";
 import {
   BookOpen,
+  BookHeart,
   CalendarDays,
   Coins,
   Compass,
+  Flame,
   Globe,
   Home,
+  Moon,
   Settings,
   Star,
   Sunrise,
+  Sun,
+  TrendingUp,
+  Wind,
 } from "lucide-react";
 import { ThemeToggle } from "@/components/features/theme-toggle";
 import { useI18n } from "@/i18n/i18n-context";
@@ -33,6 +39,13 @@ const navItems: NavItem[] = [
   { href: "/calendar", labelKey: "nav.calendar", icon: CalendarDays, mobileHide: true },
   { href: "/zakat", labelKey: "nav.zakat", icon: Coins, mobileHide: true },
   { href: "/names", labelKey: "nav.names", icon: Star, mobileHide: true },
+  { href: "/tasbeeh", labelKey: "nav.tasbeeh", icon: Wind, mobileHide: true },
+  { href: "/prayer-streak", labelKey: "nav.streak", icon: Flame, mobileHide: true },
+  { href: "/azkar", labelKey: "nav.azkar", icon: Sun, mobileHide: true },
+  { href: "/fasting", labelKey: "nav.fasting", icon: Moon, mobileHide: true },
+  { href: "/duas/journal", labelKey: "nav.journal", icon: BookHeart, mobileHide: true },
+  { href: "/ibadah", labelKey: "nav.ibadah", icon: Star, mobileHide: true },
+  { href: "/stats", labelKey: "nav.stats", icon: TrendingUp, mobileHide: true },
   { href: "/settings", labelKey: "nav.settings", icon: Settings },
 ];
 

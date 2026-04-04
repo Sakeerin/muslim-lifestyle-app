@@ -17,6 +17,8 @@ import {
 import { VirtualizedAyahList, type AyahView } from "@/components/features/virtualized-ayah-list";
 import { useI18n } from "@/i18n/i18n-context";
 import { useQuranProgress } from "@/hooks/use-quran-progress";
+import { useQuranMemorization } from "@/hooks/use-quran-memorization";
+import { useAyahNotes } from "@/hooks/use-ayah-notes";
 import { QURAN_RECITERS, useQuranReciter } from "@/hooks/use-quran-reciter";
 import styles from "./page.module.css";
 
@@ -79,8 +81,30 @@ export default function SurahPage({ params }: SurahPageProps) {
   // Track which surahId has already been marked to avoid re-marking on translationLang change
   const markedSurahRef = useRef<string | null>(null);
   const { t } = useI18n();
-  const { markAsRead } = useQuranProgress();
+  const { markAsRead, addBookmark, removeBookmark, progress } = useQuranProgress();
+  const { memo: memoMap, cycleStatus: cycleMemo, surahMemoCount } = useQuranMemorization();
+  const { notes: ayahNotesMap, setNote: saveAyahNote } = useAyahNotes();
   const { activeReciter, reciterId, setReciterId } = useQuranReciter();
+
+  const surahNum = Number(surahId);
+
+  const memoStatusesBySurah = useMemo(() => {
+    const map: Record<number, "learning" | "memorized"> = {};
+    for (const [key, status] of Object.entries(memoMap)) {
+      const [s, a] = key.split(":");
+      if (Number(s) === surahNum) map[Number(a)] = status;
+    }
+    return map;
+  }, [memoMap, surahNum]);
+
+  const ayahNotesBySurah = useMemo(() => {
+    const map: Record<number, string> = {};
+    for (const [key, text] of Object.entries(ayahNotesMap)) {
+      const [s, a] = key.split(":");
+      if (Number(s) === surahNum) map[Number(a)] = text;
+    }
+    return map;
+  }, [ayahNotesMap, surahNum]);
 
   useEffect(() => {
     try {
@@ -398,6 +422,17 @@ export default function SurahPage({ params }: SurahPageProps) {
       </section>
 
       <section className={styles.card}>
+        {surahId && ayahs.length > 0 && (() => {
+          const surahNum = Number(surahId);
+          const memoCount = surahMemoCount(surahNum);
+          if (memoCount === 0) return null;
+          return (
+            <p className={styles.memoProgress}>
+              {t("memo.progressLabel", { count: String(memoCount) })}
+              {" "}({memoCount}/{ayahs.length})
+            </p>
+          );
+        })()}
         <VirtualizedAyahList
           ayahs={ayahs}
           mode={readingMode ? "reading" : "compact"}
@@ -406,6 +441,36 @@ export default function SurahPage({ params }: SurahPageProps) {
           surahNameEn={surahInfo?.englishName}
           surahNameAr={surahInfo?.name}
           fontSize={fontSize}
+          bookmarkedAyahs={
+            progress.bookmarks
+              ?.filter((b) => b.surah === Number(surahId))
+              .map((b) => b.ayah) ?? []
+          }
+          onToggleBookmark={(ayahNum) => {
+            const surahNum = Number(surahId);
+            const alreadyBookmarked = progress.bookmarks?.some(
+              (b) => b.surah === surahNum && b.ayah === ayahNum,
+            );
+            if (alreadyBookmarked) {
+              removeBookmark(surahNum, ayahNum);
+            } else {
+              addBookmark(
+                surahNum,
+                surahInfo?.englishName ?? "",
+                surahInfo?.name ?? "",
+                ayahNum,
+                "",
+              );
+            }
+          }}
+          memoStatuses={memoStatusesBySurah}
+          onCycleMemo={(ayahNum) => cycleMemo(surahNum, ayahNum)}
+          ayahNotes={ayahNotesBySurah}
+          onSaveNote={(ayahNum, text) => saveAyahNote(surahNum, ayahNum, text)}
+          notePlaceholder={t("ayahnote.placeholder")}
+          noteSaveLabel={t("ayahnote.save")}
+          noteCancelLabel={t("ayahnote.cancel")}
+          noteDeleteLabel={t("ayahnote.delete")}
         />
 
         {surahId &&

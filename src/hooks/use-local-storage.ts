@@ -7,7 +7,10 @@ import { useCallback, useEffect, useState } from "react";
  * Always initializes with defaultValue (avoids hydration mismatch),
  * then reads the stored value on the client after mount.
  */
-export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  defaultValue: T,
+): [T, (value: T | ((prev: T) => T)) => void] {
   const [value, setValue] = useState<T>(defaultValue);
 
   useEffect(() => {
@@ -28,11 +31,14 @@ export function useLocalStorage<T>(key: string, defaultValue: T): [T, (value: T)
   }, [key]);
 
   const set = useCallback(
-    (val: T) => {
-      setValue(val);
-      try {
-        localStorage.setItem(key, JSON.stringify(val));
-      } catch {}
+    (val: T | ((prev: T) => T)) => {
+      setValue((prev) => {
+        const next = typeof val === "function" ? (val as (prev: T) => T)(prev) : val;
+        try {
+          localStorage.setItem(key, JSON.stringify(next));
+        } catch {}
+        return next;
+      });
     },
     [key],
   );

@@ -1,0 +1,246 @@
+.page {
+  padding: 1.5rem;
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ---- Header ---- */
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.header h1 {
+  font-size: 1.75rem;
+  font-weight: 700;
+  margin: 0;
+  color: var(--color-fg);
+}
+
+.header p {
+  margin: 0;
+  font-size: 0.9rem;
+  color: var(--color-fg-muted, #666);
+}
+
+/* ---- Progress ---- */
+.progressWrap {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.progressBar {
+  height: 6px;
+  border-radius: 999px;
+  background: var(--color-border, rgba(0, 0, 0, 0.1));
+  overflow: hidden;
+}
+
+.progressFill {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-primary, #0e8d71);
+  transition: width 0.3s;
+}
+
+.progressLabel {
+  font-size: 0.82rem;
+  color: var(--color-fg-muted, #666);
+  margin: 0;
+  min-height: 1.2em;
+}
+
+.allDone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  color: var(--color-primary, #0e8d71);
+  font-weight: 600;
+}
+
+/* ---- Checklist ---- */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  padding: 0.9rem 1rem;
+  border-radius: 0.85rem;
+  border: 1.5px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  background: var(--color-surface-1, transparent);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition:
+    border-color 0.15s,
+    background 0.15s,
+    opacity 0.15s;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.item:hover {
+  border-color: var(--color-primary, #0e8d71);
+}
+
+.itemDone {
+  opacity: 0.6;
+  border-color: var(--color-primary, #0e8d71);
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 6%, transparent);
+}
+
+.itemEmoji {
+  font-size: 1.35rem;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.itemLabel {
+  flex: 1;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--color-fg);
+}
+
+.itemCheck {
+  flex-shrink: 0;
+  color: var(--color-fg-muted, #ccc);
+}
+
+.itemCheckDone {
+  color: var(--color-primary, #0e8d71);
+}
+
+.emptyCheck {
+  display: block;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 2px solid var(--color-border, rgba(0, 0, 0, 0.2));
+}
+
+/* ---- Hint ---- */
+.hint {
+  font-size: 0.78rem;
+  color: var(--color-fg-muted, #888);
+  margin: 0;
+  opacity: 0.8;
+}
+
+/* ---- History ---- */
+.historySection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 1rem;
+  border-radius: 0.875rem;
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.1));
+  background: var(--color-surface-1, transparent);
+}
+
+.historyTitle {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-fg);
+  margin: 0;
+}
+
+.historyGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.4rem;
+}
+
+.histCell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  padding: 0.5rem 0.25rem;
+  border-radius: 0.5rem;
+  border: 1px solid transparent;
+}
+
+.histDay {
+  font-size: 0.65rem;
+  color: var(--color-fg-muted, #888);
+  font-weight: 600;
+}
+
+.histCount {
+  font-size: 0.6rem;
+  color: var(--color-fg-muted, #aaa);
+  font-variant-numeric: tabular-nums;
+}
+
+.histCellFull {
+  background: color-mix(in srgb, var(--color-primary, #0e8d71) 20%, transparent);
+  border-color: color-mix(in srgb, var(--color-primary, #0e8d71) 35%, transparent);
+}
+
+.histCellFull .histDay,
+.histCellFull .histCount {
+  color: var(--color-primary, #0e8d71);
+}
+
+.histCellPartial {
+  background: rgba(245, 158, 11, 0.12);
+  border-color: rgba(245, 158, 11, 0.3);
+}
+
+.histCellPartial .histDay,
+.histCellPartial .histCount {
+  color: #d97706;
+}
+
+.histCellNone {
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.04));
+  border-color: transparent;
+}
+
+/* ---- Legend ---- */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.legendDot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  border: 1px solid transparent;
+}
+
+.legendLabel {
+  font-size: 0.72rem;
+  color: var(--color-fg-muted, #888);
+  margin-right: 0.5rem;
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 1rem 0.75rem;
+  }
+
+  .histDay {
+    font-size: 0.6rem;
+  }
+
+  .histCount {
+    font-size: 0.55rem;
+  }
+}
