@@ -144,18 +144,14 @@ export default function AzkarPage() {
               </p>
               <p className={styles.source}>{item.source}</p>
               {(locale === "th" ? item.notesTh : item.notesEn) && (
-                <p className={styles.notes}>
-                  {locale === "th" ? item.notesTh : item.notesEn}
-                </p>
+                <p className={styles.notes}>{locale === "th" ? item.notesTh : item.notesEn}</p>
               )}
               <details
                 className={styles.benefitsDetails}
                 onClick={(e) => e.stopPropagation()}
                 onKeyDown={(e) => e.stopPropagation()}
               >
-                <summary className={styles.benefitsSummary}>
-                  {t("azkar.benefits")}
-                </summary>
+                <summary className={styles.benefitsSummary}>{t("azkar.benefits")}</summary>
                 <p className={styles.benefitsText}>
                   {locale === "th" ? item.benefitsTh : item.benefitsEn}
                 </p>

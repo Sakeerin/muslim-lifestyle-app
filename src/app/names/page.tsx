@@ -16,9 +16,7 @@ export default function NamesPage() {
   const [favorites, setFavorites] = useLocalStorage<number[]>(FAVORITES_KEY, []);
 
   const toggleFav = (num: number) => {
-    setFavorites((prev) =>
-      prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num],
-    );
+    setFavorites((prev) => (prev.includes(num) ? prev.filter((n) => n !== num) : [...prev, num]));
   };
 
   const filtered = useMemo(() => {
@@ -69,9 +67,7 @@ export default function NamesPage() {
           >
             <Heart size={13} />
             {t("names.favoritesOnly")}
-            {favorites.length > 0 && (
-              <span className={styles.favCount}>{favorites.length}</span>
-            )}
+            {favorites.length > 0 && <span className={styles.favCount}>{favorites.length}</span>}
           </button>
         </div>
       </header>

@@ -422,17 +422,18 @@ export default function SurahPage({ params }: SurahPageProps) {
       </section>
 
       <section className={styles.card}>
-        {surahId && ayahs.length > 0 && (() => {
-          const surahNum = Number(surahId);
-          const memoCount = surahMemoCount(surahNum);
-          if (memoCount === 0) return null;
-          return (
-            <p className={styles.memoProgress}>
-              {t("memo.progressLabel", { count: String(memoCount) })}
-              {" "}({memoCount}/{ayahs.length})
-            </p>
-          );
-        })()}
+        {surahId &&
+          ayahs.length > 0 &&
+          (() => {
+            const surahNum = Number(surahId);
+            const memoCount = surahMemoCount(surahNum);
+            if (memoCount === 0) return null;
+            return (
+              <p className={styles.memoProgress}>
+                {t("memo.progressLabel", { count: String(memoCount) })} ({memoCount}/{ayahs.length})
+              </p>
+            );
+          })()}
         <VirtualizedAyahList
           ayahs={ayahs}
           mode={readingMode ? "reading" : "compact"}
@@ -442,9 +443,7 @@ export default function SurahPage({ params }: SurahPageProps) {
           surahNameAr={surahInfo?.name}
           fontSize={fontSize}
           bookmarkedAyahs={
-            progress.bookmarks
-              ?.filter((b) => b.surah === Number(surahId))
-              .map((b) => b.ayah) ?? []
+            progress.bookmarks?.filter((b) => b.surah === Number(surahId)).map((b) => b.ayah) ?? []
           }
           onToggleBookmark={(ayahNum) => {
             const surahNum = Number(surahId);

@@ -43,9 +43,8 @@ export function useQuranMemorization() {
   /** Count memorized ayahs in a specific surah */
   const surahMemoCount = useCallback(
     (surah: number): number => {
-      return Object.entries(memo).filter(
-        ([k, v]) => k.startsWith(`${surah}:`) && v === "memorized",
-      ).length;
+      return Object.entries(memo).filter(([k, v]) => k.startsWith(`${surah}:`) && v === "memorized")
+        .length;
     },
     [memo],
   );

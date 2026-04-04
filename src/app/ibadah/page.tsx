@@ -7,20 +7,20 @@ import { useI18n } from "@/i18n/i18n-context";
 import styles from "./page.module.css";
 
 const ITEMS = [
-  { id: "qiyam",     emoji: "🌙" },
-  { id: "duha",      emoji: "☀️" },
-  { id: "rawatib",   emoji: "🕌" },
+  { id: "qiyam", emoji: "🌙" },
+  { id: "duha", emoji: "☀️" },
+  { id: "rawatib", emoji: "🕌" },
   { id: "quranPage", emoji: "📖" },
-  { id: "dhikr",     emoji: "📿" },
+  { id: "dhikr", emoji: "📿" },
   { id: "istighfar", emoji: "🤲" },
-  { id: "salawat",   emoji: "💚" },
-  { id: "sadaqah",   emoji: "🌱" },
+  { id: "salawat", emoji: "💚" },
+  { id: "sadaqah", emoji: "🌱" },
 ] as const;
 
 type ItemId = (typeof ITEMS)[number]["id"];
 
 type DayLog = {
-  date: string;      // YYYY-MM-DD
+  date: string; // YYYY-MM-DD
   done: ItemId[];
 };
 
@@ -48,7 +48,11 @@ export default function IbadahPage() {
   const [log, setLog] = useLocalStorage<DayLog[]>(STORAGE_KEY, []);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => { setMounted(true); }, []);
+   
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
+    setMounted(true);
+  }, []);
 
   // Today's record
   const today = todayStr();
@@ -111,7 +115,9 @@ export default function IbadahPage() {
               done: String(progress),
               total: String(ITEMS.length),
             })
-          ) : ""}
+          ) : (
+            ""
+          )}
         </p>
       </div>
 
@@ -156,7 +162,9 @@ export default function IbadahPage() {
                 <span className={styles.histDay} suppressHydrationWarning>
                   {mounted ? shortDay(day.date, locale) : ""}
                 </span>
-                <span className={styles.histCount}>{day.count}/{ITEMS.length}</span>
+                <span className={styles.histCount}>
+                  {day.count}/{ITEMS.length}
+                </span>
               </div>
             );
           })}

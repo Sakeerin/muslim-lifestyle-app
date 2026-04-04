@@ -444,19 +444,20 @@ export default function Home() {
           <p>{mounted ? dailyContent.translation : fallbackContent.translation}</p>
         </article>
 
-        {mounted && (() => {
-          const hadith = getDailyHadith();
-          return (
-            <article className={styles.card}>
-              <h2>{t("home.dailyHadith")}</h2>
-              <p className={styles.arabic}>{hadith.arabic}</p>
-              <p>{locale === "th" ? hadith.translationTh : hadith.translationEn}</p>
-              <p className={styles.hadithSource}>
-                {t("hadith.narrator")}: {hadith.narrator} — {hadith.source}
-              </p>
-            </article>
-          );
-        })()}
+        {mounted &&
+          (() => {
+            const hadith = getDailyHadith();
+            return (
+              <article className={styles.card}>
+                <h2>{t("home.dailyHadith")}</h2>
+                <p className={styles.arabic}>{hadith.arabic}</p>
+                <p>{locale === "th" ? hadith.translationTh : hadith.translationEn}</p>
+                <p className={styles.hadithSource}>
+                  {t("hadith.narrator")}: {hadith.narrator} — {hadith.source}
+                </p>
+              </article>
+            );
+          })()}
 
         {mounted && upcomingEvents.length > 0 && (
           <article className={styles.card}>

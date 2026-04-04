@@ -506,7 +506,9 @@ button.item {
   cursor: pointer;
   border-radius: 4px;
   line-height: 1;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .removeBookmarkBtn:hover {
@@ -558,7 +560,7 @@ button.item {
   justify-content: space-between;
   padding: 0.4rem 0.6rem;
   border-radius: 0.5rem;
-  background: var(--color-surface-2, rgba(0,0,0,0.03));
+  background: var(--color-surface-2, rgba(0, 0, 0, 0.03));
 }
 
 .memoSurahLink {
@@ -588,13 +590,15 @@ button.item {
 
 .resetBtn {
   padding: 0.4rem 1rem;
-  border: 1px solid var(--color-border, rgba(0,0,0,0.15));
+  border: 1px solid var(--color-border, rgba(0, 0, 0, 0.15));
   background: transparent;
   color: var(--color-fg-muted, #666);
   border-radius: 0.5rem;
   font-size: 0.82rem;
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
 }
 
 .resetBtn:hover {

@@ -372,9 +372,13 @@ export default function SettingsPage() {
           return (
             <>
               <div className={styles.memoSummaryRow}>
-                <span className={styles.memoStat}>{t("memo.totalMemo", { count: String(memorized) })}</span>
+                <span className={styles.memoStat}>
+                  {t("memo.totalMemo", { count: String(memorized) })}
+                </span>
                 {learning > 0 && (
-                  <span className={styles.memoStatLearning}>{t("memo.totalLearning", { count: String(learning) })}</span>
+                  <span className={styles.memoStatLearning}>
+                    {t("memo.totalLearning", { count: String(learning) })}
+                  </span>
                 )}
               </div>
               <div className={styles.memoList}>
@@ -384,8 +388,12 @@ export default function SettingsPage() {
                       Surah {r.surah}
                     </Link>
                     <span className={styles.memoRowCounts}>
-                      {r.memorized > 0 && <span className={styles.memoCount}>✅ {r.memorized}</span>}
-                      {r.learning > 0 && <span className={styles.memoCountLearning}>📖 {r.learning}</span>}
+                      {r.memorized > 0 && (
+                        <span className={styles.memoCount}>✅ {r.memorized}</span>
+                      )}
+                      {r.learning > 0 && (
+                        <span className={styles.memoCountLearning}>📖 {r.learning}</span>
+                      )}
                     </span>
                   </div>
                 ))}
@@ -410,12 +418,12 @@ export default function SettingsPage() {
               .map((bm) => (
                 <div key={`${bm.surah}-${bm.ayah}`} className={styles.bookmarkItem}>
                   <div className={styles.bookmarkInfo}>
-                    <Link
-                      href={`/quran/${bm.surah}`}
-                      className={styles.bookmarkLink}
-                    >
+                    <Link href={`/quran/${bm.surah}`} className={styles.bookmarkLink}>
                       {bm.surahName}
-                      <span className={styles.bookmarkRef}> {bm.surah}:{bm.ayah}</span>
+                      <span className={styles.bookmarkRef}>
+                        {" "}
+                        {bm.surah}:{bm.ayah}
+                      </span>
                     </Link>
                     {bm.note && <p className={styles.bookmarkNote}>{bm.note}</p>}
                     <p className={styles.bookmarkDate} suppressHydrationWarning>

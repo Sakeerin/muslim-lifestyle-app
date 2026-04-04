@@ -141,5 +141,13 @@ export function useQuranProgress() {
     [setProgress],
   );
 
-  return { progress, markAsRead, addBookmark, removeBookmark, resetProgress, exportData, importData };
+  return {
+    progress,
+    markAsRead,
+    addBookmark,
+    removeBookmark,
+    resetProgress,
+    exportData,
+    importData,
+  };
 }

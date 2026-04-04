@@ -155,7 +155,9 @@
   font-size: 0.95rem;
   box-sizing: border-box;
   font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .fieldInput:focus {
@@ -186,7 +188,10 @@
   font-weight: 500;
   color: var(--color-fg-muted, #666);
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
 }
 
 .tagBtn:hover {
@@ -304,7 +309,10 @@
   font-weight: 500;
   color: var(--color-fg-muted, #666);
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
 }
 
 .filterBtn:hover {
@@ -400,7 +408,9 @@
   color: var(--color-fg-muted, #aaa);
   cursor: pointer;
   border-radius: 0.4rem;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .deleteBtn:hover {

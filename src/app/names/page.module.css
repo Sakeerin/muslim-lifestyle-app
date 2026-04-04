@@ -129,7 +129,10 @@
   font-weight: 500;
   color: rgba(255, 255, 255, 0.7);
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s,
+    background 0.15s;
 }
 
 .filterBtn:hover {
@@ -189,7 +192,9 @@
   color: var(--color-fg-muted, #aaa);
   cursor: pointer;
   border-radius: 50%;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .favBtn:hover {

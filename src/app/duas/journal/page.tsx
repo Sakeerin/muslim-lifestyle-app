@@ -47,8 +47,7 @@ export default function DuaJournalPage() {
   const [notes, setNotes] = useState("");
   const [tag, setTag] = useState<Tag>("general");
 
-  const filtered =
-    filterTag === "all" ? entries : entries.filter((e) => e.tag === filterTag);
+  const filtered = filterTag === "all" ? entries : entries.filter((e) => e.tag === filterTag);
 
   function handleAdd(e: React.FormEvent) {
     e.preventDefault();
@@ -95,11 +94,7 @@ export default function DuaJournalPage() {
       </section>
 
       {/* Add button */}
-      <button
-        type="button"
-        className={styles.addBtn}
-        onClick={() => setShowForm(true)}
-      >
+      <button type="button" className={styles.addBtn} onClick={() => setShowForm(true)}>
         <Plus size={16} />
         {t("journal.addDua")}
       </button>
@@ -180,10 +175,18 @@ export default function DuaJournalPage() {
                 </div>
               </div>
               <div className={styles.formActions}>
-                <button type="button" className={styles.cancelBtn} onClick={() => setShowForm(false)}>
+                <button
+                  type="button"
+                  className={styles.cancelBtn}
+                  onClick={() => setShowForm(false)}
+                >
                   {t("journal.cancel")}
                 </button>
-                <button type="submit" className={styles.saveBtn} disabled={!title.trim() || !text.trim()}>
+                <button
+                  type="submit"
+                  className={styles.saveBtn}
+                  disabled={!title.trim() || !text.trim()}
+                >
                   {t("journal.save")}
                 </button>
               </div>
@@ -199,11 +202,7 @@ export default function DuaJournalPage() {
           <div className={styles.confirmModal} role="dialog" aria-modal="true">
             <p className={styles.confirmText}>{t("journal.confirmDelete")}</p>
             <div className={styles.confirmActions}>
-              <button
-                type="button"
-                className={styles.cancelBtn}
-                onClick={() => setDeleteId(null)}
-              >
+              <button type="button" className={styles.cancelBtn} onClick={() => setDeleteId(null)}>
                 {t("journal.cancel")}
               </button>
               <button
@@ -270,9 +269,7 @@ export default function DuaJournalPage() {
               </div>
               <h3 className={styles.cardTitle}>{entry.title}</h3>
               <p className={styles.cardText}>{entry.text}</p>
-              {entry.notes && (
-                <p className={styles.cardNotes}>{entry.notes}</p>
-              )}
+              {entry.notes && <p className={styles.cardNotes}>{entry.notes}</p>}
             </article>
           ))}
         </section>

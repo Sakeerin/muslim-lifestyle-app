@@ -18,7 +18,14 @@ type FastingRecord = { fastedDays: number[] };
 
 type StoredCounts = Record<string, number>;
 
-type DuaEntry = { id: string; title: string; text: string; notes?: string; tag: string; createdAt: string };
+type DuaEntry = {
+  id: string;
+  title: string;
+  text: string;
+  notes?: string;
+  tag: string;
+  createdAt: string;
+};
 
 type AzkarProgress = {
   morning: { completed: number[]; date: string };
@@ -131,7 +138,9 @@ export default function StatsPage() {
     nameFavs,
   ]);
 
+   
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
   }, []);
 
@@ -154,9 +163,7 @@ export default function StatsPage() {
         <p className={styles.subtitle}>{t("stats.subtitle")}</p>
       </header>
 
-      {mounted && !hasAnyData && (
-        <p className={styles.emptyMsg}>{t("stats.noData")}</p>
-      )}
+      {mounted && !hasAnyData && <p className={styles.emptyMsg}>{t("stats.noData")}</p>}
 
       {mounted && (
         <>
@@ -174,7 +181,9 @@ export default function StatsPage() {
                   <span className={styles.statUnit}>{t("stats.of")} 5</span>
                 </p>
               </div>
-              <Link href="/prayer-streak" className={styles.statLink}>→</Link>
+              <Link href="/prayer-streak" className={styles.statLink}>
+                →
+              </Link>
             </div>
           </section>
 
@@ -186,7 +195,9 @@ export default function StatsPage() {
                 <p className={styles.statLabel}>{t("stats.azkarToday")}</p>
                 <p className={styles.statValue}>{stats.azkarToday}</p>
               </div>
-              <Link href="/azkar" className={styles.statLink}>→</Link>
+              <Link href="/azkar" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -198,7 +209,9 @@ export default function StatsPage() {
                   <span className={styles.statUnit}>{t("stats.times")}</span>
                 </p>
               </div>
-              <Link href="/tasbeeh" className={styles.statLink}>→</Link>
+              <Link href="/tasbeeh" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -206,11 +219,12 @@ export default function StatsPage() {
               <div className={styles.statBody}>
                 <p className={styles.statLabel}>{t("stats.fastingMonth")}</p>
                 <p className={styles.statValue}>
-                  {stats.fastsThisMonth}{" "}
-                  <span className={styles.statUnit}>{t("stats.days")}</span>
+                  {stats.fastsThisMonth} <span className={styles.statUnit}>{t("stats.days")}</span>
                 </p>
               </div>
-              <Link href="/fasting" className={styles.statLink}>→</Link>
+              <Link href="/fasting" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -218,11 +232,12 @@ export default function StatsPage() {
               <div className={styles.statBody}>
                 <p className={styles.statLabel}>{t("stats.ibadahToday")}</p>
                 <p className={styles.statValue}>
-                  {stats.ibadahToday}{" "}
-                  <span className={styles.statUnit}>{t("stats.of")} 8</span>
+                  {stats.ibadahToday} <span className={styles.statUnit}>{t("stats.of")} 8</span>
                 </p>
               </div>
-              <Link href="/ibadah" className={styles.statLink}>→</Link>
+              <Link href="/ibadah" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -230,11 +245,12 @@ export default function StatsPage() {
               <div className={styles.statBody}>
                 <p className={styles.statLabel}>{t("stats.quranSurahs")}</p>
                 <p className={styles.statValue}>
-                  {stats.quranSurahs}{" "}
-                  <span className={styles.statUnit}>{t("stats.of")} 114</span>
+                  {stats.quranSurahs} <span className={styles.statUnit}>{t("stats.of")} 114</span>
                 </p>
               </div>
-              <Link href="/quran" className={styles.statLink}>→</Link>
+              <Link href="/quran" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -243,10 +259,14 @@ export default function StatsPage() {
                 <p className={styles.statLabel}>{t("stats.quranMemo")}</p>
                 <p className={styles.statValue}>{stats.memorized}</p>
                 {stats.learning > 0 && (
-                  <p className={styles.statSub}>📖 {stats.learning} {t("memo.status.learning")}</p>
+                  <p className={styles.statSub}>
+                    📖 {stats.learning} {t("memo.status.learning")}
+                  </p>
                 )}
               </div>
-              <Link href="/quran" className={styles.statLink}>→</Link>
+              <Link href="/quran" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -255,7 +275,9 @@ export default function StatsPage() {
                 <p className={styles.statLabel}>{t("stats.duaJournal")}</p>
                 <p className={styles.statValue}>{stats.duaEntries}</p>
               </div>
-              <Link href="/duas/journal" className={styles.statLink}>→</Link>
+              <Link href="/duas/journal" className={styles.statLink}>
+                →
+              </Link>
             </div>
 
             <div className={styles.statCard}>
@@ -264,7 +286,9 @@ export default function StatsPage() {
                 <p className={styles.statLabel}>{t("stats.namesFav")}</p>
                 <p className={styles.statValue}>{stats.nameFavs}</p>
               </div>
-              <Link href="/names" className={styles.statLink}>→</Link>
+              <Link href="/names" className={styles.statLink}>
+                →
+              </Link>
             </div>
           </section>
         </>

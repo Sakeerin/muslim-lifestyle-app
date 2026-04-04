@@ -128,7 +128,8 @@ export const AZKAR: AzkarItem[] = [
       "โอ้อัลลอฮ์ ด้วยพระองค์เราได้เข้าสู่ยามเช้า และด้วยพระองค์เราได้เข้าสู่ยามเย็น ด้วยพระองค์เราดำรงชีวิต และด้วยพระองค์เราสิ้นชีวิต และการฟื้นคืนชีพสู่พระองค์",
     count: 1,
     source: "HR. Abu Dawud No. 5068, at-Tirmidzi No. 3391",
-    notesEn: "The evening version ends with 'wa ilaykal-masir' (to You is the final return) instead of 'an-nushur' (the resurrection).",
+    notesEn:
+      "The evening version ends with 'wa ilaykal-masir' (to You is the final return) instead of 'an-nushur' (the resurrection).",
     notesTh: "เวอร์ชันเย็นจบด้วย 'วะอิลัยกัลมะศีร์' (สู่พระองค์คือจุดหมาย) แทน 'อัน-นุชูร'",
     benefitsEn:
       "A declaration of complete dependence on Allah in all states — morning, evening, life, and death. It strengthens the believer's awareness that every moment is under Allah's will.",
@@ -148,7 +149,8 @@ export const AZKAR: AzkarItem[] = [
       "ไม่มีพระเจ้าอื่นใดนอกจากอัลลอฮ์ผู้เดียว ไม่มีภาคีแก่พระองค์ พระองค์ทรงมีอำนาจอธิปไตย การสรรเสริญเป็นของพระองค์ และพระองค์ทรงอำนาจเหนือทุกสิ่ง",
     count: 10,
     source: "HR. Muslim No. 2693",
-    notesEn: "Recite 10x in the morning. This dhikr earns 10 good deeds and erases 10 sins with each recitation.",
+    notesEn:
+      "Recite 10x in the morning. This dhikr earns 10 good deeds and erases 10 sins with each recitation.",
     notesTh: "อ่าน 10 ครั้งในยามเช้า การอ่านซิกรฺนี้ได้รับ 10 ความดีและลบ 10 ความผิดในแต่ละครั้ง",
     benefitsEn:
       "Whoever says this 10x in the morning: Allah records 100 good deeds, erases 100 sins, earns the reward of freeing 10 slaves, and is protected from Shaytan until evening. (HR. Muslim No. 2693)",
@@ -168,8 +170,10 @@ export const AZKAR: AzkarItem[] = [
       "โอ้อัลลอฮ์ พระองค์คือพระเจ้าของฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์ พระองค์ทรงสร้างฉันและฉันคือบ่าวของพระองค์ ฉันยึดมั่นในพันธสัญญาและคำมั่นของพระองค์เท่าที่ฉันสามารถ ฉันขอความคุ้มครองจากความชั่วที่ฉันได้กระทำ ฉันยอมรับความโปรดปรานของพระองค์ต่อตัวฉัน และยอมรับในบาปของฉัน จึงขอให้ทรงอภัยแก่ฉัน เพราะไม่มีผู้ใดอภัยบาปได้นอกจากพระองค์",
     count: 1,
     source: "HR. al-Bukhari No. 6306",
-    notesEn: "Called 'Sayyid al-Istighfar' — the master supplication for forgiveness. Recite once sincerely in the morning.",
-    notesTh: "เรียกว่า 'ซัยยิดุลอิสติฆฟาร' คือดุอาขอมัฆฟิเราะห์ที่ยิ่งใหญ่ที่สุด อ่านด้วยความบริสุทธิ์ใจ 1 ครั้งในยามเช้า",
+    notesEn:
+      "Called 'Sayyid al-Istighfar' — the master supplication for forgiveness. Recite once sincerely in the morning.",
+    notesTh:
+      "เรียกว่า 'ซัยยิดุลอิสติฆฟาร' คือดุอาขอมัฆฟิเราะห์ที่ยิ่งใหญ่ที่สุด อ่านด้วยความบริสุทธิ์ใจ 1 ครั้งในยามเช้า",
     benefitsEn:
       "Whoever recites this with certainty (yaqin) in the morning and dies that day before evening will enter Paradise. The Prophet ﷺ called it the master of all supplications for forgiveness. (HR. al-Bukhari No. 6306)",
     benefitsTh:
@@ -310,8 +314,10 @@ export const AZKAR: AzkarItem[] = [
       "เราได้เข้าสู่ยามเย็นและอาณาจักรทั้งหมดเป็นของอัลลอฮ์ การสรรเสริญทั้งหมดเป็นของอัลลอฮ์ ไม่มีพระเจ้าอื่นใดนอกจากอัลลอฮ์เพียงองค์เดียว...",
     count: 1,
     source: "HR. Muslim No. 2723",
-    notesEn: "The evening counterpart of the morning dhikr 'Asbahnaa'. Changes 'morning/day' to 'evening/night'.",
-    notesTh: "ซิกรฺยามเย็นที่คู่กันกับซิกรฺยามเช้า 'อัศบะห์นา' โดยเปลี่ยน 'เช้า/วัน' เป็น 'เย็น/คืน'",
+    notesEn:
+      "The evening counterpart of the morning dhikr 'Asbahnaa'. Changes 'morning/day' to 'evening/night'.",
+    notesTh:
+      "ซิกรฺยามเย็นที่คู่กันกับซิกรฺยามเช้า 'อัศบะห์นา' โดยเปลี่ยน 'เช้า/วัน' เป็น 'เย็น/คืน'",
     benefitsEn:
       "A comprehensive evening supplication seeking all the good of the night and seeking protection from laziness, evil old age, hellfire, and the torment of the grave. It mirrors the morning supplication, completing the circle of daily dhikr.",
     benefitsTh:
@@ -330,8 +336,10 @@ export const AZKAR: AzkarItem[] = [
       "โอ้อัลลอฮ์ ด้วยพระองค์เราได้เข้าสู่ยามเย็น และด้วยพระองค์เราได้เข้าสู่ยามเช้า ด้วยพระองค์เราดำรงชีวิต และด้วยพระองค์เราสิ้นชีวิต และการกลับสู่พระองค์",
     count: 1,
     source: "HR. Abu Dawud No. 5068, at-Tirmidzi No. 3391",
-    notesEn: "Note the ending: 'al-masir' (final destination/return) in the evening version, vs. 'an-nushur' (resurrection) in the morning version.",
-    notesTh: "สังเกตตอนท้าย: 'อัลมะศีร์' (จุดหมายปลายทาง) ในเวอร์ชันเย็น เทียบกับ 'อัน-นุชูร' (การฟื้นคืนชีพ) ในเวอร์ชันเช้า",
+    notesEn:
+      "Note the ending: 'al-masir' (final destination/return) in the evening version, vs. 'an-nushur' (resurrection) in the morning version.",
+    notesTh:
+      "สังเกตตอนท้าย: 'อัลมะศีร์' (จุดหมายปลายทาง) ในเวอร์ชันเย็น เทียบกับ 'อัน-นุชูร' (การฟื้นคืนชีพ) ในเวอร์ชันเช้า",
     benefitsEn:
       "Ends the day with a reminder that our ultimate destination is Allah. The word 'al-masir' (final return) is particularly fitting at night — a small death — reinforcing that all returns to Him.",
     benefitsTh:
@@ -380,14 +388,14 @@ export const AZKAR: AzkarItem[] = [
     session: "evening",
     arabic: "اللَّهُمَّ إِنَّكَ عَفُوٌّ تُحِبُّ الْعَفْوَ فَاعْفُ عَنِّي",
     transliterationEn: "Allahumma innaka 'afuwwun tuhibbul-'afwa fa'fu 'anni.",
-    translationEn:
-      "O Allah, indeed You are Pardoning and You love pardon, so pardon me.",
-    translationTh:
-      "โอ้อัลลอฮ์ แท้จริงพระองค์ทรงอภัยให้และทรงรักการอภัย โปรดทรงอภัยให้แก่ฉันด้วย",
+    translationEn: "O Allah, indeed You are Pardoning and You love pardon, so pardon me.",
+    translationTh: "โอ้อัลลอฮ์ แท้จริงพระองค์ทรงอภัยให้และทรงรักการอภัย โปรดทรงอภัยให้แก่ฉันด้วย",
     count: 3,
     source: "HR. Ibn Majah No. 3814, at-Tirmidzi No. 3513",
-    notesEn: "This supplication was specifically taught by the Prophet ﷺ to Aisha رضي الله عنها to recite on Laylat al-Qadr, and it is also a general evening dhikr.",
-    notesTh: "ดุอานี้ถูกสอนโดยท่านนบี ﷺ แก่ท่านหญิงอาอิชะห์ รฏิยัลลอฮุอันฮา สำหรับอ่านในคืนลัยละตุลก็อดร์ และยังเป็นอัซการเย็นทั่วไปด้วย",
+    notesEn:
+      "This supplication was specifically taught by the Prophet ﷺ to Aisha رضي الله عنها to recite on Laylat al-Qadr, and it is also a general evening dhikr.",
+    notesTh:
+      "ดุอานี้ถูกสอนโดยท่านนบี ﷺ แก่ท่านหญิงอาอิชะห์ รฏิยัลลอฮุอันฮา สำหรับอ่านในคืนลัยละตุลก็อดร์ และยังเป็นอัซการเย็นทั่วไปด้วย",
     benefitsEn:
       "Al-'Afuww (the Pardoner) is one of Allah's most beloved names. Supplicating with this dhikr invokes Allah's quality of pardoning and His love for granting pardon — making it among the most hopeful of all supplications.",
     benefitsTh:
@@ -406,8 +414,10 @@ export const AZKAR: AzkarItem[] = [
       "โอ้อัลลอฮ์ ความโปรดปรานใดก็ตามที่ฉันหรือสิ่งที่พระองค์ทรงสร้างได้รับในยามเย็นนี้ ล้วนมาจากพระองค์ผู้เดียว ไม่มีภาคีแก่พระองค์ การสรรเสริญและการขอบคุณทั้งหมดเป็นของพระองค์",
     count: 1,
     source: "HR. Abu Dawud No. 5073",
-    notesEn: "The morning version replaces 'amsa' (evening) with 'asbaha' (morning). Whoever recites either version has fulfilled the gratitude of that part of the day.",
-    notesTh: "เวอร์ชันเช้าเปลี่ยน 'อัมสา' (เย็น) เป็น 'อัศบะหะ' (เช้า) ผู้ใดอ่านเวอร์ชันใดก็ตามจะถือว่าได้แสดงความขอบคุณในช่วงเวลานั้นของวันครบถ้วน",
+    notesEn:
+      "The morning version replaces 'amsa' (evening) with 'asbaha' (morning). Whoever recites either version has fulfilled the gratitude of that part of the day.",
+    notesTh:
+      "เวอร์ชันเช้าเปลี่ยน 'อัมสา' (เย็น) เป็น 'อัศบะหะ' (เช้า) ผู้ใดอ่านเวอร์ชันใดก็ตามจะถือว่าได้แสดงความขอบคุณในช่วงเวลานั้นของวันครบถ้วน",
     benefitsEn:
       "Whoever recites this in the evening has fulfilled the gratitude for all blessings of that evening. The Prophet ﷺ said: whoever says this has given thanks for that day. It is a comprehensive acknowledgment that every blessing, big or small, comes solely from Allah.",
     benefitsTh:

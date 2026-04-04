@@ -183,9 +183,7 @@ export default function FastingPage() {
               aria-pressed={fasted}
               aria-label={`${cell.greg.day} ${fasted ? t("fasting.fasted") : t("fasting.notFasted")}`}
             >
-              <span className={isToday ? styles.todayCircle : styles.dayNum}>
-                {cell.greg.day}
-              </span>
+              <span className={isToday ? styles.todayCircle : styles.dayNum}>{cell.greg.day}</span>
               <span className={styles.hijriNum}>{cell.hijri.day}</span>
               {fasted && <span className={styles.fastedDot} />}
               {sunnah && !fasted && <span className={styles.sunnahDot} />}

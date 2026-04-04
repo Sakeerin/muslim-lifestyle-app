@@ -82,10 +82,7 @@ export default function TasbeehPage() {
 
   const flashTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const allDhikr = useMemo<Dhikr[]>(
-    () => [...PRESET_DHIKR, ...customDhikr],
-    [customDhikr],
-  );
+  const allDhikr = useMemo<Dhikr[]>(() => [...PRESET_DHIKR, ...customDhikr], [customDhikr]);
 
   const dhikr = useMemo(
     () => allDhikr.find((d) => d.id === activeDhikrId) ?? allDhikr[0]!,
@@ -229,9 +226,7 @@ export default function TasbeehPage() {
         <div className={styles.progressBar}>
           <div className={styles.progressFill} style={{ width: `${progress * 100}%` }} />
         </div>
-        {count >= target && (
-          <p className={styles.completedMsg}>{t("tasbeeh.completed")}</p>
-        )}
+        {count >= target && <p className={styles.completedMsg}>{t("tasbeeh.completed")}</p>}
       </div>
 
       {/* Reset */}
@@ -309,11 +304,7 @@ export default function TasbeehPage() {
                 >
                   {t("tasbeeh.cancel")}
                 </button>
-                <button
-                  type="submit"
-                  className={styles.saveBtn}
-                  disabled={!formArabic.trim()}
-                >
+                <button type="submit" className={styles.saveBtn} disabled={!formArabic.trim()}>
                   {t("tasbeeh.save")}
                 </button>
               </div>

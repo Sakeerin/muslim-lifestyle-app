@@ -84,7 +84,9 @@
   font-size: 0.78rem;
   font-weight: 500;
   cursor: pointer;
-  transition: border-color 0.15s, color 0.15s;
+  transition:
+    border-color 0.15s,
+    color 0.15s;
   touch-action: manipulation;
 }
 
@@ -180,7 +182,9 @@
   font-size: 0.95rem;
   box-sizing: border-box;
   font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .fieldInput:focus {

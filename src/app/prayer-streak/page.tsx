@@ -20,10 +20,6 @@ type PrayerLog = Record<string, string[]>; // "YYYY-MM-DD" → prayer names comp
 
 const STORAGE_KEY = "prayer-log";
 
-function todayKey() {
-  return new Date().toISOString().slice(0, 10);
-}
-
 function dateKey(daysAgo: number): string {
   const d = new Date();
   d.setDate(d.getDate() - daysAgo);
@@ -47,7 +43,7 @@ function currentStreak(log: PrayerLog): number {
 }
 
 export default function PrayerStreakPage() {
-  const { t, locale } = useI18n();
+  const { t } = useI18n();
   const [log, setLog] = useLocalStorage<PrayerLog>(STORAGE_KEY, {});
 
   const today = todayDate();

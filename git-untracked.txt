@@ -1,0 +1,5 @@
+﻿eslint-report.json
+git-modified.txt
+git-untracked.txt
+lint-output.txt
+lint-output.utf8.txt
