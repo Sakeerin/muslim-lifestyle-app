@@ -10,11 +10,20 @@ import {
   Mail,
   Clock,
   BookOpen,
+  BookHeart,
+  BookMarked,
   Compass,
   CalendarDays,
   Coins,
   MapPin,
   Scroll,
+  Sun,
+  Moon,
+  Flame,
+  Wind,
+  Star,
+  TrendingUp,
+  CheckSquare,
   ExternalLink,
 } from "lucide-react";
 import { useI18n } from "@/i18n/i18n-context";
@@ -22,19 +31,51 @@ import styles from "./page.module.css";
 
 const BANK_ACCOUNTS = [{ bank: "ธนาคารกรุงเทพ", bankEn: "Bangkok Bank", number: "902-0-245883" }];
 
-const FEATURES = [
-  { icon: Clock, key: "donate.featurePrayer" },
-  { icon: Compass, key: "donate.featureQibla" },
-  { icon: BookOpen, key: "donate.featureQuran" },
-  { icon: CalendarDays, key: "donate.featureCalendar" },
-  { icon: Coins, key: "donate.featureZakat" },
-  { icon: Scroll, key: "donate.featureDua" },
-  { icon: MapPin, key: "donate.featurePlaces" },
-  { icon: Heart, key: "donate.featureMore" },
+const FEATURE_GROUPS = [
+  {
+    labelEn: "Prayer & Worship",
+    labelTh: "ละหมาดและการอิบาดะห์",
+    items: [
+      { icon: Clock, key: "donate.featurePrayer" },
+      { icon: Flame, key: "donate.featureStreak" },
+      { icon: CheckSquare, key: "donate.featureIbadah" },
+      { icon: Moon, key: "donate.featureFasting" },
+    ],
+  },
+  {
+    labelEn: "Quran",
+    labelTh: "อัลกุรอาน",
+    items: [
+      { icon: BookOpen, key: "donate.featureQuran" },
+      { icon: BookMarked, key: "donate.featureMemo" },
+    ],
+  },
+  {
+    labelEn: "Dhikr & Dua",
+    labelTh: "ซิกรฺและดุอาอ์",
+    items: [
+      { icon: Sun, key: "donate.featureAzkar" },
+      { icon: Wind, key: "donate.featureTasbeeh" },
+      { icon: Scroll, key: "donate.featureDua" },
+      { icon: BookHeart, key: "donate.featureJournal" },
+    ],
+  },
+  {
+    labelEn: "Knowledge & Tools",
+    labelTh: "ความรู้และเครื่องมือ",
+    items: [
+      { icon: Star, key: "donate.featureNames" },
+      { icon: CalendarDays, key: "donate.featureCalendar" },
+      { icon: Compass, key: "donate.featureQibla" },
+      { icon: Coins, key: "donate.featureZakat" },
+      { icon: MapPin, key: "donate.featurePlaces" },
+      { icon: TrendingUp, key: "donate.featureStats" },
+    ],
+  },
 ];
 
 export default function DonatePage() {
-  const { t } = useI18n();
+  const { t, locale } = useI18n();
   const [copied, setCopied] = useState<string | null>(null);
 
   function handleCopy(number: string) {
@@ -61,14 +102,23 @@ export default function DonatePage() {
           <h2>{t("donate.whyTitle")}</h2>
         </div>
         <p className={styles.bodyText}>{t("donate.whyBody")}</p>
-        <ul className={styles.featureList}>
-          {FEATURES.map(({ icon: Icon, key }) => (
-            <li key={key} className={styles.featureItem}>
-              <Icon size={15} className={styles.featureIcon} />
-              <span>{t(key as Parameters<typeof t>[0])}</span>
-            </li>
+        <div className={styles.featureGroups}>
+          {FEATURE_GROUPS.map((group) => (
+            <div key={group.labelEn} className={styles.featureGroup}>
+              <p className={styles.featureGroupLabel}>
+                {locale === "th" ? group.labelTh : group.labelEn}
+              </p>
+              <ul className={styles.featureList}>
+                {group.items.map(({ icon: Icon, key }) => (
+                  <li key={key} className={styles.featureItem}>
+                    <Icon size={15} className={styles.featureIcon} />
+                    <span>{t(key as Parameters<typeof t>[0])}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
           ))}
-        </ul>
+        </div>
       </section>
 
       {/* Bank account */}
