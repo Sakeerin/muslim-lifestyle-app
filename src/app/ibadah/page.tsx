@@ -48,7 +48,6 @@ export default function IbadahPage() {
   const [log, setLog] = useLocalStorage<DayLog[]>(STORAGE_KEY, []);
   const [mounted, setMounted] = useState(false);
 
-   
   useEffect(() => {
     // eslint-disable-next-line react-hooks/set-state-in-effect
     setMounted(true);
