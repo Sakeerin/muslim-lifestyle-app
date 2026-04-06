@@ -5,10 +5,14 @@
 ## 🚀 ฟีเจอร์หลัก (Key Features)
 
 - **📖 อัลกุรอาน (Quran):** อ่านอัลกุรอานพร้อมคำแปล (รองรับภาษาอังกฤษและภาษาไทย)
+- **🧠 ระบบติดตามการท่องจำ (Quran Memorization):** ติดตามความคืบหน้าการท่องจำอัลกุรอานแต่ละซูเราะห์และอายะห์
+- **📝 ระบบจดบันทึกอายะห์ (Ayah Notes):** บันทึกข้อความส่วนตัวและข้อคิดเตือนใจในแต่ละอายะห์ของอัลกุรอาน
+- **📿 อัซการ์ (Azkar):** รวบรวมคำรำลึกถึงอัลลอฮ์ (ซิกิร) แนะนำสำหรับการอ่านในยามเช้าและยามเย็น
 - **⏱️ เวลาละหมาด (Prayer Times):** แสดงเวลาละหมาดตามตำแหน่งที่ตั้ง พร้อมระบบนับถอยหลัง
 - **🧭 ทิศกิบลัต (Qibla Direction):** เข็มทิศชี้ทิศกิบลัตสำหรับปฏิบัติศาสนกิจ
 - **📍 สถานที่ (Places):** ค้นหามัสยิดและร้านอาหารฮาลาลใกล้เคียง (บูรณาการกับ Leaflet/React-Leaflet)
 - **📚 บทเรียน & ดุอาอ์ (Lessons & Duas):** แหล่งรวมความรู้และบทขอดุอาอ์ต่างๆ
+- **💖 บริจาค (Donation):** ช่องทางการบริจาคเพื่อสนับสนุนการพัฒนาแอปพลิเคชัน
 - **🌐 รองรับหลายภาษา (i18n):** รองรับภาษาไทย (TH) และภาษาอังกฤษ (EN)
 - **🌓 ธีม (Theme):** รองรับ Light Mode และ Dark Mode (ผ่าน `next-themes`)
 - **🔐 ระบบสมาชิก (Authentication):** จัดการผู้ใช้งานผ่านบัญชี (NextAuth.js)
@@ -77,8 +81,9 @@
 ## 📂 โครงสร้างโปรเจคที่สำคัญ (Project Structure)
 
 - `src/app/` - หน้า Pages และ Layouts ต่างๆ (Next.js App Router)
-  - `quran/`, `prayer-times/`, `qibla/`, `places/`, `lessons/`, `duas/`, `settings/`
+  - `quran/`, `prayer-times/`, `qibla/`, `places/`, `lessons/`, `duas/`, `azkar/`, `donate/`, `settings/`
 - `src/components/` - React Components ที่ใช้งานร่วมกัน (เช่น app-shell, theme-toggle)
+- `src/hooks/` - Custom Hooks สำหรับจัดการ State และการบันทึกข้อมูล (เช่น `use-quran-memorization`, `use-ayah-notes`)
 - `src/i18n/` - ระบบจัดการภาษา (Translations - `en.json`, `th.json`)
 - `prisma/` - โครงสร้างฐานข้อมูล Prisma Schema (`schema.prisma`) และไฟล์ Migrations
 
