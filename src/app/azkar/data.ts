@@ -219,6 +219,69 @@ export const AZKAR: AzkarItem[] = [
     benefitsTh:
       "ผู้ใดกล่าวสิ่งนี้ 3 ครั้ง อัลลอฮ์มีสิทธิ์ที่จะทำให้เขาพอใจในวันกิยามะห์ (HR. Abu Dawud No. 5072) การซิกรฺนี้เป็นการต่ออายุคำมั่นของความพอใจในพระประสงค์ของอัลลอฮ์ทุกเช้า",
   },
+  {
+    id: "m-afiyah",
+    session: "morning",
+    arabic:
+      "اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي الدُّنْيَا وَالْآخِرَةِ، اللَّهُمَّ إِنِّي أَسْأَلُكَ الْعَفْوَ وَالْعَافِيَةَ فِي دِينِي وَدُنْيَايَ وَأَهْلِي وَمَالِي، اللَّهُمَّ اسْتُرْ عَوْرَاتِي وَآمِنْ رَوْعَاتِي، اللَّهُمَّ احْفَظْنِي مِنْ بَيْنِ يَدَيَّ وَمِنْ خَلْفِي وَعَنْ يَمِينِي وَعَنْ شِمَالِي وَمِنْ فَوْقِي، وَأَعُوذُ بِعَظَمَتِكَ أَنْ أُغْتَالَ مِنْ تَحْتِي",
+    transliterationEn:
+      "Allahumma inni as'alukal-'afwa wal-'afiyata fid-dunya wal-akhirah. Allahumma inni as'alukal-'afwa wal-'afiyata fi dini wa dunyaya wa ahli wa mali. Allahummas-tur 'awrati wa amin raw'ati. Allahumma ihfazni min bayni yadayya wa min khalfi wa 'an yamini wa 'an shimali wa min fawqi, wa a'udhu bi'azamatika an ughtala min tahti.",
+    translationEn:
+      "O Allah, I ask You for pardon and well-being in this world and the Hereafter. O Allah, I ask You for pardon and well-being in my religion and worldly life, my family and wealth. O Allah, conceal my faults and calm my fears. O Allah, guard me from in front and behind, from my right and left, and from above. And I seek protection in Your greatness from being unexpectedly harmed from below.",
+    translationTh:
+      "โอ้อัลลอฮ์ ฉันขอให้พระองค์ทรงอภัยและให้อาฟิยะห์ในโลกนี้และโลกหน้า โอ้อัลลอฮ์ ฉันขอให้พระองค์ทรงอภัยและให้อาฟิยะห์ในศาสนาของฉัน ชีวิตดุนยา ครอบครัว และทรัพย์สินของฉัน โอ้อัลลอฮ์ โปรดทรงปกปิดข้อบกพร่องของฉันและทำให้ความกลัวของฉันสงบลง โอ้อัลลอฮ์ โปรดทรงคุ้มครองฉันทั้งข้างหน้า ข้างหลัง ทางขวา ทางซ้าย และจากข้างบน และฉันขอความคุ้มครองด้วยความยิ่งใหญ่ของพระองค์จากอันตรายที่มาจากข้างล่าง",
+    count: 1,
+    source: "HR. Abu Dawud No. 5074, Ibn Majah No. 3871",
+    notesEn:
+      "One of the most comprehensive supplications in the morning adhkar — covers protection from all six directions.",
+    notesTh: "หนึ่งในดุอาที่ครอบคลุมที่สุดในอัซการเช้า ครอบคลุมการขอความคุ้มครองจากทั้ง 6 ทิศทาง",
+    benefitsEn:
+      "Ibn 'Umar رضي الله عنه reported that the Prophet ﷺ never abandoned these words morning or evening. They seek Allah's pardon and safety (al-'afiyah) — which scholars consider the most comprehensive blessing — for one's religion, worldly life, family, and wealth, along with protection from harm in all directions.",
+    benefitsTh:
+      "อิบนุ อุมัร รฏิยัลลอฮุอันฮุ รายงานว่าท่านนบี ﷺ ไม่เคยละทิ้งคำเหล่านี้ในยามเช้าหรือยามเย็น คำเหล่านี้ขอการอภัยและอาฟิยะห์ (ความปลอดภัยและสุขภาพ) ซึ่งนักวิชาการถือว่าเป็นนิอ์มะห์ที่ครอบคลุมที่สุด สำหรับศาสนา ชีวิตดุนยา ครอบครัว และทรัพย์สิน พร้อมทั้งการคุ้มครองจากอันตรายทุกทิศทาง",
+  },
+  {
+    id: "m-afini-badani",
+    session: "morning",
+    arabic:
+      "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ",
+    transliterationEn:
+      "Allahumma 'afini fi badani. Allahumma 'afini fi sam'i. Allahumma 'afini fi basari. La ilaha illa ant.",
+    translationEn:
+      "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight. There is none worthy of worship except You.",
+    translationTh:
+      "โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีแก่ร่างกายของฉัน โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีในการได้ยินของฉัน โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีในการมองเห็นของฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์",
+    count: 3,
+    source: "HR. Abu Dawud No. 5090",
+    notesEn:
+      "Recite 3x in both morning and evening. Covers three vital faculties: body, hearing, and sight.",
+    notesTh:
+      "อ่าน 3 ครั้งทั้งยามเช้าและยามเย็น ครอบคลุมสามสิ่งสำคัญ: ร่างกาย การได้ยิน และการมองเห็น",
+    benefitsEn:
+      "Abu Bakrah رضي الله عنه used to recite this 3x every morning and evening, having heard it from the Prophet ﷺ. Asking for 'afiyah (well-being) in the body, hearing, and sight is a recognition that these are gifts that can be taken away — and a daily acknowledgment of dependence on Allah for their preservation.",
+    benefitsTh:
+      "อบู บักเราะห์ รฏิยัลลอฮุอันฮุ อ่านสิ่งนี้ 3 ครั้งทุกเช้าและเย็น หลังจากได้ยินจากท่านนบี ﷺ การขออาฟิยะห์สำหรับร่างกาย การได้ยิน และการมองเห็น เป็นการยอมรับว่าสิ่งเหล่านี้คือของขวัญที่อาจถูกนำไปได้ และเป็นการแสดงความพึ่งพาต่ออัลลอฮ์ในการปกป้องรักษาสิ่งเหล่านี้ทุกวัน",
+  },
+  {
+    id: "m-hasbiyallah",
+    session: "morning",
+    arabic:
+      "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    transliterationEn:
+      "Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azim.",
+    translationEn:
+      "Allah is sufficient for me. There is none worthy of worship but Him. In Him I place my trust, and He is the Lord of the Majestic Throne.",
+    translationTh:
+      "อัลลอฮ์เพียงพอสำหรับฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์ ฉันวางใจในพระองค์ และพระองค์คือพระเจ้าแห่งบัลลังก์อันยิ่งใหญ่",
+    count: 7,
+    source: "HR. Abu Dawud No. 5081, as-Silsilah as-Sahihah No. 2753",
+    notesEn: "Recite 7x in the morning and 7x in the evening.",
+    notesTh: "อ่าน 7 ครั้งในยามเช้าและ 7 ครั้งในยามเย็น",
+    benefitsEn:
+      "Whoever recites this 7x in the morning and evening, Allah will suffice him in whatever concerns him in this world and the next. (HR. Abu Dawud No. 5081). The phrase 'Hasbiyallah' (Allah is sufficient) is a declaration of complete tawakkul — trusting Allah to handle all of one's affairs.",
+    benefitsTh:
+      "ผู้ใดกล่าวสิ่งนี้ 7 ครั้งในยามเช้าและยามเย็น อัลลอฮ์จะทรงเพียงพอสำหรับเขาในทุกสิ่งที่เขาเป็นห่วงทั้งในโลกนี้และโลกหน้า (HR. Abu Dawud No. 5081) คำว่า 'ฮัสบิยัลลอฮ์' เป็นการประกาศตะวักกุลอย่างสมบูรณ์ ฝากเรื่องทุกอย่างแก่อัลลอฮ์",
+  },
 
   // =================== EVENING ===================
   {
@@ -400,6 +463,68 @@ export const AZKAR: AzkarItem[] = [
       "Al-'Afuww (the Pardoner) is one of Allah's most beloved names. Supplicating with this dhikr invokes Allah's quality of pardoning and His love for granting pardon — making it among the most hopeful of all supplications.",
     benefitsTh:
       "อัล-อะฟุวว์ (ผู้ทรงอภัย) เป็นหนึ่งในพระนามที่เป็นที่รักยิ่งของอัลลอฮ์ การวิงวอนด้วยซิกรฺนี้เรียกคุณลักษณะการอภัยของอัลลอฮ์และความรักของพระองค์ในการให้อภัย ทำให้เป็นหนึ่งในดุอาที่เต็มด้วยความหวังมากที่สุด",
+  },
+  {
+    id: "e-sayyid",
+    session: "evening",
+    arabic:
+      "اللَّهُمَّ أَنْتَ رَبِّي لَا إِلَهَ إِلَّا أَنْتَ، خَلَقْتَنِي وَأَنَا عَبْدُكَ، وَأَنَا عَلَى عَهْدِكَ وَوَعْدِكَ مَا اسْتَطَعْتُ، أَعُوذُ بِكَ مِنْ شَرِّ مَا صَنَعْتُ، أَبُوءُ لَكَ بِنِعْمَتِكَ عَلَيَّ وَأَبُوءُ بِذَنْبِي فَاغْفِرْ لِي فَإِنَّهُ لَا يَغْفِرُ الذُّنُوبَ إِلَّا أَنْتَ",
+    transliterationEn:
+      "Allahumma anta rabbi la ilaha illa ant, khalaqtani wa ana 'abduk, wa ana 'ala 'ahdika wa wa'dika mastata't, a'udhu bika min sharri ma sana't, abu'u laka bini'matika 'alayya wa abu'u bidhanbi, faghfir li fa'innahu la yaghfirudh-dhunuba illa ant.",
+    translationEn:
+      "O Allah, You are my Lord. There is no god except You. You created me and I am Your servant. I am committed to Your covenant and promise as best I can. I seek Your protection from the evil of what I have done. I acknowledge Your blessing upon me and I acknowledge my sin. So forgive me, for none forgives sins except You.",
+    translationTh:
+      "โอ้อัลลอฮ์ พระองค์คือพระเจ้าของฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์ พระองค์ทรงสร้างฉันและฉันคือบ่าวของพระองค์ ฉันยึดมั่นในพันธสัญญาและคำมั่นของพระองค์เท่าที่ฉันสามารถ ฉันขอความคุ้มครองจากความชั่วที่ฉันได้กระทำ ฉันยอมรับความโปรดปรานของพระองค์ต่อตัวฉัน และยอมรับในบาปของฉัน จึงขอให้ทรงอภัยแก่ฉัน เพราะไม่มีผู้ใดอภัยบาปได้นอกจากพระองค์",
+    count: 1,
+    source: "HR. al-Bukhari No. 6306, 6307",
+    notesEn:
+      "Evening version of Sayyid al-Istighfar. Whoever recites it with certainty (yaqin) in the evening and dies that night before morning will enter Paradise.",
+    notesTh:
+      "ซัยยิดุลอิสติฆฟาร์ เวอร์ชันยามเย็น ผู้ใดอ่านด้วยความมั่นใจในยามเย็นและเสียชีวิตก่อนรุ่งอรุณจะเข้าสวรรค์",
+    benefitsEn:
+      "Whoever recites this with certainty (yaqin) in the evening and dies before morning will enter Paradise. (HR. al-Bukhari No. 6307). This supplication is a complete spiritual act — acknowledging lordship, servitude, covenant, sin, blessing, and seeking forgiveness all in one breath. Scholars call it the 'master of supplications for forgiveness'.",
+    benefitsTh:
+      "ผู้ใดอ่านสิ่งนี้ด้วยความมั่นใจในยามเย็นและเสียชีวิตก่อนรุ่งอรุณจะเข้าสวรรค์ (HR. al-Bukhari No. 6307) ดุอานี้เป็นการกระทำทางจิตวิญญาณที่ครบถ้วน ประกอบด้วยการยอมรับความเป็นเจ้า การเป็นบ่าว พันธสัญญา บาป ความโปรดปราน และการขอการอภัย ทั้งหมดในครั้งเดียว นักวิชาการเรียกว่า 'ซัยยิดุลอิสติฆฟาร์'",
+  },
+  {
+    id: "e-afini-badani",
+    session: "evening",
+    arabic:
+      "اللَّهُمَّ عَافِنِي فِي بَدَنِي، اللَّهُمَّ عَافِنِي فِي سَمْعِي، اللَّهُمَّ عَافِنِي فِي بَصَرِي، لَا إِلَهَ إِلَّا أَنْتَ",
+    transliterationEn:
+      "Allahumma 'afini fi badani. Allahumma 'afini fi sam'i. Allahumma 'afini fi basari. La ilaha illa ant.",
+    translationEn:
+      "O Allah, grant me health in my body. O Allah, grant me health in my hearing. O Allah, grant me health in my sight. There is none worthy of worship except You.",
+    translationTh:
+      "โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีแก่ร่างกายของฉัน โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีในการได้ยินของฉัน โอ้อัลลอฮ์ โปรดทรงประทานสุขภาพที่ดีในการมองเห็นของฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์",
+    count: 3,
+    source: "HR. Abu Dawud No. 5090",
+    notesEn: "Same supplication as the morning. Recite 3x in the evening.",
+    notesTh: "ดุอาเดียวกันกับยามเช้า อ่าน 3 ครั้งในยามเย็น",
+    benefitsEn:
+      "Closing the day with a request for well-being in body, hearing, and sight — the three faculties most used throughout the day. A daily reminder that these blessings are from Allah and a supplication for their preservation through the night.",
+    benefitsTh:
+      "ปิดวันด้วยการขอสุขภาพที่ดีในร่างกาย การได้ยิน และการมองเห็น ซึ่งเป็นสามสิ่งที่ใช้งานมากที่สุดตลอดวัน เป็นการเตือนใจทุกวันว่าความโปรดปรานเหล่านี้มาจากอัลลอฮ์ และเป็นดุอาขอการปกป้องรักษาตลอดคืน",
+  },
+  {
+    id: "e-hasbiyallah",
+    session: "evening",
+    arabic:
+      "حَسْبِيَ اللَّهُ لَا إِلَهَ إِلَّا هُوَ عَلَيْهِ تَوَكَّلْتُ وَهُوَ رَبُّ الْعَرْشِ الْعَظِيمِ",
+    transliterationEn:
+      "Hasbiyallahu la ilaha illa huwa, 'alayhi tawakkaltu wa huwa rabbul-'arshil-'azim.",
+    translationEn:
+      "Allah is sufficient for me. There is none worthy of worship but Him. In Him I place my trust, and He is the Lord of the Majestic Throne.",
+    translationTh:
+      "อัลลอฮ์เพียงพอสำหรับฉัน ไม่มีพระเจ้าอื่นใดนอกจากพระองค์ ฉันวางใจในพระองค์ และพระองค์คือพระเจ้าแห่งบัลลังก์อันยิ่งใหญ่",
+    count: 7,
+    source: "HR. Abu Dawud No. 5081, as-Silsilah as-Sahihah No. 2753",
+    notesEn: "Recite 7x in the evening. Ending the day with tawakkul upon Allah.",
+    notesTh: "อ่าน 7 ครั้งในยามเย็น ปิดวันด้วยตะวักกุลต่ออัลลอฮ์",
+    benefitsEn:
+      "Whoever recites this 7x in the evening, Allah will suffice him in whatever concerns him in this world and the next. (HR. Abu Dawud No. 5081). Saying this at the end of the day surrenders all remaining worries of the day to Allah — affirming that He alone is enough.",
+    benefitsTh:
+      "ผู้ใดกล่าวสิ่งนี้ 7 ครั้งในยามเย็น อัลลอฮ์จะทรงเพียงพอสำหรับเขาในทุกสิ่งที่เขาเป็นห่วงทั้งในโลกนี้และโลกหน้า (HR. Abu Dawud No. 5081) การกล่าวสิ่งนี้ตอนท้ายวันคือการมอบความกังวลทั้งหมดที่เหลืออยู่แก่อัลลอฮ์ ยืนยันว่าพระองค์เพียงพอ",
   },
   {
     id: "e-niamah",

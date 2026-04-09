@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useI18n } from "@/i18n/i18n-context";
 import { useLocalStorage } from "@/hooks/use-local-storage";
 import { useQuranMemorization } from "@/hooks/use-quran-memorization";
+import { AZKAR } from "@/app/azkar/data";
 import styles from "./page.module.css";
 
 // ── Types mirrored from their source pages/hooks ─────────────────────────────
@@ -28,8 +29,8 @@ type DuaEntry = {
 };
 
 type AzkarProgress = {
-  morning: { completed: number[]; date: string };
-  evening: { completed: number[]; date: string };
+  date: string;
+  counts: Record<string, number>; // azkar id → tap count
 };
 
 type QuranProgress = {
@@ -76,8 +77,8 @@ export default function StatsPage() {
   const [duaEntries] = useLocalStorage<DuaEntry[]>("dua-journal", []);
   const [nameFavs] = useLocalStorage<number[]>("allah-names-favorites", []);
   const [azkarProgress] = useLocalStorage<AzkarProgress>("azkar-progress", {
-    morning: { completed: [], date: "" },
-    evening: { completed: [], date: "" },
+    date: "",
+    counts: {},
   });
   const [quranProgress] = useLocalStorage<QuranProgress>("quran-progress", {
     lastSurah: null,
@@ -104,11 +105,10 @@ export default function StatsPage() {
 
     const fastsThisMonth = fastingRecord.fastedDays.length;
 
-    const azkarMorningDone =
-      azkarProgress.morning?.date === today ? (azkarProgress.morning.completed?.length ?? 0) : 0;
-    const azkarEveningDone =
-      azkarProgress.evening?.date === today ? (azkarProgress.evening.completed?.length ?? 0) : 0;
-    const azkarToday = azkarMorningDone + azkarEveningDone;
+    const azkarToday =
+      azkarProgress.date === today
+        ? AZKAR.filter((a) => (azkarProgress.counts[a.id] ?? 0) >= a.count).length
+        : 0;
 
     const quranSurahs = quranProgress.visitedSurahs?.length ?? 0;
     const memo = memoTotals();
