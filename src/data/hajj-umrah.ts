@@ -47,6 +47,20 @@ export type PilgrimageDua = {
   translationEn: string;
 };
 
+export type MadinahSite = {
+  id: string;
+  nameTh: string;
+  nameEn: string;
+  nameAr: string;
+  icon: string;
+  descTh: string;
+  descEn: string;
+  importanceTh: string;
+  importanceEn: string;
+  tipTh?: string;
+  tipEn?: string;
+};
+
 // ── Umrah Steps ────────────────────────────────────────────────────────────
 
 export const UMRAH_STEPS: PilgrimageStep[] = [
@@ -151,6 +165,10 @@ export const UMRAH_STEPS: PilgrimageStep[] = [
         th: "หลังครบ 7 รอบ ละหมาด 2 ร็อกอะห์ หลังมะกอมอิบรอฮีม",
         en: "After completing 7 rounds, pray 2 rak'ah behind Maqam Ibrahim",
       },
+      {
+        th: "ละหมาด 2 ร็อกอะห์ หลังมะกอมอิบรอฮีม พร้อมดุอาอ์: رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ",
+        en: "Pray 2 rak'ah behind Maqam Ibrahim, reciting: Rabbi aj'alni muqimas-salah",
+      },
       { th: "ดื่มน้ำซัมซัมพร้อมดุอาอ์", en: "Drink Zamzam water with a du'a" },
     ],
     duaAr:
@@ -187,7 +205,10 @@ export const UMRAH_STEPS: PilgrimageStep[] = [
         th: "ผู้ชาย: วิ่งเร็วระหว่างเสาสีเขียว 2 ต้น (ฮัรวะละห์)",
         en: "Men: Run briskly between the two green pillars (Harwalah)",
       },
-      { th: "ดุอาอ์ที่มัรวะห์", en: "Make du'a at Marwah" },
+      {
+        th: "ดุอาอ์ที่มัรวะห์ — เหมือนกับดุอาอ์ที่ศอฟา: กล่าว ลาอิลาฮะ อิลลัลลอฮ์... ซ้ำ 3 ครั้ง",
+        en: "Du'a at Marwah — same as Safa: recite La ilaha illallahu wahdahu... 3 times",
+      },
     ],
     noteTh: "สะอฺยีไม่ต้องอยู่ในสภาวะวุฎูอ์ แต่ควรอยู่ในสภาวะสะอาด และสามารถนั่งพักได้ระหว่างทาง",
     noteEn:
@@ -282,8 +303,8 @@ export const HAJJ_DAYS: HajjDay[] = [
     nameTh: "วันอะรอฟะห์",
     nameAr: "يوم عرفة",
     nameEn: "Day of Arafah",
-    descTh: "วุกูฟ ณ อะรอฟะห์ — เสาหลักของฮัจญ์ ผู้ใดพลาดวันนี้ฮัจญ์เป็นโมฆะ",
-    descEn: "Standing at Arafah — the main pillar of Hajj. Missing it renders Hajj invalid.",
+    descTh: "เส้นทาง: มินา → อะรอฟะห์ (หลังดวงอาทิตย์ขึ้น) → มุซดะลิฟะห์ (หลังดวงอาทิตย์ตก) — วุกูฟที่อะรอฟะห์เป็นเสาหลักของฮัจญ์ ผู้ใดพลาดฮัจญ์เป็นโมฆะ",
+    descEn: "Route: Mina → Arafah (after sunrise) → Muzdalifah (after sunset) — Standing at Arafah is the main pillar of Hajj. Missing it renders Hajj invalid.",
     steps: [
       {
         id: "day9-arafah",
@@ -349,8 +370,8 @@ export const HAJJ_DAYS: HajjDay[] = [
             en: "Collect 49 or 70 small pebbles, the size of a chickpea",
           },
         ],
-        noteTh: "ผู้อ่อนแอ ผู้สูงอายุ และผู้หญิง สามารถออกจากมุซดะลิฟะห์หลังครึ่งคืนได้",
-        noteEn: "The weak, elderly, and women may leave Muzdalifah after midnight",
+        noteTh: "ผู้อ่อนแอ ผู้สูงอายุ และผู้หญิง สามารถออกจากมุซดะลิฟะห์หลังครึ่งคืนได้ เก็บหินได้ที่มุซดะลิฟะห์หรือมินา",
+        noteEn: "The weak, elderly, and women may leave Muzdalifah after midnight. Pebbles may be collected at Muzdalifah or Mina.",
       },
     ],
   },
@@ -429,8 +450,8 @@ export const HAJJ_DAYS: HajjDay[] = [
             en: "Women: Cut approximately 1 inch from the ends of hair",
           },
         ],
-        noteTh: "หลังขั้นตอนนี้ สิ่งต้องห้ามทุกอย่างยกเว้นความสัมพันธ์ทางเพศถูกยกขึ้น",
-        noteEn: "After this step, all Ihram prohibitions except sexual relations are lifted",
+        noteTh: "หลังโกน/ตัดผม เข้าสู่ตะฮัลลุลอัสฆัร (อิห์รอมบางส่วน) — ข้อห้ามทุกอย่างยกเว้นความสัมพันธ์ทางเพศถูกยกขึ้น หลังเฏาวาฟอิฟาเฎาะห์จึงจะเข้าสู่ตะฮัลลุลอักบัร (พ้นอิห์รอมสมบูรณ์)",
+        noteEn: "After halq/taqsir: Tahallul al-Asghar (partial release) — all prohibitions except intercourse are lifted. Full release (Tahallul al-Akbar) occurs only after completing Tawaf al-Ifadah.",
       },
       {
         id: "day10-tawaf",
@@ -481,14 +502,24 @@ export const HAJJ_DAYS: HajjDay[] = [
         locationTh: "มินา",
         locationEn: "Mina",
         icon: "⛺",
-        descTh: "วาญิบต้องค้างคืนที่มินาทั้งคืนวันที่ 11 และ 12",
-        descEn: "Obligatory to spend the nights of 11th and 12th at Mina",
+        descTh: "วาญิบต้องค้างคืนที่มินาทั้งคืนวันที่ 11 และ 12 มีสองทางเลือกในการออกจากมินา",
+        descEn: "Obligatory to spend the nights of 11th and 12th at Mina. Two valid departure options exist.",
         actions: [
           {
-            th: "ค้างคืนที่มินา ผู้ที่จะออกก่อนต้องออกก่อนดวงอาทิตย์ตกวันที่ 12 (นาฟัรอัวล์)",
-            en: "Stay at Mina; those who wish to leave early must do so before sunset on the 12th (Nafar Awwal)",
+            th: "ค้างคืนวันที่ 11 และ 12 ที่มินา (วาญิบ)",
+            en: "Stay overnight on the 11th and 12th at Mina (Wajib)",
+          },
+          {
+            th: "นาฟัรอัวล์ (ออกเร็ว): หากออกวันที่ 12 ต้องออกก่อนดวงอาทิตย์ตก — ฮัจญ์สมบูรณ์",
+            en: "Nafar Awwal (early departure): If leaving on Day 12, must depart before sunset — Hajj is valid",
+          },
+          {
+            th: "นาฟัรษานี (ออกช้า): ค้างคืนวันที่ 13 ขว้างหินอีกครั้ง แล้วออก — อัฟฎ็อล (ดีกว่า)",
+            en: "Nafar Thani (later departure): Stay night of Day 13, stone again, then leave — Afda (more virtuous)",
           },
         ],
+        noteTh: "ถ้าดวงอาทิตย์ตกในวันที่ 12 ขณะยังอยู่ในมินา ต้องค้างคืนวันที่ 13 และขว้างหินก่อนออก",
+        noteEn: "If the sun sets on Day 12 while still at Mina, one must spend the night of Day 13 and stone before departing.",
       },
       {
         id: "tashreeq-rami",
@@ -671,16 +702,145 @@ export const IMPORTANT_DUAS: PilgrimageDua[] = [
       "O Allah, I ask You for beneficial knowledge, abundant provision, and cure from every illness.",
   },
   {
+    id: "enter-makkah",
+    nameTh: "ดุอาอ์เข้าเมืองมักกะห์",
+    nameEn: "Du'a Entering Makkah City",
+    occasionTh: "กล่าวเมื่อแรกเห็นเมืองมักกะห์ ก่อนเข้าเขตฮะรัม",
+    occasionEn: "Recited upon first seeing Makkah, before entering the Haram boundary",
+    arabic:
+      "اللَّهُمَّ هَذَا حَرَمُكَ وَأَمْنُكَ، فَحَرِّمْنِي عَلَى النَّارِ، وَأَمِّنِّي مِنْ عَذَابِكَ يَوْمَ تَبْعَثُ عِبَادَكَ، وَاجْعَلْنِي مِنْ أَوْلِيَائِكَ وَأَهْلِ طَاعَتِكَ",
+    transliteration:
+      "Allāhumma hādhā ḥaramuka wa amnuka, fa-ḥarrimnī 'alan-nār, wa aminnī min 'adhābika yawma tab'athu 'ibādaka, waj'alnī min awliyā'ika wa ahli ṭā'atik",
+    translationTh:
+      "โอ้อัลลอฮ์ นี่คือเขตศักดิ์สิทธิ์ของพระองค์และความปลอดภัยของพระองค์ ขอให้ฉันเป็นที่ต้องห้ามสำหรับไฟนรก ปกป้องฉันจากการลงโทษของพระองค์ในวันที่พระองค์จะทรงฟื้นคืนบ่าวทั้งหลาย และขอให้ฉันเป็นหนึ่งในวะลีของพระองค์และผู้เชื่อฟังพระองค์",
+    translationEn:
+      "O Allah, this is Your sanctuary and Your place of security. Forbid me from the Fire, protect me from Your punishment on the Day You resurrect Your servants, and make me among Your close friends and those obedient to You.",
+  },
+  {
     id: "enter-haram",
     nameTh: "ดุอาอ์เข้ามัสยิดฮะรอม",
     nameEn: "Du'a Entering Masjid al-Haram",
-    occasionTh: "กล่าวเมื่อก้าวเข้าสู่มัสยิดฮะรอม",
-    occasionEn: "Recited when entering Masjid al-Haram",
+    occasionTh: "กล่าวเมื่อก้าวเข้าสู่มัสยิดฮะรอม (ใช้กับการเข้ามัสยิดทุกแห่ง)",
+    occasionEn: "Recited when entering Masjid al-Haram (applies to entering any mosque)",
     arabic: "اللَّهُمَّ أَنْتَ السَّلَامُ وَمِنْكَ السَّلَامُ، فَحَيِّنَا رَبَّنَا بِالسَّلَامِ",
     transliteration: "Allāhumma antas-salāmu wa minkas-salāmu, faḥayyinā rabbanā bis-salām",
     translationTh:
       "โอ้อัลลอฮ์ พระองค์คือสันติสุข และจากพระองค์มาซึ่งสันติสุข โอ้พระเจ้าของเรา โปรดทรงให้เราดำรงชีวิตด้วยสันติสุข",
     translationEn:
       "O Allah, You are Peace and from You comes peace. O our Lord, greet us with peace.",
+  },
+  {
+    id: "maqam-ibrahim",
+    nameTh: "ดุอาอ์ละหมาดหลังมะกอมอิบรอฮีม",
+    nameEn: "Du'a at Maqam Ibrahim (after Tawaf prayer)",
+    occasionTh: "กล่าวในละหมาด 2 ร็อกอะห์ หลังเฏาวาฟ ณ มะกอมอิบรอฮีม",
+    occasionEn: "Recited in the 2 rak'ah prayer after Tawaf behind Maqam Ibrahim",
+    arabic:
+      "رَبِّ اجْعَلْنِي مُقِيمَ الصَّلَاةِ وَمِنْ ذُرِّيَّتِي، رَبَّنَا وَتَقَبَّلْ دُعَاءِ. رَبَّنَا اغْفِرْ لِي وَلِوَالِدَيَّ وَلِلْمُؤْمِنِينَ يَوْمَ يَقُومُ الْحِسَابُ",
+    transliteration:
+      "Rabbi aj'alnī muqīmas-ṣalāti wa min dhurriyyatī, Rabbanā wa taqabbal du'ā'. Rabbanāghfir lī wa liwālidayya wa lil-mu'minīna yawma yaqūmul-ḥisāb",
+    translationTh:
+      "โอ้พระเจ้าของฉัน โปรดให้ฉันและลูกหลานของฉันดำรงการละหมาด โอ้พระเจ้าของเรา โปรดรับดุอาอ์ของฉัน โอ้พระเจ้าของเรา โปรดอภัยให้แก่ฉัน พ่อแม่ของฉัน และบรรดาผู้ศรัทธา ในวันที่การตัดสินถูกสถาปนา (QS. Ibrahim: 40–41)",
+    translationEn:
+      "My Lord, make me an establisher of prayer, and from my descendants. Our Lord, and accept my supplication. Our Lord, forgive me and my parents and the believers the Day the account is established. (QS. Ibrahim: 40–41)",
+  },
+  {
+    id: "dua-marwah",
+    nameTh: "ดุอาอ์ที่เนินมัรวะห์",
+    nameEn: "Du'a at Marwah Hill",
+    occasionTh: "กล่าวเมื่อขึ้นเนินมัรวะห์ในแต่ละรอบคู่ (รอบ 2, 4, 6)",
+    occasionEn: "Recited upon ascending Marwah in even-numbered rounds (2nd, 4th, 6th)",
+    arabic:
+      "لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ لَا شَرِيكَ لَهُ، لَهُ الْمُلْكُ وَلَهُ الْحَمْدُ، وَهُوَ عَلَى كُلِّ شَيْءٍ قَدِيرٌ، لَا إِلَهَ إِلَّا اللَّهُ وَحْدَهُ، أَنْجَزَ وَعْدَهُ، وَنَصَرَ عَبْدَهُ، وَهَزَمَ الْأَحْزَابَ وَحْدَهُ",
+    transliteration:
+      "Lā ilāha illallāhu waḥdahu lā sharīka lah, lahul mulku wa lahul ḥamdu wa huwa 'alā kulli shay'in qadīr. Lā ilāha illallāhu waḥdah, anjaza wa'dah, wa naṣara 'abdah, wa hazamal aḥzāba waḥdah",
+    translationTh:
+      "ไม่มีพระเจ้าอื่นใดนอกจากอัลลอฮ์ผู้เดียว ไม่มีภาคี อาณาจักรและการสรรเสริญเป็นของพระองค์ พระองค์ทรงอานุภาพเหนือทุกสิ่ง ไม่มีพระเจ้าอื่นนอกจากอัลลอฮ์ผู้เดียว พระองค์ทรงทำตามสัญญา ช่วยเหลือบ่าวของพระองค์ และทรงเอาชนะพันธมิตรศัตรูด้วยพระองค์เอง",
+    translationEn:
+      "There is no god but Allah alone with no partner. His is the sovereignty and His is the praise, and He is over all things Powerful. There is no god but Allah alone — He fulfilled His promise, supported His servant, and defeated the allied forces alone.",
+  },
+];
+
+// ── Madinah Ziyarah (สถานที่สำคัญในมะดีนะห์) ──────────────────────────────
+// คนไทยส่วนใหญ่จะต่อมะดีนะห์หลังฮัจญ์หรืออุมเราะห์
+
+export const MADINAH_SITES: MadinahSite[] = [
+  {
+    id: "masjid-nabawi",
+    nameTh: "มัสยิดนะบะวี",
+    nameEn: "Masjid al-Nabawi",
+    nameAr: "المسجد النبوي",
+    icon: "🕌",
+    descTh: "มัสยิดของท่านนบี ﷺ — มัสยิดศักดิ์สิทธิ์อันดับ 2 ในโลกอิสลาม ละหมาด 1 ร็อกอะห์ที่นี่มีผลบุญเท่ากับ 1,000 ร็อกอะห์ที่มัสยิดอื่น (ยกเว้นมัสยิดฮะรอม)",
+    descEn: "The Prophet's ﷺ Mosque — the 2nd holiest mosque in Islam. One prayer here equals 1,000 prayers elsewhere (except Masjid al-Haram).",
+    importanceTh: "ละหมาดในมัสยิดนะบะวีมีผลบุญมหาศาล เป็นจุดหมายหลักของผู้มาเยือนมะดีนะห์",
+    importanceEn: "Praying here carries immense reward and is the primary destination for Madinah visitors.",
+    tipTh: "แนะนำให้ละหมาดฟัจร์ที่มัสยิดนะบะวีอย่างน้อย 1 ครั้ง",
+    tipEn: "It is highly recommended to pray Fajr at Masjid al-Nabawi at least once.",
+  },
+  {
+    id: "rawdah",
+    nameTh: "เราเฎาะห์ (สวนสวรรค์)",
+    nameEn: "Al-Rawdah al-Sharifah",
+    nameAr: "الروضة الشريفة",
+    icon: "🌿",
+    descTh: "พื้นที่ระหว่างมิมบัรและห้องของท่านนบี ﷺ — ท่านนบีกล่าวว่า 'ระหว่างบ้านของฉันและมิมบัรของฉันคือสวนหนึ่งจากสวนสวรรค์' (HR. Bukhari 1196)",
+    descEn: "The area between the Prophet's ﷺ pulpit and his chamber — The Prophet said: 'Between my house and my pulpit is a garden from the gardens of Paradise.' (HR. Bukhari 1196)",
+    importanceTh: "ละหมาดและดุอาอ์ในเราเฎาะห์มีความประเสริฐสูงมาก",
+    importanceEn: "Prayer and supplication within al-Rawdah carries immense virtue.",
+    tipTh: "พื้นที่นี้มีผู้คนมากในช่วงฮัจญ์ ควรไปในเวลาที่ไม่พลุกพล่าน เช่น หลังละหมาดตะฮัจญุด",
+    tipEn: "This area is very crowded during Hajj season. Consider visiting after Tahajjud prayer.",
+  },
+  {
+    id: "qabr-nabawi",
+    nameTh: "สุสานนะบะวี (เยี่ยมท่านนบี ﷺ)",
+    nameEn: "Visiting the Prophet's ﷺ Grave",
+    nameAr: "زيارة قبر النبي ﷺ",
+    icon: "🤲",
+    descTh: "เยี่ยมสุสานท่านนบี ﷺ อบูบักร และอุมัร กล่าวสลาม: اللَّهُمَّ صَلِّ عَلَى مُحَمَّدٍ وَعَلَى آلِ مُحَمَّدٍ",
+    descEn: "Visit the graves of the Prophet ﷺ, Abu Bakr, and Umar. Say salutation: Allahumma salli ala Muhammad wa ala ali Muhammad.",
+    importanceTh: "ท่านนบีกล่าว: 'ผู้ใดเยี่ยมฉันหลังจากฉันเสียชีวิต เปรียบเสมือนได้เยี่ยมฉันในขณะที่ฉันยังมีชีวิตอยู่'",
+    importanceEn: "The Prophet ﷺ said: 'Whoever visits me after my death is like one who visited me during my lifetime.'",
+    tipTh: "ห้ามทำเฏาวาฟรอบสุสาน และห้ามขอดุอาอ์ต่อท่านนบีโดยตรง — ควรขอต่ออัลลอฮ์เท่านั้น",
+    tipEn: "Do NOT circumambulate the grave. Do NOT make du'a directly to the Prophet — supplicate to Allah alone.",
+  },
+  {
+    id: "masjid-quba",
+    nameTh: "มัสยิดกุบาอ์",
+    nameEn: "Masjid Quba",
+    nameAr: "مسجد قباء",
+    icon: "🕌",
+    descTh: "มัสยิดแห่งแรกที่ถูกสร้างในอิสลาม ท่านนบี ﷺ กล่าว: 'ผู้ใดทำวุฎูอ์ที่บ้าน แล้วมาละหมาดที่มัสยิดกุบาอ์ จะได้รับผลบุญเหมือนอุมเราะห์หนึ่งครั้ง' (HR. Ibn Majah 1412)",
+    descEn: "The first mosque built in Islam. The Prophet ﷺ said: 'Whoever makes ablution at home and prays at Masjid Quba will have a reward like Umrah.' (HR. Ibn Majah 1412)",
+    importanceTh: "ละหมาด 2 ร็อกอะห์ที่มัสยิดกุบาอ์มีผลบุญเทียบเท่าอุมเราะห์หนึ่งครั้ง",
+    importanceEn: "Praying 2 rak'ah here equals the reward of one Umrah.",
+    tipTh: "ห่างจากมัสยิดนะบะวีประมาณ 5 กม. มีรถบัสรับส่งจากบริเวณมัสยิดนะบะวี",
+    tipEn: "Located ~5 km from Masjid al-Nabawi. Buses available from the Nabawi area.",
+  },
+  {
+    id: "baqi",
+    nameTh: "สุสานบะกีอ์",
+    nameEn: "Al-Baqi' Cemetery",
+    nameAr: "البقيع",
+    icon: "🪦",
+    descTh: "สุสานแห่งมะดีนะห์ที่ฝังศพซอฮาบะห์และบุคคลสำคัญ รวมถึงลูกๆ และภรรยาของท่านนบี ﷺ",
+    descEn: "Madinah's main cemetery where many Companions and family members of the Prophet ﷺ are buried.",
+    importanceTh: "ท่านนบีเยี่ยมบะกีอ์บ่อยครั้งและสอนดุอาอ์เยี่ยมสุสาน",
+    importanceEn: "The Prophet ﷺ frequently visited al-Baqi' and taught the du'a for visiting graves.",
+    tipTh: "กล่าวสลาม: السَّلَامُ عَلَيْكُمْ أَهْلَ الدِّيَارِ مِنَ الْمُؤْمِنِينَ وَالْمُسْلِمِينَ",
+    tipEn: "Greet with: As-salamu alaykum ahl al-diyar minal mu'minina wal-muslimin",
+  },
+  {
+    id: "jabal-uhud",
+    nameTh: "ภูเขาอุฮุด",
+    nameEn: "Mount Uhud",
+    nameAr: "جبل أحد",
+    icon: "⛰️",
+    descTh: "สถานที่แห่งสงครามอุฮุดที่ท่านนบีและซอฮาบะห์ต่อสู้ ที่นี่ฝังศพท่านฮัมซะห์ (ลุงของท่านนบี) และซอฮาบะห์ผู้พลีชีพ 70 ท่าน",
+    descEn: "Site of the Battle of Uhud. Hamzah (the Prophet's uncle) and 70 martyred Companions are buried here.",
+    importanceTh: "ท่านนบีกล่าวว่าอุฮุดรักเรา และเรารักมัน — เป็นสุนนะห์ที่ดีในการเยี่ยม",
+    importanceEn: "The Prophet ﷺ said 'Uhud loves us and we love it.' — It is a praiseworthy Sunnah to visit.",
+    tipTh: "ห่างจากมัสยิดนะบะวีประมาณ 5 กม. ควรเยี่ยมในตอนเช้า",
+    tipEn: "Located ~5 km from Masjid al-Nabawi. Best visited in the morning.",
   },
 ];

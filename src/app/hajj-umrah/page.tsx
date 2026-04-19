@@ -7,14 +7,16 @@ import {
   UMRAH_STEPS,
   HAJJ_DAYS,
   IMPORTANT_DUAS,
+  MADINAH_SITES,
   type PilgrimageStep,
   type HajjDay,
   type PilgrimageDua,
+  type MadinahSite,
   type StepBadge,
 } from "@/data/hajj-umrah";
 import styles from "./page.module.css";
 
-type ActiveTab = "umrah" | "hajj" | "dua";
+type ActiveTab = "umrah" | "hajj" | "dua" | "madinah";
 
 const BADGE_META: Record<StepBadge, { th: string; en: string; colorClass: string }> = {
   rukn: { th: "รุก่น", en: "Pillar", colorClass: styles.badgeRukn },
@@ -165,6 +167,31 @@ function DayCard({
   );
 }
 
+function MadinahCard({ site, locale }: { site: MadinahSite; locale: string }) {
+  const isTh = locale === "th";
+  return (
+    <div className={styles.duaCard}>
+      <div className={styles.duaCardHeader}>
+        <div className={styles.duaCardTitles}>
+          <span className={styles.duaCardName}>
+            {site.icon} {isTh ? site.nameTh : site.nameEn}
+          </span>
+          <span className={styles.duaOccasionPill}>
+            <span lang="ar" dir="rtl">{site.nameAr}</span>
+          </span>
+        </div>
+      </div>
+      <p className={styles.stepDesc}>{isTh ? site.descTh : site.descEn}</p>
+      {(site.tipTh || site.tipEn) && (
+        <div className={styles.noteBox}>
+          <Star size={12} className={styles.noteIcon} />
+          <span>{isTh ? site.tipTh : site.tipEn}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function DuaCard({ dua, locale }: { dua: PilgrimageDua; locale: string }) {
   const isTh = locale === "th";
 
@@ -251,6 +278,15 @@ export default function HajjUmrahPage() {
         >
           {isTh ? "ดุอาอ์" : "Du'as"}
         </button>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeTab === "madinah"}
+          className={`${styles.tab} ${activeTab === "madinah" ? styles.tabActive : ""}`}
+          onClick={() => setActiveTab("madinah")}
+        >
+          {isTh ? "มะดีนะห์" : "Madinah"}
+        </button>
       </div>
 
       {/* Umrah Tab */}
@@ -316,6 +352,25 @@ export default function HajjUmrahPage() {
           </div>
           {IMPORTANT_DUAS.map((dua) => (
             <DuaCard key={dua.id} dua={dua} locale={locale} />
+          ))}
+        </div>
+      )}
+
+      {/* Madinah Tab */}
+      {activeTab === "madinah" && (
+        <div className={styles.content}>
+          <div className={styles.introCard}>
+            <h2 className={styles.introTitle}>
+              {isTh ? "ซิยาเราะห์มะดีนะห์" : "Madinah Ziyarah"}
+            </h2>
+            <p className={styles.introDesc}>
+              {isTh
+                ? "สถานที่สำคัญที่ควรเยี่ยมชมในมะดีนะห์อัลมุเนาวะเราะห์ ส่วนใหญ่คนไทยจะต่อมะดีนะห์หลังฮัจญ์หรืออุมเราะห์"
+                : "Important sites to visit in Madinah al-Munawwarah. Most Thai pilgrims extend their trip to Madinah after Hajj or Umrah."}
+            </p>
+          </div>
+          {MADINAH_SITES.map((site) => (
+            <MadinahCard key={site.id} site={site} locale={locale} />
           ))}
         </div>
       )}
