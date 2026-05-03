@@ -1,4 +1,4 @@
-# AGENTS Guide for `muslim-pro`
+# AGENTS Guide for `muslim-lifestyle-app`
 
 Operational guide for coding agents working in this repository.
 Follow these rules first, then local file patterns.

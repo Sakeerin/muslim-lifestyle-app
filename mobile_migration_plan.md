@@ -1,7 +1,7 @@
-# Migration Plan: Muslim Pro → Noor: Muslim Lifestyle (React Native + Expo)
+# Migration Plan: Muslim Lifestyle App → Noor: Muslim Lifestyle (React Native + Expo)
 
 > **วันที่วางแผน**: April 2026  
-> **ชื่อแอป**: **Noor: Muslim Lifestyle**  
+> **ชื่อแอป**: **Muslim Lifestyle App**  
 > **เป้าหมาย**: Migrate จาก Next.js 14 Web App เป็น React Native + Expo Mobile App  
 > **กลยุทธ์**: Monorepo — ใช้โค้ด shared ร่วมกันระหว่าง Web และ Mobile ให้ได้มากที่สุด
 

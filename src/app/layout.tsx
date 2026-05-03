@@ -26,11 +26,11 @@ export const metadata: Metadata = {
   },
   description:
     "A comprehensive Muslim lifestyle app featuring accurate prayer times, the Holy Quran, Qibla compass, daily duas, and a halal places finder.",
-  applicationName: "MuslimPro",
-  authors: [{ name: "MuslimPro Team" }],
+  applicationName: "Muslim Lifestyle App",
+  authors: [{ name: "Muslim Lifestyle App" }],
   keywords: ["Muslim", "Islam", "Prayer Times", "Quran", "Qibla", "Dua", "Halal"],
-  creator: "MuslimPro Team",
-  publisher: "MuslimPro",
+  creator: "Muslim Lifestyle App",
+  publisher: "Muslim Lifestyle App",
   formatDetection: {
     email: false,
     address: false,
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "default",
-    title: "MuslimPro",
+    title: "Muslim Lifestyle App",
   },
 };
 

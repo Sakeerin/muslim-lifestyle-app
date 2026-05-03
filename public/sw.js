@@ -1,4 +1,4 @@
-const CACHE_NAME = "muslim-pro-v1";
+const CACHE_NAME = "muslim-lifestyle-app-v1";
 const APP_SHELL = ["/", "/manifest.webmanifest", "/favicon.ico"];
 
 // Requests that should never be intercepted by the SW

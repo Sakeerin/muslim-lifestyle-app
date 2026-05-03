@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Muslim Lifestyle App",
-    short_name: "MuslimPro",
+    short_name: "Muslim",
     description: "Prayer times, Quran, Qibla, Duas, and halal places in one PWA.",
     start_url: "/",
     scope: "/",
