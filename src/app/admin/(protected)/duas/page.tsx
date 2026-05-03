@@ -1,16 +1,15 @@
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAction } from "@/app/admin/_utils";
 import styles from "../admin.module.css";
 
 async function deleteDua(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const id = String(formData.get("id") ?? "");
-
-  if (!id) {
-    return;
-  }
+  if (!id) return;
 
   await prisma.dua.delete({ where: { id } });
   revalidatePath("/admin/duas");

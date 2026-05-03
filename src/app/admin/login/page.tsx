@@ -1,6 +1,7 @@
 import { AuthError } from "next-auth";
 import { redirect } from "next/navigation";
 import { signIn } from "@/lib/auth";
+import { safeCallbackUrl } from "@/app/admin/_utils";
 import styles from "./page.module.css";
 
 type LoginPageProps = {
@@ -13,7 +14,7 @@ type LoginPageProps = {
 export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
   const query = await searchParams;
   const hasError = query.error === "invalid";
-  const callbackUrl = query.callbackUrl || "/admin";
+  const callbackUrl = safeCallbackUrl(query.callbackUrl);
 
   return (
     <main className={styles.page}>
@@ -35,21 +36,22 @@ export default async function AdminLoginPage({ searchParams }: LoginPageProps) {
 
             const email = String(formData.get("email") ?? "").trim();
             const password = String(formData.get("password") ?? "");
+            const safe = safeCallbackUrl(callbackUrl);
 
             if (!email || !password) {
-              redirect(`/admin/login?error=invalid&callbackUrl=${encodeURIComponent(callbackUrl)}`);
+              redirect(`/admin/login?error=invalid&callbackUrl=${encodeURIComponent(safe)}`);
             }
 
             try {
               await signIn("credentials", {
                 email,
                 password,
-                redirectTo: callbackUrl,
+                redirectTo: safe,
               });
             } catch (error) {
               if (error instanceof AuthError) {
                 redirect(
-                  `/admin/login?error=invalid&callbackUrl=${encodeURIComponent(callbackUrl)}`,
+                  `/admin/login?error=invalid&callbackUrl=${encodeURIComponent(safe)}`,
                 );
               }
 

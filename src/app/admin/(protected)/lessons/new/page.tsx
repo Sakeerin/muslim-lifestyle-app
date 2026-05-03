@@ -3,43 +3,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAction, toOptionalString, slugify, getUniqueSlug } from "@/app/admin/_utils";
 import styles from "../../admin.module.css";
-
-function toOptionalString(value: FormDataEntryValue | null) {
-  const text = String(value ?? "").trim();
-  return text ? text : null;
-}
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
-async function getUniqueSlug(baseSlug: string) {
-  let candidate = baseSlug || `lesson-${Date.now()}`;
-  let index = 1;
-
-  while (true) {
-    const exists = await prisma.lesson.findUnique({
-      where: { slug: candidate },
-      select: { id: true },
-    });
-
-    if (!exists) {
-      return candidate;
-    }
-
-    candidate = `${baseSlug}-${index}`;
-    index += 1;
-  }
-}
 
 async function createLesson(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const title = String(formData.get("title") ?? "").trim();
   const rawSlug = String(formData.get("slug") ?? "").trim();
@@ -47,11 +16,11 @@ async function createLesson(formData: FormData) {
   const content = String(formData.get("content") ?? "").trim();
 
   if (!title || !category || !content) {
-    return;
+    redirect("/admin/lessons/new?error=missing_fields");
   }
 
   const baseSlug = slugify(rawSlug || title);
-  const slug = await getUniqueSlug(baseSlug);
+  const slug = await getUniqueSlug(baseSlug, undefined);
 
   await prisma.lesson.create({
     data: {
@@ -70,7 +39,10 @@ async function createLesson(formData: FormData) {
   redirect("/admin/lessons");
 }
 
-export default function NewLessonPage() {
+type NewLessonPageProps = { searchParams: Promise<{ error?: string }> };
+
+export default async function NewLessonPage({ searchParams }: NewLessonPageProps) {
+  const { error } = await searchParams;
   return (
     <div>
       <header className={styles.header}>
@@ -82,6 +54,10 @@ export default function NewLessonPage() {
           Back to lessons
         </Link>
       </header>
+
+      {error === "missing_fields" && (
+        <p className={styles.errorBanner}>Title, Category, and Content are required.</p>
+      )}
 
       <form action={createLesson} className={styles.form}>
         <div className={styles.formGrid}>

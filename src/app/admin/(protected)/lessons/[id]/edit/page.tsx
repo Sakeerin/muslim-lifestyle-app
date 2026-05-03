@@ -3,47 +3,16 @@ import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { RichTextEditor } from "@/components/admin/rich-text-editor";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAction, toOptionalString, slugify, getUniqueSlug } from "@/app/admin/_utils";
 import styles from "../../../admin.module.css";
 
 type EditLessonPageProps = {
   params: Promise<{ id: string }>;
 };
 
-function toOptionalString(value: FormDataEntryValue | null) {
-  const text = String(value ?? "").trim();
-  return text ? text : null;
-}
-
-function slugify(value: string) {
-  return value
-    .toLowerCase()
-    .trim()
-    .replace(/[^a-z0-9\s-]/g, "")
-    .replace(/\s+/g, "-")
-    .replace(/-+/g, "-");
-}
-
-async function getUniqueSlug(baseSlug: string, lessonId: string) {
-  let candidate = baseSlug || `lesson-${Date.now()}`;
-  let index = 1;
-
-  while (true) {
-    const exists = await prisma.lesson.findUnique({
-      where: { slug: candidate },
-      select: { id: true },
-    });
-
-    if (!exists || exists.id === lessonId) {
-      return candidate;
-    }
-
-    candidate = `${baseSlug}-${index}`;
-    index += 1;
-  }
-}
-
 async function updateLesson(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const id = String(formData.get("id") ?? "");
   const title = String(formData.get("title") ?? "").trim();
@@ -52,10 +21,11 @@ async function updateLesson(formData: FormData) {
   const content = String(formData.get("content") ?? "").trim();
 
   if (!id || !title || !category || !content) {
-    return;
+    redirect(`/admin/lessons/${id}/edit?error=missing_fields`);
   }
 
   const slug = await getUniqueSlug(slugify(rawSlug || title), id);
+
 
   await prisma.lesson.update({
     where: { id },
@@ -76,8 +46,12 @@ async function updateLesson(formData: FormData) {
   redirect("/admin/lessons");
 }
 
-export default async function EditLessonPage({ params }: EditLessonPageProps) {
+export default async function EditLessonPage({
+  params,
+  searchParams,
+}: EditLessonPageProps & { searchParams: Promise<{ error?: string }> }) {
   const { id } = await params;
+  const { error } = await searchParams;
   const lesson = await prisma.lesson.findUnique({ where: { id } });
 
   if (!lesson) {
@@ -86,6 +60,9 @@ export default async function EditLessonPage({ params }: EditLessonPageProps) {
 
   return (
     <div>
+      {error === "missing_fields" && (
+        <p className={styles.errorBanner}>Title, Category, and Content are required.</p>
+      )}
       <header className={styles.header}>
         <div>
           <h1 className={styles.title}>Edit Lesson</h1>

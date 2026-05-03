@@ -1,30 +1,37 @@
 import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAction } from "@/app/admin/_utils";
 import styles from "../admin.module.css";
 
 async function deleteLesson(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const id = String(formData.get("id") ?? "");
   const slug = String(formData.get("slug") ?? "");
 
-  if (!id) {
-    return;
-  }
+  if (!id) return;
 
   await prisma.lesson.delete({ where: { id } });
 
   revalidatePath("/admin/lessons");
   revalidatePath("/lessons");
-
-  if (slug) {
-    revalidatePath(`/lessons/${slug}`);
-  }
+  if (slug) revalidatePath(`/lessons/${slug}`);
 }
 
 export default async function AdminLessonsPage() {
+  // select excludes large content field — avoids loading MB of HTML per row
   const lessons = await prisma.lesson.findMany({
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      category: true,
+      isPublished: true,
+      updatedAt: true,
+      createdAt: true,
+    },
     orderBy: [{ updatedAt: "desc" }, { createdAt: "desc" }],
   });
 

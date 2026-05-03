@@ -1,24 +1,22 @@
 import Link from "next/link";
 import { PlaceType } from "@prisma/client";
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 import { PlacePicker } from "@/components/admin/place-picker";
+import { requireAdminAction, toOptionalString } from "@/app/admin/_utils";
 import styles from "../admin.module.css";
-
-function toOptionalString(value: FormDataEntryValue | null) {
-  const text = String(value ?? "").trim();
-  return text ? text : null;
-}
 
 async function createPlace(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const name = String(formData.get("name") ?? "").trim();
   const lat = Number(formData.get("lat"));
   const lng = Number(formData.get("lng"));
 
   if (!name || !Number.isFinite(lat) || !Number.isFinite(lng)) {
-    return;
+    redirect("/admin/places?error=missing_fields");
   }
 
   const type = formData.get("type") === "HALAL_FOOD" ? PlaceType.HALAL_FOOD : PlaceType.MOSQUE;
@@ -37,13 +35,31 @@ async function createPlace(formData: FormData) {
 
   revalidatePath("/admin/places");
   revalidatePath("/places");
+  redirect("/admin/places?success=place_added");
 }
 
-export default async function AdminPlacesPage() {
+async function deletePlace(formData: FormData) {
+  "use server";
+  await requireAdminAction();
+
+  const id = String(formData.get("id") ?? "");
+  if (!id) return;
+
+  await prisma.place.delete({ where: { id } });
+  revalidatePath("/admin/places");
+  revalidatePath("/places");
+}
+
+type PlacesPageProps = { searchParams: Promise<{ error?: string; success?: string }> };
+
+export default async function AdminPlacesPage({ searchParams }: PlacesPageProps) {
+  const { error, success } = await searchParams;
   const places = await prisma.place.findMany({
-    where: { isVerified: true },
     orderBy: [{ updatedAt: "desc" }],
   });
+
+  const verified = places.filter((p) => p.isVerified);
+  const unverified = places.filter((p) => !p.isVerified);
 
   return (
     <div>
@@ -51,7 +67,7 @@ export default async function AdminPlacesPage() {
         <div>
           <h1 className={styles.title}>Places Manager</h1>
           <p className={styles.subtitle}>
-            List verified places and add coordinates with the map picker.
+            List places and add coordinates with the map picker.
           </p>
         </div>
         <Link href="/places" className={styles.linkButton}>
@@ -59,8 +75,17 @@ export default async function AdminPlacesPage() {
         </Link>
       </header>
 
+      {error === "missing_fields" && (
+        <p className={styles.errorBanner}>Name and valid coordinates are required.</p>
+      )}
+      {success === "place_added" && (
+        <p className={styles.successBanner}>Place saved successfully.</p>
+      )}
+
       <section>
-        <h2 style={{ marginBottom: "0.65rem" }}>Verified Places</h2>
+        <h2 style={{ marginBottom: "0.65rem" }}>
+          Verified Places ({verified.length})
+        </h2>
         <div className={styles.tableWrap}>
           <table className={styles.table}>
             <thead>
@@ -69,16 +94,17 @@ export default async function AdminPlacesPage() {
                 <th>Type</th>
                 <th>Coordinates</th>
                 <th>Address</th>
+                <th>Actions</th>
               </tr>
             </thead>
             <tbody>
-              {places.length === 0 ? (
+              {verified.length === 0 ? (
                 <tr>
-                  <td colSpan={4}>No verified places yet.</td>
+                  <td colSpan={5}>No verified places yet.</td>
                 </tr>
               ) : null}
 
-              {places.map((place) => (
+              {verified.map((place) => (
                 <tr key={place.id}>
                   <td>
                     <strong>{place.name}</strong>
@@ -88,12 +114,58 @@ export default async function AdminPlacesPage() {
                     {place.lat.toFixed(5)}, {place.lng.toFixed(5)}
                   </td>
                   <td>{place.address ?? "-"}</td>
+                  <td>
+                    <form action={deletePlace} className={styles.inlineForm}>
+                      <input type="hidden" name="id" value={place.id} />
+                      <button className={styles.dangerButton} type="submit">
+                        Delete
+                      </button>
+                    </form>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </section>
+
+      {unverified.length > 0 && (
+        <section style={{ marginTop: "1.5rem" }}>
+          <h2 style={{ marginBottom: "0.65rem" }}>
+            Pending Verification ({unverified.length})
+          </h2>
+          <div className={styles.tableWrap}>
+            <table className={styles.table}>
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Type</th>
+                  <th>Coordinates</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {unverified.map((place) => (
+                  <tr key={place.id}>
+                    <td><strong>{place.name}</strong></td>
+                    <td>{place.type === "MOSQUE" ? "Mosque" : "Halal Food"}</td>
+                    <td>{place.lat.toFixed(5)}, {place.lng.toFixed(5)}</td>
+                    <td>
+                      <div className={styles.actions}>
+                        <form action={deletePlace} className={styles.inlineForm}>
+                          <input type="hidden" name="id" value={place.id} />
+                          <button className={styles.dangerButton} type="submit">Delete</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      )}
+
 
       <section style={{ marginTop: "1.2rem" }}>
         <h2 style={{ marginBottom: "0.65rem" }}>Add New Place</h2>

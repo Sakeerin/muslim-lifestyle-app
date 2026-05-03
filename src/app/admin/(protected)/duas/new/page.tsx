@@ -2,15 +2,12 @@ import Link from "next/link";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
+import { requireAdminAction, toOptionalString } from "@/app/admin/_utils";
 import styles from "../../admin.module.css";
-
-function toOptionalString(value: FormDataEntryValue | null) {
-  const text = String(value ?? "").trim();
-  return text ? text : null;
-}
 
 async function createDua(formData: FormData) {
   "use server";
+  await requireAdminAction();
 
   const title = String(formData.get("title") ?? "").trim();
   const category = String(formData.get("category") ?? "").trim();
@@ -18,7 +15,7 @@ async function createDua(formData: FormData) {
   const translation = String(formData.get("translation") ?? "").trim();
 
   if (!title || !category || !arabic || !translation) {
-    return;
+    redirect("/admin/duas/new?error=missing_fields");
   }
 
   await prisma.dua.create({
@@ -37,7 +34,10 @@ async function createDua(formData: FormData) {
   redirect("/admin/duas");
 }
 
-export default function NewDuaPage() {
+type NewDuaPageProps = { searchParams: Promise<{ error?: string }> };
+
+export default async function NewDuaPage({ searchParams }: NewDuaPageProps) {
+  const { error } = await searchParams;
   return (
     <div>
       <header className={styles.header}>
@@ -49,6 +49,10 @@ export default function NewDuaPage() {
           Back to duas
         </Link>
       </header>
+
+      {error === "missing_fields" && (
+        <p className={styles.errorBanner}>Title, Category, Arabic text, and Translation are required.</p>
+      )}
 
       <form action={createDua} className={styles.form}>
         <div className={styles.formGrid}>
